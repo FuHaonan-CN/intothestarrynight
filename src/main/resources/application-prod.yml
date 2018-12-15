@@ -1,0 +1,13 @@
+server:
+  port: 8081
+
+mybatis:
+  type-aliases-package: com.hzvtc.starrynight.entity
+
+#数据库
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/starrynight?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: root
