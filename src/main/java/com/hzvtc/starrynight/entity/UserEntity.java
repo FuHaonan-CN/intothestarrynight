@@ -1,5 +1,8 @@
 package com.hzvtc.starrynight.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
@@ -9,33 +12,36 @@ import java.io.Serializable;
  * @Author: fhn
  * @Date: 2018/12/14 16:36
  */
+@Entity
 public class UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** id */
-    private String id;
+    @Id
+    @GeneratedValue
+    private String xy0100;
     /** 用户名(唯一) */
-    private String userName;
+    private String xy0101;
     /** 密码(加密) */
-    private String passWord;
-    /** 图片id */
-    private String picId;
+    private String xy0102;
     /** 真实姓名 */
-    private String actualName;
+    private String xy0103;
     /** 性别 */
-    private int userSex;
+    private int xy0104;
     /** 籍贯 */
-    private String birthPlace;
+    private String xy0105;
     /** 民族 */
-    private String nationality;
+    private String xy0106;
     /** 电话 */
-    private String phone;
+    private String xy0107;
     /** 邮箱 */
-    private String email;
+    private String xy0108;
+    /** 图片id */
+    private String xy1000;
     /** 是否有效 */
     private String isDel;
     /**角色id */
-    private String roleId;
+    private String xy0200;
     /** 创建时间 */
     private String createDate;
 
@@ -43,84 +49,90 @@ public class UserEntity implements Serializable {
         super();
     }
 
-    public String getId() {
-        return id;
+    public UserEntity(String xy0101, String xy0102, String xy0103) {
+        this.xy0101 = xy0101;
+        this.xy0102 = xy0102;
+        this.xy0103 = xy0103;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getXy0100() {
+        return xy0100;
     }
 
-    public String getUserName() {
-        return userName;
+    public void setXy0100(String xy0100) {
+        this.xy0100 = xy0100;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public String getXy0101() {
+        return xy0101;
     }
 
-    public String getPassWord() {
-        return passWord;
+    public void setXy0101(String xy0101) {
+        this.xy0101 = xy0101;
     }
 
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
+    public String getXy0102() {
+        return xy0102;
     }
 
-    public String getPicId() {
-        return picId;
+    public void setXy0102(String xy0102) {
+        this.xy0102 = xy0102;
     }
 
-    public void setPicId(String picId) {
-        this.picId = picId;
+    public String getXy0103() {
+        return xy0103;
     }
 
-    public String getActualName() {
-        return actualName;
+    public void setXy0103(String xy0103) {
+        this.xy0103 = xy0103;
     }
 
-    public void setActualName(String actualName) {
-        this.actualName = actualName;
+    public int getXy0104() {
+        return xy0104;
     }
 
-    public int getUserSex() {
-        return userSex;
+    public void setXy0104(int xy0104) {
+        this.xy0104 = xy0104;
     }
 
-    public void setUserSex(int userSex) {
-        this.userSex = userSex;
+    public String getXy0105() {
+        return xy0105;
     }
 
-    public String getBirthPlace() {
-        return birthPlace;
+    public void setXy0105(String xy0105) {
+        this.xy0105 = xy0105;
     }
 
-    public void setBirthPlace(String birthPlace) {
-        this.birthPlace = birthPlace;
+    public String getXy0106() {
+        return xy0106;
     }
 
-    public String getNationality() {
-        return nationality;
+    public void setXy0106(String xy0106) {
+        this.xy0106 = xy0106;
     }
 
-    public void setNationality(String nationality) {
-        this.nationality = nationality;
+    public String getXy0107() {
+        return xy0107;
     }
 
-    public String getPhone() {
-        return phone;
+    public void setXy0107(String xy0107) {
+        this.xy0107 = xy0107;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public String getXy0108() {
+        return xy0108;
     }
 
-    public String getEmail() {
-        return email;
+    public void setXy0108(String xy0108) {
+        this.xy0108 = xy0108;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public String getXy1000() {
+        return xy1000;
+    }
+
+    public void setXy1000(String xy1000) {
+        this.xy1000 = xy1000;
     }
 
     public String getIsDel() {
@@ -131,12 +143,12 @@ public class UserEntity implements Serializable {
         this.isDel = isDel;
     }
 
-    public String getRoleId() {
-        return roleId;
+    public String getXy0200() {
+        return xy0200;
     }
 
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
+    public void setXy0200(String xy0200) {
+        this.xy0200 = xy0200;
     }
 
     public String getCreateDate() {

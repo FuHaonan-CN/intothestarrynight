@@ -1,17 +1,19 @@
-package com.hzvtc.starrynight.mapper;
+package com.hzvtc.starrynight.repository;
 
 import com.hzvtc.starrynight.entity.UserEntity;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
  * @Title: UserMapper
- * @Package: com.hzvtc.starrynight.mapper
+ * @Package: com.hzvtc.starrynight.repository
  * @Description: 数据库user表相关操作
  * @Author: fhn
  * @Date: 2018/12/14 16:38
  */
+@Component
 public interface UserMapper {
     /**
      * @Description: 模糊查询
@@ -36,7 +38,7 @@ public interface UserMapper {
     })
     UserEntity getOne(Long id);
 
-    @Insert("INSERT INTO users(userName,passWord,user_sex) VALUES(#{userName}, #{passWord}, #{userSex})")
+    @Insert("INSERT INTO xy01(xy0101,xy0102,xy0103) VALUES(#{xy0101}, #{xy0102}, #{xy0103})")
     void insert(UserEntity user);
 
     @Update("UPDATE users SET userName=#{userName},nick_name=#{nickName} WHERE id =#{id}")
