@@ -2,24 +2,24 @@ package com.hzvtc.starrynight.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
- * @Title: UserEntity
+ * @Title: Xy01
  * @Package: com.hzvtc.starrynight.entity
  * @Description: TODO
  * @Author: fhn
  * @Date: 2018/12/14 16:36
  */
 @Entity
-public class UserEntity implements Serializable {
+public class Xy01 extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
-
     /** id */
     @Id
-    @GeneratedValue
-    private String xy0100;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long xy0100;
     /** 用户名(唯一) */
     private String xy0101;
     /** 密码(加密) */
@@ -45,21 +45,21 @@ public class UserEntity implements Serializable {
     /** 创建时间 */
     private String createDate;
 
-    public UserEntity() {
+    public Xy01() {
         super();
     }
 
-    public UserEntity(String xy0101, String xy0102, String xy0103) {
+    public Xy01(String xy0101, String xy0102, String xy0103) {
         this.xy0101 = xy0101;
         this.xy0102 = xy0102;
         this.xy0103 = xy0103;
     }
 
-    public String getXy0100() {
+    public Long getXy0100() {
         return xy0100;
     }
 
-    public void setXy0100(String xy0100) {
+    public void setXy0100(Long xy0100) {
         this.xy0100 = xy0100;
     }
 
