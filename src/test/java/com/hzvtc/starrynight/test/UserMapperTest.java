@@ -1,6 +1,6 @@
 package com.hzvtc.starrynight.test;
 
-import com.hzvtc.starrynight.entity.Xy01;
+import com.hzvtc.starrynight.entity.User;
 import com.hzvtc.starrynight.repository.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,15 +23,13 @@ public class UserMapperTest {
     private UserRepository userRepository;
     @Test
     public void testInsert() throws Exception {
-        Xy01 Xy01 = new Xy01();
+        User user = new User();
         //UUID uuid = UUID.randomUUID();
-        //Xy01.setXy0100(uuid.toString());
-        Xy01.setXy0101("aa");
-        Xy01.setXy0102("bb");
-        Xy01.setXy0103("fhn");
-        userRepository.save(Xy01);
-        //userMapper.insert(new Xy01("bb", "b123456", "fhn1"));
-        //userMapper.insert(new Xy01("cc", "b123456", "fhn2"));
+        //User.setXy0100(uuid.toString());
+        user.setUserName("aa");
+        user.setUserPassWord("bb");
+        user.setActualName("fhn");
+        userRepository.save(user);
 
         //Assert.assertEquals(3, userMapper.getAll().size());
     }
