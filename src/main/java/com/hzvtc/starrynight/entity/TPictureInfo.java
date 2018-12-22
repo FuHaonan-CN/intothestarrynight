@@ -1,17 +1,20 @@
 package com.hzvtc.starrynight.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
 /**
- * @Title: PictureInfo
- * @Package: com.hzvtc.starrynight.entity
  * @Description: 图片信息表
  * @Author: fhn
  * @Date: 2018/12/19 20:45
  */
 @Entity
-public class PictureInfo extends BaseEntity {
+@Getter
+@Setter
+public class TPictureInfo extends BaseEntity {
 
     /** 图片名 */
     @Column(nullable = false)

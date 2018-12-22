@@ -9,8 +9,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import javax.persistence.*;
 
 /**
- * @Title: BaseEntity
- * @Package: com.hzvtc.starrynight.entity
  * @Description: 基础Entity
  * @Author: fhn
  * @Date: 2018/12/18 22:01
@@ -53,7 +51,6 @@ public abstract class BaseEntity implements Comparable<BaseEntity>,Serializable 
         if (other == null || other.getClass() != this.getClass()) {
             return false;
         }
-
         return this.getId().equals(((BaseEntity) other).getId());
     }
 

@@ -1,18 +1,21 @@
 package com.hzvtc.starrynight.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.io.Serializable;
 
 /**
- * @Title: PostComment
- * @Package: com.hzvtc.starrynight.entity
  * @Description: 帖子评论表
  * @Author: fhn
  * @Date: 2018/12/19 20:45
  */
 @Entity
-public class PostComment extends BaseEntity {
+@Getter
+@Setter
+public class TPostComment extends BaseEntity {
 
     /** 帖子id */
     @Column(nullable = false)
