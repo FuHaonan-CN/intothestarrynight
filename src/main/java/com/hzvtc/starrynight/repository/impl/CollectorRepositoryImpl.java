@@ -17,7 +17,7 @@ public class CollectorRepositoryImpl extends BaseNativeSqlRepository implements 
 
     /**
      * 收藏文章最多的用户
-     * @return
+     * @Return:
      */
     @Override
     public Long getMostCollectUser() {
@@ -29,8 +29,8 @@ public class CollectorRepositoryImpl extends BaseNativeSqlRepository implements 
 
     /**
      * 被关注最多的用户
-     * @param notUserId
-     * @return
+     * @Param: notUserId
+     * @Return:
      */
     @Override
     public Long getMostFollowedUser(Long notUserId) {
@@ -46,8 +46,8 @@ public class CollectorRepositoryImpl extends BaseNativeSqlRepository implements 
 
     /**
      * 文章被赞最多的用户
-     * @param notUserIds
-     * @return
+     * @Param: notUserIds
+     * @Return:
      */
     @Override
     public Long getMostPraisedUser(String notUserIds) {
@@ -62,8 +62,8 @@ public class CollectorRepositoryImpl extends BaseNativeSqlRepository implements 
 
     /**
      * 文章被评论最多的用户
-     * @param notUserIds
-     * @return
+     * @Param: notUserIds
+     * @Return:
      */
     @Override
     public Long getMostCommentedUser(String notUserIds) {
@@ -78,8 +78,8 @@ public class CollectorRepositoryImpl extends BaseNativeSqlRepository implements 
 
     /**
      * 最受欢迎的用户
-     * @param notUserIds
-     * @return
+     * @Param: notUserIds
+     * @Return:
      */
     @Override
     public Long getMostPopularUser(String notUserIds) {
@@ -96,8 +96,8 @@ public class CollectorRepositoryImpl extends BaseNativeSqlRepository implements 
 
     /**
      * 近一个月最活跃用户
-     * @param notUserIds
-     * @return
+     * @Param: notUserIds
+     * @Return:
      */
     @Override
     public Long getMostActiveUser(String notUserIds) {

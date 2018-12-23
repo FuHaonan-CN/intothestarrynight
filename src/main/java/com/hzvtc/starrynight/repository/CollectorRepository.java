@@ -1,7 +1,7 @@
 package com.hzvtc.starrynight.repository;
 
 /**
- * @Description: 获取收藏家
+ * @Description: 帖子收藏表PostCollector数据库CDUQ
  * @Author: fhn
  * @Date: 2017/1/18 19:34
  * @Version: 1.0

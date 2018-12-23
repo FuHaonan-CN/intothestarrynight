@@ -22,7 +22,7 @@ public class TUserInfo extends BaseEntity {
     private static final SimpleDateFormat SLUG_DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd");
 
     /** 用户名(唯一) */
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String userName;
 
     /** 密码(加密) */

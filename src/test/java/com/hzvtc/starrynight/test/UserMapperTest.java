@@ -1,7 +1,7 @@
 package com.hzvtc.starrynight.test;
 
 import com.hzvtc.starrynight.entity.TUserInfo;
-import com.hzvtc.starrynight.repository.UserRepository;
+import com.hzvtc.starrynight.repository.UserRepo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class UserMapperTest {
     @Autowired
-    private UserRepository userRepository;
+    private UserRepo userRepo;
     @Test
     public void testInsert() throws Exception {
         TUserInfo TUserInfo = new TUserInfo();
@@ -29,7 +29,7 @@ public class UserMapperTest {
         TUserInfo.setUserName("aa");
         TUserInfo.setUserPassWord("bb");
         TUserInfo.setActualName("fhn");
-        userRepository.save(TUserInfo);
+        userRepo.save(TUserInfo);
 
         //Assert.assertEquals(3, userMapper.getAll().size());
     }

@@ -1,7 +1,7 @@
 spring:
   profiles:
     active: dev
-  #数据库
+  # 数据库
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/starrynight?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
@@ -11,8 +11,16 @@ spring:
     hibernate:
       ddl-auto: create
       naming:
-        #命名策略
+        # 命名策略
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
-    #不加这句则默认为myisam引擎
+    # 不加这句则默认为myisam引擎
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true
+  # 定位模板的目录
+  mvc:
+    view:
+      prefix: classpath:/templates/
+  # 给返回的页面添加后缀名
+      suffix: .html
+  thymeleaf:
+    cache: false
