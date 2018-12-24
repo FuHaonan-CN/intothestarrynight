@@ -21,6 +21,6 @@ spring:
     view:
       prefix: classpath:/templates/
   # 给返回的页面添加后缀名
-      suffix: .html
+      suffix: .jsp
   thymeleaf:
     cache: false
