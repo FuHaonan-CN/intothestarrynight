@@ -1,4 +1,4 @@
-package service;
+package com.hzvtc.starrynight.service;
 
 import com.hzvtc.starrynight.entity.TUserInfo;
 

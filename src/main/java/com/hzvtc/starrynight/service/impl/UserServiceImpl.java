@@ -1,10 +1,10 @@
-package service.impl;
+package com.hzvtc.starrynight.service.impl;
 
 import com.hzvtc.starrynight.entity.TUserInfo;
 import com.hzvtc.starrynight.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import service.UserService;
+import com.hzvtc.starrynight.service.UserService;
 
 /**
  * @Description: UserServiceImpl
