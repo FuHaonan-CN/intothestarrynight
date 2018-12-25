@@ -16,11 +16,24 @@ spring:
     # 不加这句则默认为myisam引擎
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true
+  #热部署生效
+  devtools:
+    restart:
+      enabled: true
+########################################################
+###THYMELEAF (ThymeleafAutoConfiguration)
+########################################################
   # 定位模板的目录
   mvc:
     view:
-      prefix: classpath:/templates/
-  # 给返回的页面添加后缀名
-      suffix: .jsp
+      # prefix: classpath:/templates/
+      # 给返回的页面添加后缀名
+      suffix: .html
+    # 静态文件请求匹配方式
+    static-path-pattern: /**
   thymeleaf:
     cache: false
+  # 修改默认的静态寻址资源目录
+  resources:
+    static-locations: classpath:/templates/,classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+

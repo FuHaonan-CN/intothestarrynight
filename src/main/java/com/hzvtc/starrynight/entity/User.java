@@ -17,7 +17,7 @@ import java.time.ZonedDateTime;
 @Getter
 @Setter
 //@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "postCache")
-public class TUserInfo extends BaseEntity {
+public class User extends BaseEntity {
 
     private static final SimpleDateFormat SLUG_DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd");
 
@@ -63,7 +63,7 @@ public class TUserInfo extends BaseEntity {
     /** 上次登录时间 */
     private ZonedDateTime lastLoginTime;
 
-    public TUserInfo() {
+    public User() {
         super();
     }
 

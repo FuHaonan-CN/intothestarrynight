@@ -14,7 +14,7 @@ import javax.persistence.Entity;
 @Entity
 @Getter
 @Setter
-public class TSmsRemindInfo extends BaseEntity {
+public class SmsRemind extends BaseEntity {
 
     /** 用户id */
     @Column(nullable = false)

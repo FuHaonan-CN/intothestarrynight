@@ -1,6 +1,6 @@
 package com.hzvtc.starrynight.service;
 
-import com.hzvtc.starrynight.entity.TUserInfo;
+import com.hzvtc.starrynight.entity.User;
 
 /**
  * @Description: UserServiceImpl
@@ -12,9 +12,9 @@ public interface UserService {
 
     /**
      * 新增一个用户
-     * @Param: TUserInfo
+     * @Param: User
      */
-    public void save(TUserInfo user);
+    public void save(User user);
 
     /**
      * 根据id删除一个用户

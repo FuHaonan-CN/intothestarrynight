@@ -1,6 +1,6 @@
 package com.hzvtc.starrynight.repository;
 
-import com.hzvtc.starrynight.entity.TPostLike;
+import com.hzvtc.starrynight.entity.PostLike;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @Date: 2017/1/18 19:34
  * @Version: 1.0
  **/
-public interface PostLikeRepo extends JpaRepository<TPostLike, Long> {
+public interface PostLikeRepo extends JpaRepository<PostLike, Long> {
 
 }

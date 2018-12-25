@@ -14,7 +14,7 @@ import javax.persistence.Entity;
 @Entity
 @Getter
 @Setter
-public class TReportInfo extends BaseEntity {
+public class ReportInfo extends BaseEntity {
     /** 举报用户id */
     @Column(nullable = false)
     private Long reportId;

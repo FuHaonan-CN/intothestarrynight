@@ -5,27 +5,24 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import java.io.Serializable;
 
 /**
- * @Description: 操作日志表
+ * @Description: 点赞帖子表
  * @Author: fhn
  * @Date: 2018/12/19 20:45
  */
 @Entity
 @Getter
 @Setter
-public class TLog extends BaseEntity {
+public class PostLike extends BaseEntity {
 
-    /** 操作类型 */
-    @Column(nullable = false, columnDefinition="tinyint")
-    private int operateType;
-
-    /** 操作描述 */
+    /** 帖子id */
     @Column(nullable = false)
-    private String operateDesc;
+    private Long postId;
 
-    /** 操作人 */
+    /** 用户名 */
     @Column(nullable = false)
-    private Long operateId;
+    private String userName;
 
 }

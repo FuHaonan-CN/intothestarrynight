@@ -1,6 +1,6 @@
 package com.hzvtc.starrynight.service.impl;
 
-import com.hzvtc.starrynight.entity.TUserInfo;
+import com.hzvtc.starrynight.entity.User;
 import com.hzvtc.starrynight.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,10 +23,10 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 新增一个用户
-     * @Param: TUserInfo
+     * @Param: User
      */
     @Override
-    public void save(TUserInfo user){
+    public void save(User user){
         userRepo.save(user);
     }
 

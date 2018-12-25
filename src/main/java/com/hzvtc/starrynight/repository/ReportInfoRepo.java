@@ -1,6 +1,6 @@
 package com.hzvtc.starrynight.repository;
 
-import com.hzvtc.starrynight.entity.TReportInfo;
+import com.hzvtc.starrynight.entity.ReportInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @Date: 2018/12/14 16:36
  * @Version: 1.0
  */
-public interface ReportInfoRepo extends JpaRepository<TReportInfo, Long> {
+public interface ReportInfoRepo extends JpaRepository<ReportInfo, Long> {
 
 }

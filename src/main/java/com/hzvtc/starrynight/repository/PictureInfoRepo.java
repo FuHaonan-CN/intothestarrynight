@@ -1,6 +1,6 @@
 package com.hzvtc.starrynight.repository;
 
-import com.hzvtc.starrynight.entity.TPictureInfo;
+import com.hzvtc.starrynight.entity.PictureInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @Date: 2017/1/18 19:34
  * @Version: 1.0
  **/
-public interface PictureInfoRepo extends JpaRepository<TPictureInfo, Long> {
+public interface PictureInfoRepo extends JpaRepository<PictureInfo, Long> {
 
 }

@@ -1,6 +1,6 @@
 package com.hzvtc.starrynight.repository;
 
-import com.hzvtc.starrynight.entity.TUserInfo;
+import com.hzvtc.starrynight.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @Date: 2018/12/14 16:36
  * @Version: 1.0
  */
-public interface UserRepo extends JpaRepository<TUserInfo, Long> {
-
+public interface UserRepo extends JpaRepository<User, Long> {
+    User findById(long  id);
     //通过年龄来查询
-    //public List<TUserInfo> findByAge(Integer age);
+    //public List<User> findByAge(Integer age);
 }

@@ -1,2 +1,5 @@
 server:
   port: 8080
+starrynight:
+  base:
+    path: http://127.0.0.1:8080/

@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Entity
 @Getter
 @Setter
-public class TPostPublished extends BaseEntity {
+public class PostPublished extends BaseEntity {
 
     /** 发帖人id */
     @Column(nullable = false)

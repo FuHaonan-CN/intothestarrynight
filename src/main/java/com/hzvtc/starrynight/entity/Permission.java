@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Entity
 @Getter
 @Setter
-public class TPermission extends BaseEntity {
+public class Permission extends BaseEntity {
 
     /** 父级权限id */
     @Column(nullable = false)

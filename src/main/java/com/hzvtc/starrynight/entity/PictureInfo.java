@@ -14,7 +14,7 @@ import javax.persistence.Entity;
 @Entity
 @Getter
 @Setter
-public class TPictureInfo extends BaseEntity {
+public class PictureInfo extends BaseEntity {
 
     /** 图片名 */
     @Column(nullable = false)

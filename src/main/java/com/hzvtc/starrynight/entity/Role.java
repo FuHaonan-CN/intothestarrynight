@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Entity
 @Getter
 @Setter
-public class TRole extends BaseEntity {
+public class Role extends BaseEntity {
 
     /** 父级角色id */
     @Column(nullable = false)
