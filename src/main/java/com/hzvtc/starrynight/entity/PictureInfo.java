@@ -18,18 +18,18 @@ public class PictureInfo extends BaseEntity {
 
     /** 图片名 */
     @Column(nullable = false)
-    private Long picName;
+    private String picName;
 
     /** 图片大小 */
     @Column(nullable = false)
-    private Long picSize;
+    private int picSize;
 
     /** 图片类型 */
     @Column(nullable = false)
-    private Long picType;
+    private String picType;
 
     /** 存储地址 */
     @Column(nullable = false)
-    private Long picAddress;
+    private String picAddress;
 
 }

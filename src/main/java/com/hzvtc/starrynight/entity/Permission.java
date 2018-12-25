@@ -23,9 +23,9 @@ public class Permission extends BaseEntity {
 
     /** 权限名称 */
     @Column(nullable = false)
-    private Long permName;
+    private String permName;
 
     /** 权限描述 */
-    private Long permDesc;
+    private String permDesc;
 
 }
