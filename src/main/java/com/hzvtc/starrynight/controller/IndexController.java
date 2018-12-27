@@ -1,17 +1,18 @@
 package com.hzvtc.starrynight.controller;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.hzvtc.starrynight.comm.aop.LoggerManage;
 import com.hzvtc.starrynight.entity.User;
 import com.hzvtc.starrynight.service.UserService;
+import com.hzvtc.starrynight.service.impl.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Description: 首页controller
@@ -42,15 +43,16 @@ public class IndexController extends BaseController{
         }
         return "index";
     }
-    @GetMapping("/index")
-    public String index(){
-        return "index";
-    }
-
+//    @GetMapping("/index")
+//    public String index(){
+//        return "index";
+//    }
 
     @PostMapping("/login")
-    public String login(){
-        return "index";
+    @ResponseBody
+    public String login(User user, String remember){
+        System.out.println(user.toString());
+        return "success";
     }
 
 //    public List<Girl> girlList() {

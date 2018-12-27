@@ -22,5 +22,6 @@ public interface UserService {
      */
     public void deleteById(Long id);
 
+    public User loginCheck(User user);
 
 }

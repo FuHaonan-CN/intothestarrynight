@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.hzvtc.starrynight.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @Description: UserServiceImpl
  * @Author: fhn
@@ -37,6 +39,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteById(Long id){
         userRepo.deleteById(id);
+    }
+
+    @Override
+    public User loginCheck(User user) {
+        return user;
     }
 
 }
