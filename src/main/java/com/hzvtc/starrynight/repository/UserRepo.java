@@ -11,6 +11,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface UserRepo extends JpaRepository<User, Long> {
     User findById(long  id);
+
+    User findByUserNameOrEmail(String userName, String email);
+
+    User findByEmail(String email);
+
+    User findByUserName(String userName);
     //通过年龄来查询
     //public List<User> findByAge(Integer age);
 }

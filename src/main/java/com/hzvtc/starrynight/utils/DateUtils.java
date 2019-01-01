@@ -1,6 +1,7 @@
 package com.hzvtc.starrynight.utils;
 
 import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 public class DateUtils {
@@ -22,6 +23,14 @@ public class DateUtils {
         return new SimpleDateFormat(YYYYMMDDHHMMSS).format(new Date());
     }
 
+    /**
+     * @Description: 获取当前ZonedDateTime格式时间
+     * @Return: java.time.ZonedDateTime
+     * @Date: 2018/12/29 10:22 
+     */
+    public static ZonedDateTime getCurrentZonedDateTime() {
+        return ZonedDateTime.now();
+    }
 
 	/**
 	 * @author neo
@@ -37,7 +46,7 @@ public class DateUtils {
         if (date == null) {
             return null;
         }
-        long diff = new Date().getTime() - date;
+        long diff = System.currentTimeMillis() - date;
         long r = 0;
         if (diff > year) {
             r = (diff / year);

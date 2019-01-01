@@ -9,7 +9,7 @@ public class Const {
 	
 	public static String BASE_PATH;
 	
-	public static String LOGIN_SESSION_KEY = "Favorites_user";
+	public static String LOGIN_SESSION_KEY = "Starrynight_user";
 	
 	public static String PASSWORD_KEY = "@#$%^&*()OPG#$%^&*(HG";
 
