@@ -48,10 +48,11 @@ public class User extends BaseEntity {
     private String email;
 
     /** 图片id */
-    private String picId;
+    private Long picId;
+
     /** 角色id */
     @Column(nullable = false)
-    private String roleId;
+    private Long roleId;
 
     /** 是否有效 */
     @Column(nullable = false, columnDefinition="tinyint default 0")

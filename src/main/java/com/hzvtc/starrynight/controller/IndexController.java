@@ -96,13 +96,13 @@ public class IndexController extends BaseController{
             return new ResponseData(ExceptionMsg.FAILED);
         }
     }
-    @RequestMapping(value = "/regist", method = RequestMethod.POST)
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     @LoggerManage(description="注册")
     public Response create(User user) {
         try {
-            User registUser = userRepo.findByEmail(user.getEmail());
-            if (null != registUser) {
-                return result(ExceptionMsg.EmailUsed);
+            User registerUser = userRepo.findByPhone(user.getPhone());
+            if (null != registerUser) {
+                return result(ExceptionMsg.PhoneUsed);
             }
             User userNameUser = userRepo.findByUserName(user.getUserName());
             if (null != userNameUser) {
@@ -111,6 +111,7 @@ public class IndexController extends BaseController{
             user.setUserPassWord(getPwd(user.getUserPassWord()));
             user.setCreateDate(DateUtils.getCurrentZonedDateTime());
             user.setModifyDate(DateUtils.getCurrentZonedDateTime());
+            user.setRoleId(0L);
             userRepo.save(user);
             // 添加默认收藏夹
             //Favorites favorites = favoritesService.saveFavorites(user.getId(), "未读列表");
@@ -118,12 +119,12 @@ public class IndexController extends BaseController{
             //configService.saveConfig(user.getId(),String.valueOf(favorites.getId()));
             getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);
         } catch (Exception e) {
-            // TODO: handle exception
             logger.error("create user failed, ", e);
             return result(ExceptionMsg.FAILED);
         }
         return result();
     }
+
 //    public List<Girl> girlList() {
 //        logger.info("girlList");
 //
