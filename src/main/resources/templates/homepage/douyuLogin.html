@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+</head>
+<body>
+<div class="container">
+    <!-- 按钮：用于打开登陆模态框 -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
+        登陆
+    </button>
+    <!-- 按钮：用于打开注册模态框 -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registerModal">
+        注册
+    </button>
+
+    <!-- 登陆模态框 -->
+    <div class="modal fade" id="loginModal" aria-labelledby="myModalLabel" aria-hidden="true">
+        <!--  显示模态框对话框模型（若不写下一个div则没有颜色）  -->
+        <div class="modal-dialog">
+            <!--  显示模态框白色背景，所有内容都写在这个div里面  -->
+            <div class="modal-content">
+                <!-- 模态框头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">登陆界面</h4>
+                    <!--  关闭按钮  -->
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- 模态框主体 -->
+                <div class="modal-body">
+                    <!--  模态框内容，登陆模块 -->
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="userName">UserName:</label>
+                            <input type="text" class="form-control" id="userName" name="userName">
+                        </div>
+                        <div class="form-group">
+                            <label for="userPassWord">Password:</label>
+                            <input type="password" class="form-control" id="userPassWord" name="userPassWord">
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="remember" value="1"> Remember me
+                            </label>
+                        </div>
+                        <!--<button type="submit" class="btn btn-primary">Submit</button>-->
+                    </form>
+                    <!-- 模态框底部 -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" onclick="login()">登陆</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--注册模块框-->
+    <div class="modal fade" id="registerModal" aria-labelledby="myModalLabel" aria-hidden="true">
+        <!--  显示模态框对话框模型（若不写下一个div则没有颜色）  -->
+        <div class="modal-dialog">
+            <!--  显示模态框白色背景，所有内容都写在这个div里面  -->
+            <div class="modal-content">
+                <!-- 模态框头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">登陆界面</h4>
+                    <!--  关闭按钮  -->
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- 模态框主体 -->
+                <div class="modal-body">
+                    <!-- 注册模态框主体 -->
+                    <div class="loginbox-bd loginbox-reg" data-type="reg">
+                        <form id="registerForm">
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="userName" placeholder="请输入昵称" value="">
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <input class="form-control" type="text" name="areaCode" value="+86">
+                                    <input type="text" class="form-control" name="phone"
+                                           placeholder="请输入手机号码" maxlength="11" value="">
+                                </div>
+                                <p class="login-cheak-phone"></p>
+                            </div>
+                            <div class="form-group">
+                                <span class=""></span>
+                                <input class="form-control" type="password" name="userPassWord" placeholder="输入密码">
+                                <!--<input class="ipt showpw1 notsub" type="text" name="password" placeholder="输入密码">-->
+                                <p class="login-cheak-pw"></p>
+                            </div>
+                            <div class="form-group">
+                                <div class="clearfix">
+                                    <div class="form-field">
+                                        <div class="clearfix">
+                                            <input type="text" class="form-control" size="6" maxlength="6"
+                                                   id="yzphonenum" name="phoneCaptcha"
+                                                   data-i18n="Phone.inputVerifyNumber"
+                                                   placeholder="输入验证码">
+                                            <input class="phone-send js-sendvoice fl" type="button" value="短信验证"
+                                                   data-i18n="Phone.speechVerify" data-sms-isoutside="0">
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="myuser-tip login-cheak-sms"></p>
+                            </div>
+                            <div class="form-control">
+                                <input type="checkbox" name="protocol" checked="checked">
+                                <label>同意 <a href="https://www.douyu.com/protocal/member"
+                                             target="_blank">《用户注册协议》</a></label>
+                            </div>
+
+                            <!-- #40128-帐号体系_英文版 英文版 提示跳转-->
+                            <a href="/member/login?lang=en&amp;type=reg&amp;client_id=1" target="_blank"
+                               class="login-box-eng">English
+                                Mode</a>
+                            <!-- #40128-帐号体系_英文版 英文版 提示跳转-->
+
+                        </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" onclick="register()">立即注册</button>
+                        </div>
+
+                        <p class="third-text">第三方帐号直接登录</p>
+                        <div class="third-list clearfix ">
+                            <a href="https://www.douyu.com/member/oauth/signin/qq?biz_type=1&amp;ref_url=&amp;room_id=0&amp;cate_id=0&amp;tag_id=0&amp;child_id=0&amp;vid=0&amp;fac=click_topnavi_login&amp;type=reg"
+                               target="_blank" class="fl third-icon third-icon-qq" title="QQ帐号登录" data-point-2="qq"></a>
+                            <a href="https://www.douyu.com/member/oauth/signin/weixin?biz_type=1&amp;ref_url=&amp;room_id=0&amp;cate_id=0&amp;tag_id=0&amp;child_id=0&amp;vid=0&amp;fac=click_topnavi_login&amp;type=reg"
+                               target="_blank" class="fl third-icon third-icon-wx" title="微信帐号登录" data-point-2="wx"></a>
+                            <a href="https://www.douyu.com/member/oauth/signin/weibo?biz_type=1&amp;ref_url=&amp;room_id=0&amp;cate_id=0&amp;tag_id=0&amp;child_id=0&amp;vid=0&amp;fac=click_topnavi_login&amp;type=reg"
+                               target="_blank" class="fl third-icon third-icon-wb third-icon-last" title="微博帐号登录"
+                               data-point-2="wb"></a>
+                        </div>
+
+                        <!-- #40128-帐号体系_英文版 切换登录-->
+                        <p class="loginbox-hasact login-box-toptxt">已有斗鱼帐号？
+                            <a href="/index/login?passport_login_callback=PASSPORT_LOGIN_SUCCESS_CALLBACK&amp;passport_reg_callback=PASSPORT_REG_SUCCESS_CALLBACK&amp;passport_close_callback=PASSPORT_CLOSE_CALLBACK&amp;client_id=1"
+                               title="马上登录" class="anchor_line js-switch-login">马上登录&gt;</a>
+                        </p>
+                        <!-- #40128-帐号体系_英文版 切换登录-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script src="/js/jquery-1.12.4.min.js"></script>
+<script src="/js/testMyself/test.js"></script>
+</body>
+</html>

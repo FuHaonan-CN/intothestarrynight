@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Entity
 @Getter
 @Setter
-public class PostPublished extends BaseEntity {
+public class PostInfo extends BaseEntity {
 
     /** 发帖人id */
     @Column(nullable = false)
@@ -47,6 +47,10 @@ public class PostPublished extends BaseEntity {
     /** 审核状态 */
     @Column(nullable = false, columnDefinition="tinyint default 0")
     private int reviewState = 0;
+
+    /** 帖子类型 0：普通用户 1：最新新闻 2：倒计时事件 */
+    @Column(nullable = false, columnDefinition="tinyint default 0")
+    private int postType = 0;
 
     /** 删除标记 */
     @Column(nullable = false, columnDefinition="tinyint default 0")

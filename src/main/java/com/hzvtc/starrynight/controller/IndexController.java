@@ -1,6 +1,5 @@
 package com.hzvtc.starrynight.controller;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.hzvtc.starrynight.comm.Const;
 import com.hzvtc.starrynight.comm.aop.LoggerManage;
 import com.hzvtc.starrynight.entity.User;
@@ -8,8 +7,8 @@ import com.hzvtc.starrynight.entity.result.ExceptionMsg;
 import com.hzvtc.starrynight.entity.result.Response;
 import com.hzvtc.starrynight.entity.result.ResponseData;
 import com.hzvtc.starrynight.repository.UserRepo;
+import com.hzvtc.starrynight.service.PostService;
 import com.hzvtc.starrynight.service.UserService;
-import com.hzvtc.starrynight.service.impl.UserServiceImpl;
 import com.hzvtc.starrynight.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +18,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.ZonedDateTime;
+import java.util.List;
 
 /**
  * @Description: 首页controller
@@ -30,44 +30,57 @@ import javax.servlet.http.HttpServletResponse;
 //@RestController
 @Controller
 @RequestMapping("/")
-public class IndexController extends BaseController{
+public class IndexController extends BaseController {
     private final static Logger logger = LoggerFactory.getLogger(IndexController.class);
     //@Resource默认按 byName自动注入
     private final UserService userService;
+    private final PostService postService;
     @Autowired
     private UserRepo userRepo;
 
     @Autowired
-    public IndexController(UserService userService) {
+    public IndexController(UserService userService, PostService postService) {
         this.userService = userService;
+        this.postService = postService;
     }
 
-    @RequestMapping(value="/index",method= RequestMethod.GET)
-    @LoggerManage(description="首页")
-    public String index(Model model){
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    @LoggerManage(description = "首页")
+    public String index(Model model) {
 //		IndexCollectorView indexCollectorView = collectorService.getCollectors();
-        model.addAttribute("collector","");
+        //model.addAttribute("collector","");
+        List sixNews = postService.findSixNews();
+        model.addAttribute("news", sixNews);
         User user = super.getUser();
-        if(null != user){
-            model.addAttribute("user",user);
+        if (null != user) {
+            user.setId(11L);
+            model.addAttribute("user", user);
         }
-        return "index";
+        return "homepage/index.html";
     }
-//    @GetMapping("/index")
-//    public String index(){
-//        return "index";
-//    }
+
+    @RequestMapping(value = "/index/login", method = RequestMethod.GET)
+    @LoggerManage(description = "登录页面")
+    public String login(Model model) {
+        return "homepage/login.html";
+    }
+
+    @RequestMapping(value = "/index/register", method = RequestMethod.GET)
+    @LoggerManage(description = "登录页面")
+    public String register(Model model) {
+        return "homepage/register.html";
+    }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    @LoggerManage(description="登陆")
-    //@ResponseBody
-    public ResponseData login(User user, String remember, HttpServletResponse response){
+    @LoggerManage(description = "登陆")
+    @ResponseBody
+    public ResponseData login(User user, HttpServletResponse response) {
         try {
             //这里不是bug，前端userName有可能是邮箱也有可能是昵称。
-            User loginUser = userRepo.findByUserNameOrEmail(user.getUserName(), user.getUserName());
-            if (loginUser == null ) {
+            User loginUser = userRepo.findByPhoneNumOrUserName(user.getPhoneNum(), user.getUserName());
+            if (loginUser == null) {
                 return new ResponseData(ExceptionMsg.LoginNameNotExists);
-            }else if(!loginUser.getUserPassWord().equals(getPwd(user.getUserPassWord()))){
+            } else if (!loginUser.getUserPassWord().equals(getPwd(user.getUserPassWord()))) {
                 return new ResponseData(ExceptionMsg.LoginNameOrPassWordError);
             }
             Cookie cookie = new Cookie(Const.LOGIN_SESSION_KEY, cookieSign(loginUser.getId().toString()));
@@ -76,19 +89,19 @@ public class IndexController extends BaseController{
             response.addCookie(cookie);
             getSession().setAttribute(Const.LOGIN_SESSION_KEY, loginUser);
             String preUrl = "/";
-            if(null != getSession().getAttribute(Const.LAST_REFERER)){
+            /*if (null != getSession().getAttribute(Const.LAST_REFERER)) {
                 preUrl = String.valueOf(getSession().getAttribute(Const.LAST_REFERER));
-                if(!preUrl.contains("/collect?") && !preUrl.contains("/lookAround/standard/")
-                        && !preUrl.contains("/lookAround/simple/")){
+                if (!preUrl.contains("/collect?") && !preUrl.contains("/lookAround/standard/")
+                        && !preUrl.contains("/lookAround/simple/")) {
                     preUrl = "/";
                 }
             }
-            if(preUrl.contains("/lookAround/standard/")){
+            if (preUrl.contains("/lookAround/standard/")) {
                 preUrl = "/lookAround/standard/ALL";
             }
-            if(preUrl.contains("/lookAround/simple/")){
+            if (preUrl.contains("/lookAround/simple/")) {
                 preUrl = "/lookAround/simple/ALL";
-            }
+            }*/
             return new ResponseData(ExceptionMsg.SUCCESS, preUrl);
         } catch (Exception e) {
             // TODO: handle exception
@@ -96,11 +109,13 @@ public class IndexController extends BaseController{
             return new ResponseData(ExceptionMsg.FAILED);
         }
     }
+
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    @LoggerManage(description="注册")
-    public Response create(User user) {
+    @LoggerManage(description = "用户注册")
+    @ResponseBody
+    public Response create(User user, String phoneCaptcha) {
         try {
-            User registerUser = userRepo.findByPhone(user.getPhone());
+            User registerUser = userRepo.findByPhoneNum(user.getPhoneNum());
             if (null != registerUser) {
                 return result(ExceptionMsg.PhoneUsed);
             }
@@ -108,9 +123,11 @@ public class IndexController extends BaseController{
             if (null != userNameUser) {
                 return result(ExceptionMsg.UserNameUsed);
             }
+            ZonedDateTime zonedDateTime = DateUtils.getCurrentZonedDateTime();
             user.setUserPassWord(getPwd(user.getUserPassWord()));
-            user.setCreateDate(DateUtils.getCurrentZonedDateTime());
-            user.setModifyDate(DateUtils.getCurrentZonedDateTime());
+            user.setAreaCode(user.getAreaCode());
+            user.setCreateDate(zonedDateTime);
+            user.setModifyDate(zonedDateTime);
             user.setRoleId(0L);
             userRepo.save(user);
             // 添加默认收藏夹
@@ -122,7 +139,8 @@ public class IndexController extends BaseController{
             logger.error("create user failed, ", e);
             return result(ExceptionMsg.FAILED);
         }
-        return result();
+        Response response = result();
+        return response;
     }
 
 //    public List<Girl> girlList() {

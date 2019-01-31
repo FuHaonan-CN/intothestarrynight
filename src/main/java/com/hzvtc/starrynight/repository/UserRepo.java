@@ -12,13 +12,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UserRepo extends JpaRepository<User, Long> {
     User findById(long  id);
 
-    User findByUserNameOrEmail(String userName, String email);
+    User findByPhoneNumOrUserName(String phoneNum, String userName);
 
     User findByEmail(String email);
 
     User findByUserName(String userName);
 
-    User findByPhone(String phone);
+    User findByPhoneNum(String phone);
     //通过年龄来查询
     //public List<User> findByAge(Integer age);
 }

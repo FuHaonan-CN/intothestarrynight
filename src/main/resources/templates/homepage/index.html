@@ -1,20 +1,21 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Starnight - A Sexy As Hell Free HTML5/CSS3 Template</title>
-    <!-- Bootstrap -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{css/font-awesome.min.css}" rel="stylesheet">
+
     <!--<link href="css/font-awesome.min.css" rel="stylesheet">-->
     <!--首页图标不显示-->
-    <link rel="stylesheet" href="/css/flexslider.css" type="text/css">
-    <link href="/css/styles.css" rel="stylesheet">
-    <link href="/css/queries.css" rel="stylesheet">
-    <link href="/css/jquery.fancybox.css" rel="stylesheet">
-    <link href="/css/mystyle.css">
+    <link rel="stylesheet" th:href="@{/css/flexslider.css}" type="text/css">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+    <link th:href="@{/css/queries.css}" rel="stylesheet">
+    <link th:href="@{/css/jquery.fancybox.css}" rel="stylesheet">
+    <link th:href="@{/css/mystyle.css}">
     <!-- Fonts -->
     <!--<link href='http://fonts.useso.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>-->
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -68,31 +69,45 @@
                 <button type="submit" class="btn btn-default">搜索</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <li>
+                <!--<li>
                     <br>
-
                 </li>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
                 <li>
+                    <!--<a>
+                        &lt;!&ndash; 按钮：用于打开登录模态框 &ndash;&gt;
+                        <button type="button" class="btn btn-primary" onclick="loginAndRegister('login')">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                            登陆
+                        </button>
+                        &lt;!&ndash; 按钮：用于打开注册模态框 &ndash;&gt;
+                        <button type="button" class="btn btn-primary" onclick="loginAndRegister('register')">
+                            注册
+                        </button>
+                    </a>-->
+                    <!--<span class="glyphicon glyphicon-user" aria-hidden="true"></span> 登录|注册-->
+                    <!--
                     <a href="../user/userLogin.jsp">
-                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 登录
-                    </a>
-                    <p class="navbar-text on2">
-                        <!--<img src="../upload/<%=user.getPic()%>" width="30" height="30"/> 欢迎您-</p>-->
+                        |注册
+                    </a>-->
+                    <!--<p class="navbar-text on2">
+                       <img src="../upload/<%=user.getPic()%>" width="30" height="30"/> 欢迎您-</p>-->
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-haspopup="true"
                        aria-expanded="false">
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu" style="text-align: center">
-                        <li><a href="/User_updateInput_user?id="><span
+                        <li><a th:href="@{/User_updateInput_user}"><span
                                 class="glyphicon glyphicon-text-height" aria-hidden="true"></span> 信息修改</a></li>
                         <li><a href="/Post_insertInput_post"><span class="glyphicon glyphicon-edit"
                                                                    aria-hidden="true"></span> 发布帖子</a></li>
                         <li><a href="/Post_selectAll_post?rightname="><span
                                 class="glyphicon glyphicon-check" aria-hidden="true"></span> 我的帖子</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="/user/my.jsp" target="_blank"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> 我的主页</a>
+                        <li><a href="/user/my.jsp" target="_blank"><span class="glyphicon glyphicon-envelope"
+                                                                         aria-hidden="true"></span> 我的主页</a>
                         </li>
                         <li>
                             <a href="/User_logout_user" class="btn btn-warning" onclick="logout()">
@@ -102,9 +117,22 @@
                     </ul>
                 </li>
             </ul>
+            <div class="navbar-text navbar-right" style="font-size: 15px;margin-right: 10px;">
+                <a href="javascript:void(0);" onclick="loginAndRegister('login')" class="navbar-link">登录</a>
+                <span>|</span>
+                <a href="javascript:void(0);" onclick="loginAndRegister('register')" class="navbar-link">注册</a>
+            </div>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
+<div id="login-register" class="container" style="display: none"></div>
+<!--<div id="login-register" class="container" style="display: none">
+    <div id="passport-iframe-con" class="passport-iframe-con"
+         style="width: 400px; height: 525px; position: fixed; z-index: 9999; top: 50%; left: 50%; visibility: visible;
+         border-radius: 4px; border: 1px solid rgb(255, 255, 255); background: rgb(255, 255, 255); margin-top: -257.5px; margin-left: -200px;">
+        <iframe id="login-register-frame" height="100%" scrolling="no" width="100%" frameborder="0" style="border:none;" src=""></iframe>
+    </div>
+</div>-->
 <!--目录-->
 <div class="col-md-2 col-md-offset-10" role="complementary">
     <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix mynav">
@@ -118,7 +146,8 @@
                     <li><a href="/homepage.action#design">百科知识</a></li>
                     <li><a href="/homepage.action#getstarted">了解手机APP</a></li>
                     <li><a href="/homepage.action#footer">关于我们</a></li>
-                    <li><a href="/homepage.action#top"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> 返回顶部</a>
+                    <li><a href="/homepage.action#top"><span class="glyphicon glyphicon-arrow-up"
+                                                             aria-hidden="true"></span> 返回顶部</a>
                     </li>
                 </ul>
             </li>
@@ -127,35 +156,34 @@
 </div>
 <!-- 倒计时事件 -->
 <section class="hero" id="hero">
-    <p class="container">
+    <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2 text-center">
                 <h1 class="animated bounceInDown">Into The Starry Night</h1>
                 <br>
-    <p class="animated fadeInUpDelay" style="font-size:20px">安静笼罩著夏夜巨大的星空，覆盖著整个地球，温柔地无声无息。</p>
-    <p class="animated fadeInUpDelay" style="font-size:20px">我对着广阔无垠的浩瀚星海，对着满天的银光，静静地站着，心里就有了一片完整的 </p>
-    <p class="animated fadeInUpDelay" style="font-size:35px">星空</p>
-    </div>
-    </div>
-    <!--倒计时-->
-    <div class="col-md-8 col-md-offset-2 text-center">
-        距离<input type="text" id="date2" value="">
-    </div>
-    <div class="col-md-8 col-md-offset-2 text-center">
-        <p style="font-size:45px" id="timer" onload="leftTimer()"></p>
-    </div>
-    <div class="row">
-        <div class="col-md-2 col-md-offset-5 text-center">
-            <a
-                    href="&amp;byline=0&amp;portrait=0&amp;color=1883ad&amp;autoplay=1"
-                    class="hero-play-btn various fancybox.iframe">Play Button</a>
+                <p class="animated fadeInUpDelay" style="font-size:20px">安静笼罩著夏夜巨大的星空，覆盖著整个地球，温柔地无声无息。</p>
+                <p class="animated fadeInUpDelay" style="font-size:20px">我对着广阔无垠的浩瀚星海，对着满天的银光，静静地站着，心里就有了一片完整的 </p>
+                <p class="animated fadeInUpDelay" style="font-size:35px">星空</p>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3 text-center">
-            <a href="" class="get-started-btn">短信提醒</a>
+        <!--倒计时-->
+        <div class="col-md-8 col-md-offset-2 text-center">
+            距离<input type="text" id="date2" value="">
         </div>
-    </div>
+        <div class="col-md-8 col-md-offset-2 text-center">
+            <p style="font-size:45px" id="timer" onload="leftTimer()"></p>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-5 text-center">
+                <a href="&amp;byline=0&amp;portrait=0&amp;color=1883ad&amp;autoplay=1"
+                   class="hero-play-btn various fancybox.iframe">Play Button</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 text-center">
+                <a href="" class="get-started-btn">短信提醒</a>
+            </div>
+        </div>
     </div>
 </section>
 <!--用户体验-->
@@ -169,7 +197,8 @@
                             <div class="avatar">
                                 <img src="../static/img/av-blaz.png" alt="Blaz Robar">
                             </div>
-                            <h1>I couldnt possibly use my own eyes to look at the stars, thansk Starnught App.</h1>
+                            <h1>I couldnt possibly use my own eyes to look at the stars, thansk Starnught
+                                App.</h1>
                             <h1>用户感受：</h1>
                         </li>
                         <li>
@@ -194,26 +223,32 @@
 <!-- 图片加新闻 -->
 <section class="features" id="features">
     <div class="container">
-        <div class="row">
+        <div th:block class="row">
             <div class="col-md-6 features-leftcol wp2">
-                <iterator value="sixNews" begin="0" end="1" var="news">
-                    <a href="/News_queryById_news?id=" target="_blank">
-                        <img src="../upload/" width="250" height="100" border="0" alt="［阅读］"></a>
-                    <h1 align="center"><a href="/News_queryById_news?id="></a></h1>
-                    <p class="margin-bottom">一句话概括新闻
-                        <a href="/News_queryById_news?id=">［阅读］</a>
-                    </p>
-                </iterator>
+                <th:block th:each="oneNews,iterStat : ${news}">
+                    <div th:block th:if="${iterStat.index < 3}">
+                        <a th:href="@{/News_queryById_news(id=${oneNews.id})}" target="_blank">
+                            <img th:src="@{/upload/(picId=${oneNews.picId})}" width="250" height="100"
+                                 border="0" alt="［阅读］"></a>
+                        <h1 align="center"><a th:href="@{/News_queryById_news(id=${oneNews.id})}"></a></h1>
+                        <p class="margin-bottom" th:text="${oneNews.postTitle}">一句话概括新闻
+                            <a th:href="@{/News_queryById_news(id=${oneNews.id})}">［阅读］</a>
+                        </p>
+                    </div>
+                </th:block>
             </div>
             <div class="col-md-6 features-rightcol wp3">
-                <iterator value="#request.sixNews" begin="2" end="3" var="news">
-                    <a href="/News_queryById_news?id=" target="_blank">
-                        <img src="../upload/" width="250" height="100" border="0" alt="［阅读］"></a>
-                    <h1 align="center"><a href="/News_queryById_news?id="></a></h1>
-                    <p class="margin-bottom">一句话概括新闻
-                        <a href="#">［阅读］</a>
-                    </p>
-                </iterator>
+                <th:block th:each="oneNews,iterStat : ${news}">
+                    <div th:block th:if="${iterStat.index >= 3 && iterStat.index < 6}">
+                        <a th:href="@{/News_queryById_news(id=${oneNews.id})}" target="_blank">
+                            <img th:src="@{/upload/(picId=${oneNews.picId})}" width="250" height="100"
+                                 border="0" alt="［阅读］"></a>
+                        <h1 align="center"><a th:href="@{/News_queryById_news(id=${oneNews.id})}"></a></h1>
+                        <p class="margin-bottom" th:text="${oneNews.postTitle}">一句话概括新闻
+                            <a th:href="@{/News_queryById_news(id=${oneNews.id})}">［阅读］</a>
+                        </p>
+                    </div>
+                </th:block>
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
@@ -290,10 +325,10 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <a href="#" class="try-btn">了解更多</a>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <a href="#" class="try-btn">了解更多</a>
+            </div>
         </div>
     </div>
 </section>
@@ -310,13 +345,13 @@
                 <h2>我看到东南边角落的那颗星星</h2>
                 <h2>它很亮，很亮...</h2>
                 <h2>一直发着光，像你一样。</h2>
-                <p style="font-size: large">没有城市的灯光和高楼的阴影，夜空无比纯净，不是纯黑色的，而是有些发蓝，像一块柔软的天鹅绒。那些星辰就是无数散落在天鹅绒上的钻石，闪烁着微光。</p>
+                <p style="font-size: large">
+                    没有城市的灯光和高楼的阴影，夜空无比纯净，不是纯黑色的，而是有些发蓝，像一块柔软的天鹅绒。那些星辰就是无数散落在天鹅绒上的钻石，闪烁着微光。</p>
                 <a href="../download/Star.zip" class="download-btn">马上下载</a>
             </div>
         </div>
     </div>
 </section>
-
 <footer id="footer">
     <div class="container" style="height: 150px">
         <div class="row">
@@ -357,17 +392,17 @@
     </div>
 </footer>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="/js/jquery.min.js"></script>
-<script src="/js/jquery-1.12.4.min.js"></script>
-<script src="/js/jquery.fancybox.pack.js"></script>
+<script th:src="@{/js/jquery-1.11.3.min.js}"></script>
+<!--<script th:src="@{/js/jquery-1.12.4.min.js}"></script>-->
+<script th:src="@{/js/jquery.fancybox.pack.js}"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="/js/bootstrap.min.js"></script>
-<script src="/js/scripts.js"></script>
-<script src="/js/jquery.flexslider.js"></script>
-<script src="/js/jquery.smooth-scroll.js"></script>
-<script src="/js/modernizr.js"></script>
-<script src="/js/waypoints.min.js"></script>
-//倒计时脚本
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/scripts.js}"></script>
+<script th:src="@{/js/jquery.flexslider.js}"></script>
+<script th:src="@{/js/jquery.smooth-scroll.js}"></script>
+<script th:src="@{/js/modernizr.js}"></script>
+<script th:src="@{/js/waypoints.min.js}"></script>
+<!--倒计时脚本-->
 <script type="text/javascript">
     // 倒计时
     var _ordertimer = null;
@@ -403,6 +438,25 @@
         _ordertimer = setInterval(function () {
             leftTimer(data2)
         }, 1000);
+    }
+</script>
+
+<script type="text/javascript">
+    function loginAndRegister(message) {
+        if ($('#passport-iframe-con')[0] == undefined) {
+            var insertText = '<div id="passport-iframe-con" class="passport-iframe-con"\n' +
+                'style="width: 400px; height: 525px; position: fixed; z-index: 9999; top: 50%; left: 50%; visibility: visible;\n' +
+                'border-radius: 4px; border: 1px solid rgb(255, 255, 255); background: rgb(255, 255, 255); margin-top: -257.5px; margin-left: -200px;">\n' +
+                '<iframe id="login-register-frame" height="100%" scrolling="no" width="100%" frameborder="0" style="border:none;" src=""></iframe>\n' +
+                '</div>\n' +
+                '<div class="passport-iframe-shadow" style="width: 100%;height: 100%;position: fixed;top: 0px;left: 0px;z-index: 8888;opacity: 0.3;background-color: rgb(0, 0, 0);display: block;">' +
+                '</div>';
+            $("#login-register")[0].innerHTML += insertText;
+//            $('body section:last')[0].innerHTML += insertText;
+//            document.getElementsByTagName("body")[0].innerHTML += insertText;
+        }
+        $('#login-register')[0].style.display = "";
+        $('#login-register-frame').attr('src', 'http://localhost:8080/index/' + message);
     }
 </script>
 </body>

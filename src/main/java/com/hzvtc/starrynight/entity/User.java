@@ -41,8 +41,11 @@ public class User extends BaseEntity {
     /** 民族 */
     private String nationality;
 
+    /** 电话区域 */
+    private String areaCode;
+
     /** 电话 */
-    private String phone;
+    private String phoneNum;
 
     /** 邮箱 */
     private String email;
