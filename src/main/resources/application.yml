@@ -8,6 +8,7 @@ spring:
     username: root
     password: 123456
   jpa:
+    database: mysql
     hibernate:
       ddl-auto: update
       naming:
@@ -23,7 +24,6 @@ spring:
 ########################################################
 ###THYMELEAF (ThymeleafAutoConfiguration)
 ########################################################
-
   mvc:
     #view:
       # 静态文件请求匹配方式

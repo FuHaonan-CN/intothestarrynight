@@ -10,6 +10,8 @@ import com.hzvtc.starrynight.repository.UserRepo;
 import com.hzvtc.starrynight.service.PostService;
 import com.hzvtc.starrynight.service.UserService;
 import com.hzvtc.starrynight.utils.DateUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +20,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description: 首页controller
@@ -29,7 +33,7 @@ import java.util.List;
  */
 //@RestController
 @Controller
-@RequestMapping("/")
+@RequestMapping("/1")
 public class IndexController extends BaseController {
     private final static Logger logger = LoggerFactory.getLogger(IndexController.class);
     //@Resource默认按 byName自动注入
@@ -66,7 +70,7 @@ public class IndexController extends BaseController {
     }
 
     @RequestMapping(value = "/index/register", method = RequestMethod.GET)
-    @LoggerManage(description = "登录页面")
+    @LoggerManage(description = "注册页面")
     public String register(Model model) {
         return "homepage/register.html";
     }
@@ -74,7 +78,33 @@ public class IndexController extends BaseController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @LoggerManage(description = "登陆")
     @ResponseBody
-    public ResponseData login(User user, HttpServletResponse response) {
+    public String login(HttpServletRequest request, Map<String, Object> map) throws Exception{
+        System.out.println("HomeController.login()");
+        // 登录失败从request中获取shiro处理的异常信息。
+        // shiroLoginFailure:就是shiro异常类的全类名.
+        String exception = (String) request.getAttribute("shiroLoginFailure");
+        System.out.println("exception=" + exception);
+        String msg = "";
+        if (exception != null) {
+            if (UnknownAccountException.class.getName().equals(exception)) {
+                System.out.println("UnknownAccountException -- > 账号不存在：");
+                msg = "UnknownAccountException -- > 账号不存在：";
+            } else if (IncorrectCredentialsException.class.getName().equals(exception)) {
+                System.out.println("IncorrectCredentialsException -- > 密码不正确：");
+                msg = "IncorrectCredentialsException -- > 密码不正确：";
+            } else if ("kaptchaValidateFailed".equals(exception)) {
+                System.out.println("kaptchaValidateFailed -- > 验证码错误");
+                msg = "kaptchaValidateFailed -- > 验证码错误";
+            } else {
+                msg = "else >> "+exception;
+                System.out.println("else -- >" + exception);
+            }
+        }
+        map.put("msg", msg);
+        // 此方法不处理登录成功,由shiro进行处理
+        return "/login";
+    }
+    /*public ResponseData login(User user, HttpServletResponse response) {
         try {
             //这里不是bug，前端userName有可能是邮箱也有可能是昵称。
             User loginUser = userRepo.findByPhoneNumOrUserName(user.getPhoneNum(), user.getUserName());
@@ -89,25 +119,18 @@ public class IndexController extends BaseController {
             response.addCookie(cookie);
             getSession().setAttribute(Const.LOGIN_SESSION_KEY, loginUser);
             String preUrl = "/";
-            /*if (null != getSession().getAttribute(Const.LAST_REFERER)) {
-                preUrl = String.valueOf(getSession().getAttribute(Const.LAST_REFERER));
-                if (!preUrl.contains("/collect?") && !preUrl.contains("/lookAround/standard/")
-                        && !preUrl.contains("/lookAround/simple/")) {
-                    preUrl = "/";
-                }
-            }
-            if (preUrl.contains("/lookAround/standard/")) {
-                preUrl = "/lookAround/standard/ALL";
-            }
-            if (preUrl.contains("/lookAround/simple/")) {
-                preUrl = "/lookAround/simple/ALL";
-            }*/
             return new ResponseData(ExceptionMsg.SUCCESS, preUrl);
         } catch (Exception e) {
             // TODO: handle exception
             logger.error("login failed, ", e);
             return new ResponseData(ExceptionMsg.FAILED);
         }
+    }*/
+
+    @RequestMapping("/403")
+    public String unauthorizedRole(){
+        System.out.println("------没有权限-------");
+        return "403";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -128,7 +151,7 @@ public class IndexController extends BaseController {
             user.setAreaCode(user.getAreaCode());
             user.setCreateDate(zonedDateTime);
             user.setModifyDate(zonedDateTime);
-            user.setRoleId(0L);
+            //user.setRoleId(0L);
             userRepo.save(user);
             // 添加默认收藏夹
             //Favorites favorites = favoritesService.saveFavorites(user.getId(), "未读列表");

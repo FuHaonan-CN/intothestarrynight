@@ -3,9 +3,9 @@ package com.hzvtc.starrynight.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @Description: 权限表
@@ -28,4 +28,7 @@ public class Permission extends BaseEntity {
     /** 权限描述 */
     private String permDesc;
 
+    @ManyToMany
+    @JoinTable(name="RolePermission",joinColumns={@JoinColumn(name="permissionId")},inverseJoinColumns={@JoinColumn(name="roleId")})
+    private List<Role> roles;
 }

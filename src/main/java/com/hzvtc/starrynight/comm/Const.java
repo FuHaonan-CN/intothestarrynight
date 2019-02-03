@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Const {
 	
-	public static String BASE_PATH;
+	public static String BASE_PATH = "http://127.0.0.1:8080/";
 	
 	public static String LOGIN_SESSION_KEY = "Starrynight_user";
 	
@@ -26,10 +26,10 @@ public class Const {
 	public static int COOKIE_TIMEOUT= 30*24*60*60;
 
 	
-	  @Autowired(required = true)
+	 /* @Autowired(required = true)
 	  public void setBasePath(@Value("${starrynight.base.path}")String basePath) {
 		  Const.BASE_PATH = basePath;
-	  }
+	  }*/
 	
 	
 }

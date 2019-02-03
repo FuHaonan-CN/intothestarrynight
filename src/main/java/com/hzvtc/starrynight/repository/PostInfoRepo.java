@@ -15,6 +15,7 @@ import java.util.List;
 public interface PostInfoRepo extends JpaRepository<PostInfo, Long> {
     @Query(value = "SELECT * FROM post_info a " +
             "WHERE a.post_type=1 " +
+            "AND a.is_del<>0 " +
             "ORDER BY modify_date DESC " +
             "limit 6", nativeQuery = true)
     List<PostInfo> findSixNews();
