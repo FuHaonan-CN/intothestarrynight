@@ -456,7 +456,9 @@
 //            document.getElementsByTagName("body")[0].innerHTML += insertText;
         }
         $('#login-register')[0].style.display = "";
-        $('#login-register-frame').attr('src', 'http://localhost:8080/index/' + message);
+        var curHost = window.location.host;
+        var curUrl = 'http://' + curHost + '/index/' + message;
+        $('#login-register-frame').attr('src', curUrl);
     }
 </script>
 </body>

@@ -13,7 +13,7 @@
 <%
     Admin admin = (Admin) session.getAttribute("admin");
     if (admin != null) {
-        response.setHeader("refresh", "0;URL=./admin.jsp");
+        response.setHeader("refresh", "0;URL=./admin.html");
         return;
     }
 %>

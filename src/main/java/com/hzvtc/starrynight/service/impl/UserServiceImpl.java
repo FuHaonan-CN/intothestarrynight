@@ -51,4 +51,9 @@ public class UserServiceImpl implements UserService {
         return userRepo.findByUserName(username);
     }
 
+    @Override
+    public User findByPhoneNumOrUserName(String phonrNum, String userName) {
+        return userRepo.findByPhoneNumOrUserName(phonrNum, userName);
+    }
+
 }

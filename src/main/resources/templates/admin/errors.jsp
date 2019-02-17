@@ -29,9 +29,9 @@
 		}
 	%>
 	操作中出现错误，两秒后跳转到后台管理首页！！！<br>
-	如果没有跳转，请按<a href="../admin/admin.jsp">这里</a>！！！
+	如果没有跳转，请按<a href="admin.html">这里</a>！！！
 	<%
-		response.setHeader("refresh","2;URL=../admin/admin.jsp") ;
+		response.setHeader("refresh","2;URL=../admin/admin.html") ;
 	%>
 </center>
 </body>

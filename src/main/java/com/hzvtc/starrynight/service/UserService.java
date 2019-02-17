@@ -25,4 +25,6 @@ public interface UserService {
     public User loginCheck(User user);
 
     User findByUserName(String username);
+
+    User findByPhoneNumOrUserName(String phonrNum, String userName);
 }

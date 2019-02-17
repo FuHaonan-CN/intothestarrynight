@@ -10,8 +10,11 @@ import com.hzvtc.starrynight.repository.UserRepo;
 import com.hzvtc.starrynight.service.PostService;
 import com.hzvtc.starrynight.service.UserService;
 import com.hzvtc.starrynight.utils.DateUtils;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +36,7 @@ import java.util.Map;
  */
 //@RestController
 @Controller
-@RequestMapping("/1")
+@RequestMapping("/")
 public class IndexController extends BaseController {
     private final static Logger logger = LoggerFactory.getLogger(IndexController.class);
     //@Resource默认按 byName自动注入
@@ -76,13 +79,51 @@ public class IndexController extends BaseController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    @LoggerManage(description = "登陆")
+    @LoggerManage(description = "登录")
     @ResponseBody
-    public String login(HttpServletRequest request, Map<String, Object> map) throws Exception{
-        System.out.println("HomeController.login()");
+    public ResponseData login(User user, HttpServletRequest request, HttpServletResponse response, Map<String, Object> map) throws Exception{
+        logger.info("=================dologin==============");
+        //跨域
+        response.setHeader("Access-Control-Allow-Origin","*");
+        String msg ;
+        Subject currentUser = SecurityUtils.getSubject();
+        String userPhoneOrName = StringUtils.isBlank(user.getUserName()) ? user.getPhoneNum() : null;
+        UsernamePasswordToken token = new UsernamePasswordToken(userPhoneOrName,user.getUserPassWord());
+        token.setRememberMe(true);
+        try {
+            currentUser.login(token);
+            String preUrl = "/";
+
+            // TODO: 此处存入cookie和session
+
+            return new ResponseData(ExceptionMsg.SUCCESS, preUrl);
+        }catch (IncorrectCredentialsException e) {
+            msg = "登录密码错误. Password for account " + token.getPrincipal() + " was incorrect.";
+            System.out.println(msg);
+        } catch (ExcessiveAttemptsException e) {
+            msg = "登录失败次数过多";
+            System.out.println(msg);
+        } catch (LockedAccountException e) {
+            msg = "帐号已被锁定. The account for username " + token.getPrincipal() + " was locked.";
+            System.out.println(msg);
+        } catch (DisabledAccountException e) {
+            msg = "帐号已被禁用. The account for username " + token.getPrincipal() + " was disabled.";
+            System.out.println(msg);
+        } catch (ExpiredCredentialsException e) {
+            msg = "帐号已过期. the account for username " + token.getPrincipal() + "  was expired.";
+            System.out.println(msg);
+        } catch (UnknownAccountException e) {
+            msg = "帐号不存在. There is no user with username of " + token.getPrincipal();
+            System.out.println(msg);
+        } catch (UnauthorizedException e) {
+            msg = "您没有得到相应的授权！" + e.getMessage();
+            System.out.println(msg);
+        }
+        return new ResponseData(ExceptionMsg.FAILED);
+
         // 登录失败从request中获取shiro处理的异常信息。
         // shiroLoginFailure:就是shiro异常类的全类名.
-        String exception = (String) request.getAttribute("shiroLoginFailure");
+        /*String exception = (String) request.getAttribute("shiroLoginFailure");
         System.out.println("exception=" + exception);
         String msg = "";
         if (exception != null) {
@@ -102,8 +143,10 @@ public class IndexController extends BaseController {
         }
         map.put("msg", msg);
         // 此方法不处理登录成功,由shiro进行处理
-        return "/login";
+        return "/login";*/
+
     }
+
     /*public ResponseData login(User user, HttpServletResponse response) {
         try {
             //这里不是bug，前端userName有可能是邮箱也有可能是昵称。
@@ -147,11 +190,11 @@ public class IndexController extends BaseController {
                 return result(ExceptionMsg.UserNameUsed);
             }
             ZonedDateTime zonedDateTime = DateUtils.getCurrentZonedDateTime();
-            user.setUserPassWord(getPwd(user.getUserPassWord()));
+            user.setUserPassWord(getPwd(user));
             user.setAreaCode(user.getAreaCode());
             user.setCreateDate(zonedDateTime);
             user.setModifyDate(zonedDateTime);
-            //user.setRoleId(0L);
+            //user.setRoleList();
             userRepo.save(user);
             // 添加默认收藏夹
             //Favorites favorites = favoritesService.saveFavorites(user.getId(), "未读列表");

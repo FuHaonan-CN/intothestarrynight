@@ -1,5 +1,6 @@
 package com.hzvtc.starrynight.entity;
 
+import com.hzvtc.starrynight.comm.Const;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -112,6 +113,6 @@ public class User extends BaseEntity {
      * @return
      */
     public String getCredentialsSalt(){
-        return this.userName+this.salt;
+        return Const.PASSWORD_KEY + this.salt;
     }
 }

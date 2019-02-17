@@ -1,24 +1,21 @@
-<%@ page language="java" pageEncoding="utf-8" %>
-<%@taglib prefix="s" uri="/struts-tags" %>
-<%--根目录的配置及session判断--%>
-<%@include file="/commonModule/preloading_admin.jsp" %>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <html>
 <head>
-    <base href="<%=basePath%>">
     <meta charset="UTF-8">
     <title>『星月夜』后台管理首页</title>
-    <link rel="stylesheet" type="text/css" href="css/admin/common.css"/>
-    <link rel="stylesheet" type="text/css" href="css/admin/main.css"/>
-    <link rel="stylesheet" type="text/css" href="css/admin/style.css"/>
-    <script type="text/javascript" src="./js/admin/libs/modernizr.min.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin/common.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin/main.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin/style.css}"/>
+    <script type="text/javascript" th:src="@{/js/admin/libs/modernizr.min.js}"></script>
 
 </head>
 <body>
-<%--左边导航栏--%>
-<%@include file="/commonModule/common.jsp" %>
-<%--主体--%>
+<!--左边导航栏-->
+<div th:replace="/admin/commonModule/common :: dht"></div>
+<!--主体-->
 <div class="main-wrap">
-    <%--导航横条--%>
+    <!--导航横条-->
     <div class="crumb-wrap">
         <div class="crumb-list"><i class="icon-font">&#xe06b;</i><span>『<s:property value="#session.admin.adminname"/>』欢迎回来。</span>
         </div>
@@ -35,7 +32,7 @@
             </div>
         </div>
     </div>
-    <%--main--%>
+    <!--main-->
     <div class="result-wrap">
         <div class="result-title">
             <h1>系统基本信息</h1>

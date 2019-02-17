@@ -7,6 +7,9 @@ import com.hzvtc.starrynight.entity.result.Response;
 import com.hzvtc.starrynight.utils.Des3EncryptionUtil;
 import com.hzvtc.starrynight.utils.MD5Util;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.crypto.SecureRandomNumberGenerator;
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -67,10 +70,27 @@ public class BaseController {
         }
     }
     
-    protected String getPwd(String password){
+    protected String getPwd(User user){
     	try {
-    		String pwd = MD5Util.encrypt(password+Const.PASSWORD_KEY);
-    		return pwd;
+    	    //加密方式
+    	    String hashAlgorithmName = "MD5";
+            //密码原值
+            Object crdentials = user.getUserPassWord();
+            //生成随机部分盐（部分，需要存入数据库中）
+            String random = new SecureRandomNumberGenerator().nextBytes().toHex();
+            user.setSalt(random);
+            //真正的盐
+            ByteSource salt = ByteSource.Util.bytes(user.getCredentialsSalt());
+            //加密2次
+            int hashIterations = 2;
+
+            SimpleHash hash = new SimpleHash(hashAlgorithmName,crdentials,salt,hashIterations);
+
+            return hash.toString();
+
+            /*最基础的加密*/
+    		//String pwd = MD5Util.encrypt(password+Const.PASSWORD_KEY);
+    		//return pwd;
 		} catch (Exception e) {
 			logger.error("密码加密异常：",e);
 		}
@@ -87,4 +107,5 @@ public class BaseController {
         }
         return null;
     }
+
 }

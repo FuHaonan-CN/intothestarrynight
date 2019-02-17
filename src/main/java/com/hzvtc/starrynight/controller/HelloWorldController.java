@@ -4,6 +4,7 @@ import com.hzvtc.starrynight.comm.aop.LoggerManage;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,11 +21,18 @@ import java.util.Map;
  * @Date: 2018/12/13 15:53
  */
 @Controller
+@RequestMapping("/test")
 public class HelloWorldController {
 
     @RequestMapping({"/","/index"})
     public String index(){
         return"/homepage/index";
+    }
+
+    @RequestMapping(value = "/index/login", method = RequestMethod.GET)
+    @LoggerManage(description = "登录页面")
+    public String login(Model model) {
+        return "homepage/login.html";
     }
 
     @RequestMapping("/login")
@@ -60,7 +68,11 @@ public class HelloWorldController {
         System.out.println("------没有权限-------");
         return "403";
     }
-
+    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    @LoggerManage(description = "管理员页面")
+    public String admin(Model model) {
+        return "admin/admin.html";
+    }
 }
 
 

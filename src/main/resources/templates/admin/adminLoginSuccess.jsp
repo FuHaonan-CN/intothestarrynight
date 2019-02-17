@@ -45,6 +45,6 @@
 		<p>&nbsp;</p>
 	</div>
 </div>
-<% response.setHeader("Refresh","3; URL=./admin/admin.jsp") ; %>
+<% response.setHeader("Refresh","3; URL=./admin/admin.html") ; %>
 </body>
 </html>
