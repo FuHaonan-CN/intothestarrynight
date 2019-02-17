@@ -1,7 +1,20 @@
+<!--head start-->
+<head th:fragment="footer">
+    <div class="text-center">
+        2014 - Alvarez.is - More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> -
+        Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
+        <a href="index.html#" class="go-top">
+            <i class="fa fa-angle-up"></i>
+        </a>
+    </div>
+</head>
+<!--head end-->
+
 <!--footer start-->
 <footer class="site-footer" th:fragment="footer">
     <div class="text-center">
-        2014 - Alvarez.is - More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
+        2014 - Alvarez.is - More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> -
+        Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
         <a href="index.html#" class="go-top">
             <i class="fa fa-angle-up"></i>
         </a>
@@ -9,8 +22,8 @@
 </footer>
 <!--footer end-->
 
-<!--导航条-->
-<div th:fragment="dht">
+<!--admin头部导航条-->
+<div th:fragment="top_nav_bar">
     <!--<script language='javascript'>
         function logout() {
             if(!confirm('事都干完了吗，就想着离开！')){ window.event.returnValue = false;}
@@ -29,7 +42,8 @@
                 <ul class="top-info-list clearfix">
                     <li>
                         <a class="on1"><img src="" width="30" height="30"/>
-                            <property value="#session.admin.adminname"/>管理员
+                            <property value="#session.admin.adminname"/>
+                            管理员
                         </a>
                     </li>
                     <li><a href="/">修改密码</a></li>
@@ -38,33 +52,34 @@
             </div>
         </div>
     </div>
-    <div class="container clearfix">
-        <div class="sidebar-wrap">
-            <div class="sidebar-title">
-                <h1>菜单</h1>
-            </div>
-            <div class="sidebar-content">
-                <ul class="sidebar-list">
-                    <li>
-                        <a style="font-size: 20px">&nbsp;&nbsp;<i class="icon-font">&#xe003;</i> 常用操作</a>
-                        <ul class="sub-menu">
-                            <li><a href="/Admin_selectAll_admin"><i class="icon-font">&#xe008;</i>admin账号管理</a></li>
-                            <li><a href="/News_selectAll_news"><i class="icon-font">&#xe005;</i>宇宙新闻管理</a></li>
-                            <li><a href="/User_selectAll_user"><i class="icon-font">&#xe006;</i>用户账号管理</a></li>
-                            <li><a href="admin/friendlyLink.jsp"><i class="icon-font">&#xe052;</i>友情链接</a></li>
-                            <li><a href="admin/advertisement.jsp"><i class="icon-font">&#xe033;</i>广告管理</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a style="font-size: 20px">&nbsp;&nbsp;<i class="icon-font">&#xe018;</i> 系统管理</a>
-                        <ul class="sub-menu">
-                            <li><a href="admin/system.jsp"><i class="icon-font">&#xe017;</i>系统设置</a></li>
-                            <li><a href="admin/system.jsp"><i class="icon-font">&#xe037;</i>清理缓存</a></li>
-                            <li><a href="admin/system.jsp"><i class="icon-font">&#xe046;</i>数据备份</a></li>
-                            <li><a href="admin/system.jsp"><i class="icon-font">&#xe045;</i>数据还原</a></li>
-                        </ul>
-                    </li>
+</div>
+
+<!--admin左侧导航条-->
+<div class="sidebar-wrap" th:fragment="left_nav_bar">
+    <div class="sidebar-title">
+        <h1>菜单</h1>
+    </div>
+    <div class="sidebar-content">
+        <ul class="sidebar-list">
+            <li>
+                <a style="font-size: 20px">&nbsp;&nbsp;<i class="icon-font">&#xe003;</i> 常用操作</a>
+                <ul class="sub-menu">
+                    <li><a href="/Admin_selectAll_admin"><i class="icon-font">&#xe008;</i>admin账号管理</a></li>
+                    <li><a href="/News_selectAll_news"><i class="icon-font">&#xe005;</i>宇宙新闻管理</a></li>
+                    <li><a href="/User_selectAll_user"><i class="icon-font">&#xe006;</i>用户账号管理</a></li>
+                    <li><a href="admin/friendlyLink.jsp"><i class="icon-font">&#xe052;</i>友情链接</a></li>
+                    <li><a href="admin/advertisement.jsp"><i class="icon-font">&#xe033;</i>广告管理</a></li>
                 </ul>
-            </div>
-        </div>
+            </li>
+            <li>
+                <a style="font-size: 20px">&nbsp;&nbsp;<i class="icon-font">&#xe018;</i> 系统管理</a>
+                <ul class="sub-menu">
+                    <li><a href="admin/system.jsp"><i class="icon-font">&#xe017;</i>系统设置</a></li>
+                    <li><a href="admin/system.jsp"><i class="icon-font">&#xe037;</i>清理缓存</a></li>
+                    <li><a href="admin/system.jsp"><i class="icon-font">&#xe046;</i>数据备份</a></li>
+                    <li><a href="admin/system.jsp"><i class="icon-font">&#xe045;</i>数据还原</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
 </div>
