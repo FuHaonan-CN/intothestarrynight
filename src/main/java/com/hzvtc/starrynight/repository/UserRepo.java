@@ -19,6 +19,7 @@ public interface UserRepo extends JpaRepository<User, Long> {
     User findByUserName(String userName);
 
     User findByPhoneNum(String phone);
+
     //通过年龄来查询
     //public List<User> findByAge(Integer age);
 }

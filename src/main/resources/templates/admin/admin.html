@@ -1,14 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
-<html>
 <head>
-    <meta charset="UTF-8">
     <title>『星月夜』后台管理首页</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/admin/common.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/admin/main.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/admin/style.css}"/>
-    <script type="text/javascript" th:src="@{/js/admin/libs/modernizr.min.js}"></script>
-
+    <th:block th:include="/admin/commonModule/common :: head">admin公共的head引用</th:block>
 </head>
 <body>
 <!--头部导航栏-->

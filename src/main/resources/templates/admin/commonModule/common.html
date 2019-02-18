@@ -1,13 +1,13 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+
 <!--head start-->
-<head th:fragment="footer">
-    <div class="text-center">
-        2014 - Alvarez.is - More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> -
-        Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
-        <a href="index.html#" class="go-top">
-            <i class="fa fa-angle-up"></i>
-        </a>
-    </div>
-</head>
+<div th:fragment="head">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin/common.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin/main.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin/style.css}"/>
+    <script type="text/javascript" th:src="@{/js/admin/libs/modernizr.min.js}"></script>
+</div>
 <!--head end-->
 
 <!--footer start-->
@@ -83,3 +83,5 @@
         </ul>
     </div>
 </div>
+
+</html>

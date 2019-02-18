@@ -73,6 +73,11 @@ public class HelloWorldController {
     public String admin(Model model) {
         return "admin/admin.html";
     }
+    @RequestMapping(value = "/admin/manager", method = RequestMethod.GET)
+    @LoggerManage(description = "admin管理界面")
+    public String adminManager(Model model) {
+        return "admin/adminManager.html";
+    }
 }
 
 

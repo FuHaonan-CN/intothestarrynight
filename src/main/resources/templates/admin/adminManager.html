@@ -1,18 +1,8 @@
-<%@ page import="util.Common" %>
-<%@ page contentType="text/html; charset=utf-8" language="java"
-         errorPage="" %>
-<%--根目录的配置及session判断--%>
-<%@include file="/commonModule/preloading_admin.jsp" %>
-<%@ taglib prefix="s" uri="/struts-tags" %>
-<html>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <base href="<%=basePath%>">
-    <meta charset="UTF-8">
     <title>admin账号管理</title>
-    <link rel="stylesheet" type="text/css" href="css/admin/common.css">
-    <link rel="stylesheet" type="text/css" href="css/admin/main.css">
-    <link rel="stylesheet" type="text/css" href="css/admin/style.css"/>
-    <script type="text/javascript" src="./js/admin/libs/modernizr.min.js"></script>
+    <th:block th:include="/admin/commonModule/common :: head">admin公共的head引用</th:block>
     <script language='javascript'>
         function delcfm() {
 //            if(!confirm('确定要删除该条记录吗？')){ window.location.href='userManager.jsp';return;}
@@ -23,11 +13,15 @@
     </script>
 </head>
 <body>
-<%--左边导航栏--%>
-<%@include file="/commonModule/common.jsp" %>
-<%--主体--%>
-<div class="main-wrap">
-    <%--导航横条--%>
+<!--头部导航栏-->
+<div th:replace="/admin/commonModule/common :: top_nav_bar"></div>
+<!--主体-->
+<div class="container clearfix">
+    <!--左侧导航栏-->
+    <div th:replace="/admin/commonModule/common :: left_nav_bar"></div>
+    <!--快捷操作-->
+    <div class="main-wrap">
+    <!--导航横条-->
     <div class="crumb-wrap">
         <div class="crumb-list">
             <i class="icon-font"></i>
@@ -36,7 +30,7 @@
             <span class="crumb-name">账号管理</span>
         </div>
     </div>
-    <%--模糊查询--%>
+    <!--模糊查询-->
     <div class="search-wrap">
         <div class="search-content">
             <form action="/Admin_selectAll_admin" method="post">
@@ -60,7 +54,7 @@
             </form>
         </div>
     </div>
-    <%--admin列表--%>
+    <!--admin列表-->
     <div class="result-wrap">
         <form action="/Admin_deleteMore_admin" name="myform" id="myform" method="post">
             <div class="result-title">
@@ -119,14 +113,14 @@
                         </tr>
                     </s:iterator>
                 </table>
-                <%--翻页模块--%>
-                <%
+                <!--翻页模块-->
+                <!--<%
                     String sum = request.getAttribute("count").toString();
                     int Rowcount = Integer.parseInt(sum);
                     int pagesize = 6;
                     int sumPage = (Rowcount + pagesize - 1) / pagesize; //计算总页数
                     request.setAttribute("sumPage", sumPage);
-                %>
+                %>-->
 
                 <div class="list-page">
                     <p>当前第<s:property value="page"/>页&nbsp;&nbsp;
