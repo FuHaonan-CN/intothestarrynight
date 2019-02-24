@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>admin账号管理</title>
+    <th:block th:include="/admin/commonModule/common :: head">admin公共的head引用</th:block>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!--引入分页插件kkpager：一个js 一个css -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/kkpager/kkpager_blue.css}" />
+    <script th:src="@{/js/jquery-1.11.3.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/kkpager/kkpager.min.js}"></script>
+</head>
+<body>
+
+<div style="width:800px;margin:0 auto;    margin-right: 30px; margin-top: 30px;">
+    <div id="kkpager"></div>
+</div>
+
+<div class="list-page">
+    <ul class="pagination">
+        <li class="page-item" th:classappend="${dataList.number <= 0}? 'disabled'">
+            <a class="page-link" th:href="@{?page={page}(page=${dataList.number}-1)}">上一页</a>
+        </li>
+        <li class="page-item" th:classappend="${dataList.number+1 >= dataList.totalPages}? 'disabled'">
+            <a class="page-link" th:href="@{?page={page}(page=${dataList.number}+1)}">下一页</a>
+        </li>
+        <li class="page-item disabled" style="margin-top: 3px;">
+            第<th:block th:text="${dataList.number}+1"></th:block>页/ 共<th:block th:text="${dataList.totalPages}"></th:block>页
+        </li>
+    </ul>
+</div>
+
+<div class="list-page">
+    <ul class="pagination">
+        <li class="page-item disabled">
+            第<span th:text="${dataList.number}+1"></span>页
+        </li>
+        <li class="page-item" th:classappend="${dataList.number <= 0}? 'disabled'">
+            <a class="page-link" th:href="@{?page={page}(page=${dataList.number}-1)}">&laquo;</a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item active"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item" th:classappend="${dataList.number >= dataList.totalPages}? 'disabled'">
+            <a class="page-link" th:href="@{?page={page}(page=${dataList.number}+1)}">&raquo;</a>
+        </li>
+        <li class="page-item disabled">
+            共<span th:text="${dataList.totalPages}"></span>页
+        </li>
+    </ul>
+        <!--<th:if test="page==#request.sumPage">
+            <th:if test="page==1">
+                <a>下一页</a>
+            </th:if>
+            <th:else>
+                <a href="/Admin_selectAll_admin?privilege=&keywords=&page=">上一页</a>
+            </th:else>
+        </th:if>
+        <th:elseif test="page==1">
+            <a href="/Admin_selectAll_admin?privilege=&keywords=&page=">下一页</a>
+        </th:elseif>
+        <th:else>
+            <a href="/Admin_selectAll_admin?privilege=&keywords=&page=">上一页</a>
+            <a href="/Admin_selectAll_admin?privilege=&keywords=&page=">下一页</a>
+        </th:else>-->
+</div>
+
+
+<!--<ul th:if="${dataList.totalPages le 7}" data-am-widget="pagination" class="am-pagination am-pagination-default" style="text-align: center">
+    <li th:if="${dataList.number > 0}" class="am-pagination-prev ">
+        <a th:href="@{?page={page}(page=${dataList.number})}" class="">上一页</a>
+    </li>
+    <li th:each="i : ${#numbers.sequence(1, dataList.totalPages)}"
+        th:classappend="${(dataList.number + 1) eq i} ? 'am-active' : ''">
+        <a th:href="@{?page={page}(page=${i})}"
+           th:text="${i}" class="">1</a>
+    </li>
+    <li th:unless="${dataList.number + 1 == dataList.totalPages}" class="am-pagination-next ">
+        <a th:href="@{?page={page}(page=${dataList.number} + 2)}" class="">下一页</a>
+    </li>
+</ul>
+<ul th:if="${dataList.totalPages gt 7}" data-am-widget="pagination" class="am-pagination am-pagination-default" style="text-align: center">
+    &lt;!&ndash; 上一页 &ndash;&gt;
+    <li th:classappend="*{first} ? 'disabled' : ''" th:if="${dataList.number > 0}" class="am-pagination-prev ">
+        <a th:href="@{?page={page}(page=${dataList.number - 2})}">上一页</a>
+    </li>
+    <li class="am-pagination-first" th:classappend="${(dataList.number + 1) eq 1} ? 'am-active' : ''">
+        <a th:href="@{?page=1}">1</a>
+    </li>
+    &lt;!&ndash; 当前页面小于等于4 &ndash;&gt;
+    <li th:if="${(dataList.number + 1) le 4}" th:each="i : ${#numbers.sequence(2,5)}"
+        th:classappend="${(dataList.number + 1) eq i} ? 'am-active' : ''" >
+        <a th:href="@{?page={page}(page=${i})}">
+            <span th:text="${i}"></span>
+        </a>
+    </li>
+    <li th:if="${(dataList.number + 1) le 4}">
+        <a href="javascript:void(0);">
+            <span aria-hidden="true">...</span>
+        </a>
+    </li>
+    &lt;!&ndash; 最后一页与当前页面之差，小于等于3 &ndash;&gt;
+    <li th:if="${(dataList.totalPages-(dataList.number + 1)) le 3}">
+        <a href="javascript:void(0);" >
+            <span aria-hidden="true">...</span>
+        </a>
+    </li>
+    <li th:if="${(dataList.totalPages-(dataList.number + 1)) le 3}" th:each="i : ${#numbers.sequence(dataList.totalPages-4, dataList.totalPages-1)}"
+        th:classappend="${(dataList.number + 1) eq i} ? 'am-active' : ''" >
+        <a th:href="@{?page={page}(page=${i})}">
+            <span th:text="${i}"></span>
+        </a>
+    </li>
+    &lt;!&ndash; 最后一页与当前页面之差大于3，且  当前页面大于4&ndash;&gt;
+    <li th:if="${((dataList.number + 1) gt 4) && ((dataList.totalPages-(dataList.number + 1)) gt 3 )}">
+        <a href="javascript:void(0);">
+            <span aria-hidden="true">...</span>
+        </a>
+    </li>
+    <li th:if="${((dataList.number + 1) gt 4) && ((dataList.totalPages-(dataList.number + 1)) gt 3 )}"
+        th:classappend="${(dataList.number + 1) eq (dataList.number + 1)} ? 'am-active' : ''">
+        <a th:href="@{?page={page}(page=${dataList.number+1})}" th:text="${dataList.number+1}">number</a>
+    </li>
+    <li th:if="${((dataList.number + 1) gt 4) && ((dataList.totalPages-(dataList.number + 1)) gt 3 )}">
+        <a th:href="@{?page={page}(page=${dataList.number+2})}" th:text="${dataList.number+2}">number</a>
+    </li>
+    <li th:if="${((dataList.number + 1) gt 4) && ((dataList.totalPages-(dataList.number + 1)) gt 3 )}">
+        <a th:href="@{?page={page}(page=${dataList.number+3})}" th:text="${dataList.number+3}">number</a>
+    </li>
+    <li th:if="${((dataList.number + 1) gt 4) && ((dataList.totalPages-(dataList.number + 1)) gt 3 )}">
+        <a href="javascript:void(0);">
+            <span aria-hidden="true">...</span>
+        </a>
+    </li>
+    &lt;!&ndash; 最后一页 &ndash;&gt;
+    <li th:classappend="${(dataList.number + 1) eq dataList.totalPages} ? 'am-active' : ''" >
+        <a th:href="@{?page={page}(page=${dataList.totalPages})}" th:text="${dataList.totalPages}">endPage</a>
+    </li>
+    &lt;!&ndash; 下一页 &ndash;&gt;
+    <li th:classappend="*{last} ? 'disabled' : ''" th:unless="${dataList.number + 1 == dataList.totalPages}">
+        <a th:href="@{?page={page}(page=${dataList.number+2})}">
+            <span aria-hidden="true">下一页</span>
+        </a>
+    </li>
+</ul>-->
+
+
+<!--<div class="list-page">
+    <p>当前第xx页&nbsp;&nbsp;
+        <th:if test="page==#request.sumPage">
+            <th:if test="page==1">
+                <a>下一页</a>
+            </th:if>
+            <th:else>
+                <a href="/Admin_selectAll_admin?privilege=&keywords=&page=">上一页</a>
+            </th:else>
+        </th:if>
+        <th:elseif test="page==1">
+            <a href="/Admin_selectAll_admin?privilege=&keywords=&page=">下一页</a>
+        </th:elseif>
+        <th:else>
+            <a href="/Admin_selectAll_admin?privilege=&keywords=&page=">上一页</a>
+            <a href="/Admin_selectAll_admin?privilege=&keywords=&page=">下一页</a>
+        </th:else>
+        &nbsp;&nbsp;共xx页&nbsp;
+</div>-->
+
+
+<!--<div th:fragment="pager">
+    <div class="text-right" th:with="baseUrl=${#httpServletRequest.getRequestURL().toString()},pars=${#httpServletRequest.getQueryString() eq null ? '' : new String(#httpServletRequest.getQueryString().getBytes('iso8859-1'), 'UTF-8')}">
+        <ul style="margin:0px;" class="pagination" th:with="newPar=${new Java.lang.String(pars eq null ? '' : pars).replace('page='+(datas.number), '')},
+                                                curTmpUrl=${baseUrl+'?'+newPar},
+                                                curUrl=${curTmpUrl.endsWith('&') ? curTmpUrl.substring(0, curTmpUrl.length()-1):curTmpUrl}" >
+            &lt;!&ndash;<li th:text="${pars}"></li>&ndash;&gt;
+
+            <li><a href="https://my.oschina.net/wangxincj/blog/#" th:href="https://my.oschina.net/wangxincj/blog/@{${curUrl}(page=0)}">首页</a></li>
+            <li th:if="${datas.hasPrevious()}"><a href="https://my.oschina.net/wangxincj/blog/#" th:href="https://my.oschina.net/wangxincj/blog/@{${curUrl}(page=${datas.number-1})}">上一页</a></li>
+
+            &lt;!&ndash;总页数小于等于10&ndash;&gt;
+            <div th:if="${(datas.totalPages le 10) and (datas.totalPages gt 0)}" th:remove="tag">
+                <div th:each="pg : ${#numbers.sequence(0, datas.totalPages - 1)}" th:remove="tag">
+                        <span th:if="${pg eq datas.getNumber()}" th:remove="tag">
+                            <li class="active"><span class="current_page line_height" th:text="${pg+1}">${pageNumber}</span></li>
+                        </span>
+                    <span th:unless="${pg eq datas.getNumber()}" th:remove="tag">
+                            <li><a href="https://my.oschina.net/wangxincj/blog/#" th:href="https://my.oschina.net/wangxincj/blog/@{${curUrl}(page=${pg})}" th:text="${pg+1}"></a></li>
+                        </span>
+                </div>
+            </div>
+
+            &lt;!&ndash; 总数数大于10时 &ndash;&gt;
+            <div th:if="${datas.totalPages gt 10}" th:remove="tag">
+                <li th:if="${datas.number-2 ge 0}"><a href="https://my.oschina.net/wangxincj/blog/#" th:href="https://my.oschina.net/wangxincj/blog/@{${curUrl}(page=${datas.number}-2)}" th:text="${datas.number-1}"></a></li>
+                <li th:if="${datas.number-1 ge 0}"><a href="https://my.oschina.net/wangxincj/blog/#" th:href="https://my.oschina.net/wangxincj/blog/@{${curUrl}(page=${datas.number}-1)}" th:text="${datas.number}"></a></li>
+                <li class="active"><span class="current_page line_height" th:text="${datas.number+1}"></span></li>
+                <li th:if="${datas.number+1 lt datas.totalPages}"><a href="https://my.oschina.net/wangxincj/blog/#" th:href="https://my.oschina.net/wangxincj/blog/@{${curUrl}(page=${datas.number}+1)}" th:text="${datas.number+2}"></a></li>
+                <li th:if="${datas.number+2 lt datas.totalPages}"><a href="https://my.oschina.net/wangxincj/blog/#" th:href="https://my.oschina.net/wangxincj/blog/@{${curUrl}(page=${datas.number}+2)}" th:text="${datas.number+3}"></a></li>
+            </div>
+
+
+            <li th:if="${datas.hasNext()}"><a href="https://my.oschina.net/wangxincj/blog/#" th:href="https://my.oschina.net/wangxincj/blog/@{${curUrl}(page=${datas.number+1})}">下一页</a></li>
+            &lt;!&ndash;<li><a href="https://my.oschina.net/wangxincj/blog/#" th:href="https://my.oschina.net/wangxincj/blog/@{${curUrl}(page=${datas.totalPages-1})}">尾页</a></li>&ndash;&gt;
+            <li><a href="https://my.oschina.net/wangxincj/blog/#" th:href="https://my.oschina.net/wangxincj/blog/${datas.totalPages le 0 ? curUrl+'page=0':curUrl+'&page='+(datas.totalPages-1)}">尾页</a></li>
+            <li><span th:utext="'共'+${datas.totalPages}+'页 / '+${datas.totalElements}+' 条'"></span></li>
+        </ul>
+    </div>
+</div>-->
+</body>
+
+<script th:inline="javascript">
+
+    //js获取地址栏参数的值, name为参数名
+    function getParameter(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)","i");
+        var r = location.search.substr(1).match(reg);
+        if (r!==null) return (r[2]); return null;
+    }
+
+    //初始化分页插件（简单的20行代码搞定）
+    $(function(){
+        var pageNo =  getParameter('pno');
+        if(!pageNo){
+            pageNo = 1;
+        }
+        initRecord(pageNo);//页面加载完先把第一页的记录展示出来
+        var total = [[${dataList.totalPages}]];
+        var totalRecords = [[${dataList.totalElements}]];
+        //var totalPage = Math.ceil(totalRecords/pageSize);
+        kkpager.generPageHtml({
+            pno : pageNo,// 当前页码
+            total : total,//总页码
+            totalRecords : totalRecords,//总数据条数
+            mode : 'click',//默认值是link，可选link或者click
+            click : function(pageNo){
+                this.selectPage(pageNo);
+                initRecord(pageNo);//点击页码的时候，显示对应页的记录
+                return false;
+            }
+        });
+    });
+
+    function initRecord(pageNo){
+        console.log(pageNo);
+        /*$.ajax({
+            url: base+"/note/getNote.htm",
+            type: 'POST',
+            dataType: 'JSON',
+            async: false,//这里面必须改为同步，因为要先执行ajax获取记录总数totalRecords
+            data: {
+                "token": token,
+                "pageNo": pageNo,
+                "pageSize": pageSize,
+                "sort": "asc"
+            },
+            success: function (res) {
+                if (res.code == '0') {
+                    console.log(res);
+                    var tbodyHtml = "";
+                    $.each(res.data,function(k,v){
+                        tbodyHtml += '<tr>';
+                        tbodyHtml += '<td>'+((pageNo-1)*pageSize+k+1)+'</td>';
+                        tbodyHtml += '<td>'+v.siteName+'</td>';
+                        tbodyHtml += '<td>'+v.bookingPerson+'</td>';
+                        tbodyHtml += '<td>'+format(v.startDate)+' - '+format(v.defaultEndDate)+'</td>';
+                        if(v.bookingComment.length > 15){
+                            tbodyHtml += '<td><div class="chufa" data-toggle="tooltip" data-html="true" data-placement="right" title="'+v.bookingComment+'">'+v.bookingComment+'</div></td>';
+                        }else{
+                            tbodyHtml += '<td>'+v.bookingComment+'</td>';
+                        }
+                        tbodyHtml += '<td>'+v.dispatchStatus+'</td>';
+                        /!* tbodyHtml += '<td>'+v.principal+'</td>'; *!/
+                        //负责人(如果1个，直接在td显示姓名；如果多个在td显示总数，提示框显示姓名)
+                        tbodyHtml += '<td>';
+                        if(v.principalNum == 1){
+                            $.each(v.principal,function(k1,v1){
+                                $.each(v1,function(k2,v2){
+                                    if(k2 == 1){
+                                        tbodyHtml += ''+v2+'';
+                                    }
+                                })
+                            })
+                        }else{
+                            var titleHtml = "";
+                            $.each(v.principal,function(k1,v1){
+                                $.each(v1,function(k2,v2){
+                                    if(k2 == 1){
+                                        titleHtml += ''+v2+'';
+                                        titleHtml += ' ';
+                                    }
+                                })
+                            })
+                            tbodyHtml += '<div style="position:relative;"><span data-toggle="tooltip" data-html=true data-placement="right" title="'+titleHtml+'">'+v.principalNum+'</span></div>';
+                        }
+                        tbodyHtml += '</td>';
+                        tbodyHtml += '<td>'+v.dispatchName+'</td>';
+                        tbodyHtml += '<td>'+format(v.dispatchDate)+'</td>';
+                        if(v.dispatchComment.length > 15){
+                            tbodyHtml += '<td><div class="chufa" data-toggle="tooltip" data-html="true" data-placement="right" title="'+v.dispatchComment+'">'+v.dispatchComment+'</div></td>';
+                        }else{
+                            tbodyHtml += '<td>'+v.dispatchComment+'</td>';
+                        }
+                        if(v.dispatchStatus == "未分派"){
+                            tbodyHtml += '<td><a style="color: #43A9ED" data-toggle="modal" data-target="#assignment" data-comment="'+v.bookingComment+'" data-id="'+v.id+'" data-name="'+v.siteName+'" onclick="passIdToModal(this);">分派</a></td>';
+                        }else{
+                            tbodyHtml += '<td></td>';
+                        }
+
+                        tbodyHtml += '</tr>';
+
+                    })
+
+                    $("#content").html(tbodyHtml);
+                    $("#totalNum").val(res.data[0].myNoteCount);
+                }
+            }
+        })*/
+    }
+
+</script>
+
+</html>

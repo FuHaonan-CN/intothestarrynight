@@ -1,13 +1,21 @@
 package com.hzvtc.starrynight.service.impl;
 
+import com.hzvtc.starrynight.comm.config.JwtUtils;
 import com.hzvtc.starrynight.entity.User;
 import com.hzvtc.starrynight.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.hzvtc.starrynight.service.UserService;
 
-import javax.servlet.http.HttpServletRequest;
-
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 /**
  * @Description: UserServiceImpl
  * @Author: fhn
@@ -56,4 +64,45 @@ public class UserServiceImpl implements UserService {
         return userRepo.findByPhoneNumOrUserName(phonrNum, userName);
     }
 
+    @Override
+    public Page<User> findUsersByKey(int page, int pageSize, String key) {
+//        Pageable pageable = PageRequest.of(page, pageSize, Sort.Direction.ASC, "id");
+//        Page<User> userPage = userRepo.findAll(new Specification<User>(){
+//            @Override
+//            public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+////                Predicate p1 = criteriaBuilder.equal(root.get("key").as(String.class), key);
+////                query.where(criteriaBuilder.and(p1));
+//                return query.getRestriction();
+//            }
+//        },pageable);
+        return userRepo.findAllByUserNameLike("%"+key+"%", PageRequest.of(page, pageSize, Sort.Direction.DESC, "id"));
+    }
+
+    /**
+     * 获取上次token生成时的salt值和登录用户信息
+     * @param username
+     * @return
+     */
+    @Override
+    public User getJwtTokenInfo(String username) {
+        /**
+         * @todo 从数据库或者缓存中取出jwt token生成时用的salt
+         * salt = redisTemplate.opsForValue().get("token:"+username);
+         */
+        User user = findByUserName(username);
+        return user;
+    }
+    /**
+     * 保存user登录信息，返回token
+     * @param username
+     */
+    @Override
+    public String generateJwtToken(String username) {
+        /**
+         * @todo 将salt保存到数据库或者缓存中
+         * redisTemplate.opsForValue().set("token:"+username, salt, 3600, TimeUnit.SECONDS);
+         */
+        User user = findByUserName(username);
+        return JwtUtils.sign(username, user.getSalt(), 3600); //生成jwt token，设置过期时间为1小时
+    }
 }

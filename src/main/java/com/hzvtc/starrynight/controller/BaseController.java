@@ -5,7 +5,6 @@ import com.hzvtc.starrynight.entity.User;
 import com.hzvtc.starrynight.entity.result.ExceptionMsg;
 import com.hzvtc.starrynight.entity.result.Response;
 import com.hzvtc.starrynight.utils.Des3EncryptionUtil;
-import com.hzvtc.starrynight.utils.MD5Util;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;

@@ -3,6 +3,8 @@ package com.hzvtc.starrynight.entity;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -14,6 +16,8 @@ import javax.persistence.*;
  * @Date: 2018/12/18 22:01
  */
 @MappedSuperclass
+@Getter
+@Setter
 public abstract class BaseEntity implements Comparable<BaseEntity>,Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -64,7 +68,7 @@ public abstract class BaseEntity implements Comparable<BaseEntity>,Serializable 
         return ToStringBuilder.reflectionToString(this);
     }
 
-    public Long getId() {
+    /*public Long getId() {
         return id;
     }
 
@@ -86,5 +90,5 @@ public abstract class BaseEntity implements Comparable<BaseEntity>,Serializable 
 
     public void setModifyDate(ZonedDateTime modifyDate) {
         this.modifyDate = modifyDate;
-    }
+    }*/
 }

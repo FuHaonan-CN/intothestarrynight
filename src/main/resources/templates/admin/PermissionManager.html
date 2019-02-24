@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>admin账号管理</title>
+    <title>权限管理</title>
     <th:block th:include="/admin/commonModule/common :: head">admin公共的head引用</th:block>
     <th:block th:include="/admin/commonModule/common :: head_page">admin公共的分页head引用</th:block>
     <script language='javascript'>
@@ -28,7 +28,7 @@
                 <i class="icon-font"></i>
                 <a href="">后台首页</a>
                 <span class="crumb-step">&gt;</span>
-                <span class="crumb-name">账号管理</span>
+                <span class="crumb-name">权限管理</span>
             </div>
         </div>
         <!--模糊查询-->
@@ -37,17 +37,11 @@
                 <form action="" method="post" onsubmit="return false;">
                     <table class="search-tab">
                         <tr>
-                            <!--<th width="120">角色</th>
-                            <td>
-                                <select name="privilege" list="'0':'全部','1':'超级管理员','2':'网页维护员'"/>
-                            </td>-->
-                            <th width="120">账号名称:</th>
+                            <th width="120">权限名称:</th>
                             <td>
                                 <input id="keyWords" class="common-text" placeholder="关键字" value="" type="text">
                             </td>
                             <td>
-                                <!--<input class="btn btn-primary btn2" id="query"
-                                       value="查询" type="button">-->
                                 <button class="btn btn-primary" onclick="query()">查询</button>
                             </td>
                         </tr>
@@ -55,7 +49,7 @@
                 </form>
             </div>
         </div>
-        <!--admin列表-->
+        <!--权限列表-->
         <div class="result-wrap">
             <form action="" id="myform" method="post">
                 <div class="result-title">
@@ -72,13 +66,10 @@
                         <tr>
                             <th class="tc" width="5%"><input id="allChoose" class="allChoose" type="checkbox">全选</th>
                             <th width="5%">ID</th>
-                            <th width="10%">用户名称</th>
-                            <th width="10%">角色</th>
-                            <th width="10%">图片</th>
-                            <th width="10%">手机号</th>
-                            <th width="10%">邮箱</th>
-                            <th width="10%">注册时间</th>
-                            <th width="10%">最近登录时间</th>
+                            <th width="10%">父级权限名称</th>
+                            <th width="10%">权限名称</th>
+                            <th width="10%">权限描述</th>
+                            <th width="10%">创建时间</th>
                             <th width="10%">操作</th>
                         </tr>
                         </thead>
@@ -95,15 +86,7 @@
     </div>
 </div>
 </body>
-<!--<script th:inline="javascript">-->
 <script type="text/javascript">
-    /*左侧导航条点击事件*/
-    /* 用户管理*/
-        /*function goto(goal) {
-        $('#main *').remove();
-        var insertText = "<div >" + "</div>";
-        $("#main")[0].innerHTML += insertText;
-    }*/
 
     /*模糊查询*/
     function query() {

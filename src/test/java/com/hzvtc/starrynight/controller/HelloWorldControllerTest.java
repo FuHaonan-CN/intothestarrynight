@@ -28,7 +28,7 @@ public class HelloWorldControllerTest {
     private MockMvc mvc;
     @Before
     public void setUp() throws Exception {
-        mvc = MockMvcBuilders.standaloneSetup(new HelloWorldController()).build();
+//        mvc = MockMvcBuilders.standaloneSetup(new HelloWorldController(userService)).build();
     }
 
     @Test

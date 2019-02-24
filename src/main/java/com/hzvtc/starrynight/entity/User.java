@@ -3,7 +3,6 @@ package com.hzvtc.starrynight.entity;
 import com.hzvtc.starrynight.comm.Const;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
@@ -33,6 +32,7 @@ public class User extends BaseEntity {
      * 密码(加密)
      */
     @Column(nullable = false)
+//    @JsonIgnore
     private String userPassWord;
 
     /**
@@ -86,8 +86,6 @@ public class User extends BaseEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "uid")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private List<Role> roleList;
-    //    @Column(nullable = false)
-//    private Long roleId;
 
     /**
      * 是否有效
@@ -110,7 +108,7 @@ public class User extends BaseEntity {
     }
     /**
      * 密码盐.
-     * @return
+     * @return String
      */
     public String getCredentialsSalt(){
         return Const.PASSWORD_KEY + this.salt;

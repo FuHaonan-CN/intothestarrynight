@@ -1,32 +1,39 @@
 spring:
   profiles:
     active: dev
-  # 数据库
+  ########################################################
+  ### 数据库配置
+  ########################################################
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/starrynight?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
     username: root
     password: 123456
+  ########################################################
+  ### JPA配置
+  ########################################################
   jpa:
     database: mysql
+    show-sql: true
+    # 不加这句则默认为myisam引擎
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       ddl-auto: update
       naming:
         # 命名策略
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
-    # 不加这句则默认为myisam引擎
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-    show-sql: true
-  #热部署生效
+  ########################################################
+  ### 热部署生效
+  ########################################################
   devtools:
     restart:
       enabled: true
-########################################################
-###THYMELEAF (ThymeleafAutoConfiguration)
-########################################################
+  ########################################################
+  ###THYMELEAF (ThymeleafAutoConfiguration)
+  ########################################################
   mvc:
     #view:
-      # 静态文件请求匹配方式
+    # 静态文件请求匹配方式
     static-path-pattern: /**
   thymeleaf:
     # 定位模板的目录x

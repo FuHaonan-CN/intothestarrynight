@@ -18,7 +18,7 @@
 	<p>如果没有跳转，请点<a href="/admin/adminLogin.jsp">这里</a></p>
 </div>--%>
 <!-- Response.Write("<script language=javascript>alert('您还没有登录,请先登录');window.location = 'adminLogin.jsp'</script>"); -->
-<script language=javascript>alert('您还没有登录,请先登陆!!!');window.location = './adminLogin.jsp'</script>
+<script language=javascript>alert('您还没有登录,请先登陆!!!');window.location = 'adminLogin.jsp'</script>
 <%
 		return;
 	}
