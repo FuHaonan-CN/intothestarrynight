@@ -36,6 +36,9 @@ public class AnyRolesAuthorizationFilter  extends AuthorizationFilter {
         return false;
     }
 
+    /**
+     * 权限校验失败，错误处理
+     */
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws IOException {
         HttpServletResponse httpResponse = WebUtils.toHttp(response);

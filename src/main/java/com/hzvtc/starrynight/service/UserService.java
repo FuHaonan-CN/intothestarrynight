@@ -2,6 +2,7 @@ package com.hzvtc.starrynight.service;
 
 import com.hzvtc.starrynight.comm.config.JwtUtils;
 import com.hzvtc.starrynight.entity.User;
+import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.data.domain.Page;
 
 /**
@@ -50,4 +51,5 @@ public interface UserService {
      * @param username
      */
     String generateJwtToken(String username);
+
 }

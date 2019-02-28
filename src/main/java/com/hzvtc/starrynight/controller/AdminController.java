@@ -39,14 +39,14 @@ public class AdminController extends BaseController {
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     @LoggerManage(description = "admin首页")
     public String index(Model model) {
-        List sixNews = postService.findSixNews();
-        model.addAttribute("news", sixNews);
+//        List sixNews = postService.findSixNews();
+//        model.addAttribute("news", sixNews);
         User user = super.getUser();
         if (null != user) {
             user.setId(11L);
             model.addAttribute("user", user);
         }
-        return "admin/admin.html";
+        return "admin/admin_new.html";
     }
 
     @RequestMapping(value = "/userManager", method = RequestMethod.GET)

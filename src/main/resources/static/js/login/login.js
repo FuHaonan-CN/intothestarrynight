@@ -45,9 +45,9 @@ $("#registerForm").submit(function (e) {
         success: function (result) {
             if (result.rspCode == '000000') {
                 //parent.layer.close();//关闭弹出层
-                //parent.location.reload();//更新父级页面
+                parent.location.reload();//更新父级页面
                 // /*用于登录后跳转到其他页面*/
-                window.location.href="/index";
+                // window.location.href="/index";
             } else {
                 $("#errorMsg")[0].style.display = "block";
                 $("#errorMsg div p").html(result.rspMsg);

@@ -69,34 +69,47 @@ public class ShiroConfig {
         sessionStorageEvaluator.setSessionStorageEnabled(false);
         return sessionStorageEvaluator;
     }
+
     /**
      * 用于用户名密码登录时认证的realm
+     *
+     * @param userService .
+     * @return Realm .
      */
     @Bean("dbRealm")
     public Realm dbShiroRealm(UserService userService) {
-        DbShiroRealm myShiroRealm = new DbShiroRealm(userService);
-        return myShiroRealm;
+        return new DbShiroRealm(userService);
     }
+
     /**
      * 用于JWT token认证的realm
+     *
+     * @param userService .
+     * @return Realm .
      */
     @Bean("jwtRealm")
     public Realm jwtShiroRealm(UserService userService) {
-        JWTShiroRealm myShiroRealm = new JWTShiroRealm(userService);
-        return myShiroRealm;
+        return new JWTShiroRealm(userService);
     }
 
     /**
      * 设置过滤器，将自定义的Filter加入
+     *
+     * @param securityManager .
+     * @param userService .
+     * @return ShiroFilterFactoryBean .
      */
     @Bean("shiroFilter")
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager, UserService userService) {
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
         factoryBean.setSecurityManager(securityManager);
+
+        //外部自定义filter拦截器
         Map<String, Filter> filterMap = factoryBean.getFilters();
         filterMap.put("authcToken", createAuthFilter(userService));
         filterMap.put("anyRole", createRolesFilter());
         factoryBean.setFilters(filterMap);
+
         factoryBean.setFilterChainDefinitionMap(shiroFilterChainDefinition().getFilterChainMap());
 
         return factoryBean;
@@ -105,7 +118,6 @@ public class ShiroConfig {
     @Bean
     protected ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
-        //login不做认证，noSessionCreation的作用是用户在操作session时会抛异常
         chainDefinition.addPathDefinition("/index/**", "anon");
         chainDefinition.addPathDefinition("/css/**", "anon");
         chainDefinition.addPathDefinition("/fonts/**", "anon");
@@ -113,18 +125,23 @@ public class ShiroConfig {
         chainDefinition.addPathDefinition("/js/**", "anon");
         chainDefinition.addPathDefinition("/res/**", "anon");
         chainDefinition.addPathDefinition("/starry/**", "anon");
-        chainDefinition.addPathDefinition("/static/**", "anon");
+//        chainDefinition.addPathDefinition("/resources/**", "anon");
 
-//        chainDefinition.addPathDefinition("/login", "noSessionCreation,anon");
-//        //做用户认证，permissive参数的作用是当token无效时也允许请求访问，不会返回鉴权未通过的错误
-//        chainDefinition.addPathDefinition("/logout", "noSessionCreation,authcToken[permissive]");
-//        //只允许admin或manager角色的用户访问
-//        chainDefinition.addPathDefinition("/admin/**", "noSessionCreation,authcToken,anyRole[admin,manager]");
+        chainDefinition.addPathDefinition("/login", "noSessionCreation,anon");
+        chainDefinition.addPathDefinition("/register", "noSessionCreation,anon");
+        //login不做认证，noSessionCreation的作用是用户在操作session时会抛异常
+        //做用户认证，permissive参数的作用是当token无效时也允许请求访问，不会返回鉴权未通过的错误
+        chainDefinition.addPathDefinition("/logout", "noSessionCreation,authcToken[permissive]");
+        //允许已登录的用户访问
+        chainDefinition.addPathDefinition("/user/**", "noSessionCreation,authcToken");
+        //只允许admin或manager角色的用户访问
+        chainDefinition.addPathDefinition("/admin/**", "anon");
+//        chainDefinition.addPathDefinition("/admin/**", "noSessionCreation,authc,anyRole[admin,manager]");
 //        chainDefinition.addPathDefinition("/article/list", "noSessionCreation,authcToken");
 //        chainDefinition.addPathDefinition("/article/*", "noSessionCreation,authcToken[permissive]");
-//        // 默认进行用户鉴权
-//        chainDefinition.addPathDefinition("/**", "noSessionCreation,authcToken");
-        chainDefinition.addPathDefinition("/**", "anon");
+        // 默认进行用户鉴权
+        chainDefinition.addPathDefinition("/**", "noSessionCreation,authcToken");
+//        chainDefinition.addPathDefinition("/**", "authc");
         return chainDefinition;
     }
     //注意不要加@Bean注解，不然spring会自动注册成filter

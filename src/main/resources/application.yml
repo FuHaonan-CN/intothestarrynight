@@ -37,7 +37,7 @@ spring:
     static-path-pattern: /**
   thymeleaf:
     # 定位模板的目录x
-    # prefix: classpath:/templates/
+    prefix: classpath:/templates/
     # 给返回的页面添加后缀名
     suffix: .html
     mode: HTML5

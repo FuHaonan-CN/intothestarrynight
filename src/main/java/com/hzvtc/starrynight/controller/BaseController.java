@@ -7,6 +7,7 @@ import com.hzvtc.starrynight.entity.result.Response;
 import com.hzvtc.starrynight.utils.Des3EncryptionUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
+import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
@@ -71,7 +72,16 @@ public class BaseController {
     
     protected String getPwd(User user){
     	try {
-    	    //加密方式
+            //密码原值
+            Object credentials = user.getUserPassWord();
+            //生成随机部分盐（部分，需要存入数据库中）
+            String random = new SecureRandomNumberGenerator().nextBytes().toHex();
+            user.setSalt(random);
+            //真正的盐
+            ByteSource salt = ByteSource.Util.bytes(user.getCredentialsSalt());
+            return new Sha256Hash(credentials, salt).toHex();
+
+    	    /*//加密方式
     	    String hashAlgorithmName = "MD5";
             //密码原值
             Object crdentials = user.getUserPassWord();
@@ -85,7 +95,7 @@ public class BaseController {
 
             SimpleHash hash = new SimpleHash(hashAlgorithmName,crdentials,salt,hashIterations);
 
-            return hash.toString();
+            return hash.toString();*/
 
             /*最基础的加密*/
     		//String pwd = MD5Util.encrypt(password+Const.PASSWORD_KEY);

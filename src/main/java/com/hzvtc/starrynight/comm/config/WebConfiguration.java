@@ -7,8 +7,13 @@ import org.springframework.scheduling.concurrent.ConcurrentTaskExecutor;
 import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
-public class WebConfiguration extends WebMvcConfigurationSupport{
+//public class WebConfiguration extends WebMvcConfigurationSupport{
+public class WebConfiguration implements WebMvcConfigurer{
 
+//	@Override
+//	public void addViewControllers(ViewControllerRegistry registry){
+//		registry.addViewController()
+//	}
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**")
@@ -16,9 +21,9 @@ public class WebConfiguration extends WebMvcConfigurationSupport{
 				.allowedMethods("*")
 				.allowedOrigins("*");
 	}
-	
+
 	@Override
-	protected void configureAsyncSupport(AsyncSupportConfigurer configurer) {
+	public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
 		configurer.setTaskExecutor(new ConcurrentTaskExecutor(Executors.newFixedThreadPool(3)));
 		configurer.setDefaultTimeout(30000);
 	}

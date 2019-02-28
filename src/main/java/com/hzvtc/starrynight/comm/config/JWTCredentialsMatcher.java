@@ -13,11 +13,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
-
+/**
+ * 跟controller登录不一样，shiro并没有实现JWT的Matcher，需要我们自己来实现
+ */
 public class JWTCredentialsMatcher implements CredentialsMatcher {
 	
 	private final Logger log = LoggerFactory.getLogger(JWTCredentialsMatcher.class);
-
+    /**
+     * Matcher中直接调用工具包中的verify方法即可
+     */
     @Override
     public boolean doCredentialsMatch(AuthenticationToken authenticationToken, AuthenticationInfo authenticationInfo) {
         String token = (String) authenticationToken.getCredentials();

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>角色管理</title>
+    <th:block th:include="/admin/commonModule/common :: head">admin公共的head引用</th:block>
+    <th:block th:include="/admin/commonModule/common :: head_page">admin公共的分页head引用</th:block>
+    <script language='javascript'>
+        function delcfm() {
+//            if(!confirm('确定要删除该条记录吗？')){ window.location.href='userManager.jsp';return;}
+            if (!confirm('危险操作！确定要继续删除记录吗？')) {
+                window.event.returnValue = false;
+            }
+        }
+    </script>
+</head>
+<body>
+<!--头部导航栏-->
+<div th:replace="/admin/commonModule/common :: top_nav_bar"></div>
+<!--主体-->
+<div class="container clearfix">
+    <!--左侧导航栏-->
+    <div th:replace="/admin/commonModule/common :: left_nav_bar"></div>
+    <!--主要显示内容-->
+    <div class="main-wrap">
+        <!--导航横条-->
+        <div class="crumb-wrap">
+            <div class="crumb-list">
+                <i class="icon-font"></i>
+                <a href="">后台首页</a>
+                <span class="crumb-step">&gt;</span>
+                <span class="crumb-name">角色管理</span>
+            </div>
+        </div>
+        <!--模糊查询-->
+        <div class="search-wrap">
+            <div class="search-content">
+                <form action="" method="post" onsubmit="return false;">
+                    <table class="search-tab">
+                        <tr>
+                            <th width="120">角色名称:</th>
+                            <td>
+                                <input id="keyWords" class="common-text" placeholder="关键字" value="" type="text">
+                            </td>
+                            <td>
+                                <button class="btn btn-primary" onclick="query()">查询</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <!--角色列表-->
+        <div class="result-wrap">
+            <form action="" id="myform" method="post">
+                <div class="result-title">
+                    <div class="result-list">
+                        <a href="javascript:void(0);" id="batchDel"
+                           onclick="document.getElementById('myform').submit();delcfm()">
+                            <i class="icon-font"></i>批量删除 </a>
+                        <a id="updateOrd" href="javascript:void(0);"> <i class="icon-font"> </i>更新排序 </a>
+                    </div>
+                </div>
+                <div class="result-content">
+                    <table class="result-tab" width="90%">
+                        <thead>
+                        <tr>
+                            <th class="tc" width="5%"><input id="allChoose" class="allChoose" type="checkbox">全选</th>
+                            <th width="5%">ID</th>
+                            <th width="10%">角色名称</th>
+                            <th width="10%">角色描述</th>
+                            <th width="10%">权限列表</th>
+                            <th width="10%">创建时间</th>
+                            <th width="10%">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="content">
+                        <!--主体-->
+                        </tbody>
+                    </table>
+                    <!--翻页模块引用-->
+                    <div class="list-page" style="width:90%;"
+                         th:include="/admin/commonModule/common :: pagination"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+
+    /*模糊查询*/
+    function query() {
+        /*获取数据*/
+        initRecord(1);
+        /*初始化分页*/
+        initPage();
+    }
+    /*格式化显示ZonedDateTime时间*/
+    function formatDate(v) {
+        if (v === 0||v === null){
+            return null;
+        }
+        if (/^(-)?\d{1,10}$/.test(v)) {
+            v = v * 1000;
+        } else if (/^(-)?\d{1,13}$/.test(v)) {
+            v = v * 1;
+        }
+        var dateObj = new Date(v);
+        var month = dateObj.getMonth() + 1;
+        var day = dateObj.getDate();
+        var hours = dateObj.getHours();
+        var minutes = dateObj.getMinutes();
+        var seconds = dateObj.getSeconds();
+        if (month < 10) {
+            month = "0" + month;
+        }
+        if (day < 10) {
+            day = "0" + day;
+        }
+        if (hours < 10) {
+            hours = "0" + hours;
+        }
+        if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
+        if (seconds < 10) {
+            seconds = "0" + seconds;
+        }
+        return dateObj.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+    }
+    /*获取并填充数据*/
+    function initRecord(pageNo) {
+        $.ajax({
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/admin/data/userPageData",//${pageContext.request.contextPath}
+//                processData: false,//必须false才会避开jQuery对 formdata 的默认处理
+//                contentType: false,//必须false才会自动加上正确的Content-Type
+
+            async: false,//这里面必须改为同步，因为要先执行ajax获取记录总数totalRecords
+            data: {
+//                    "token": token,
+                "page": pageNo-1,
+                "size": 5,
+                "key": $('#keyWords').val(),
+                "sort": "asc"
+            },
+            success: function (res) {
+                if (res.code === 0) {
+                    total = res.data.totalPages;
+                    totalRecords = res.data.totalElements;
+                    var tbodyHtml = "";
+                    $.each(res.data.content,function(k,v){
+                        tbodyHtml += '<tr>';
+                        tbodyHtml += '<td class="tc">'+'<input name="adminId" type="checkbox" value="'+v.id+'">'+'</td>';
+                        tbodyHtml += '<td>'+v.id+'</td>';
+                        tbodyHtml += '<td>'+v.userName+'</td>';
+                        tbodyHtml += '<td>'+'xxx'+'</td>';
+                        tbodyHtml += '<td>'+'<img src="" width="30" height="30"/>'+'</td>';
+                        tbodyHtml += '<td>'+v.phoneNum+'</td>';
+                        tbodyHtml += '<td>'+v.email+'</td>';
+                        tbodyHtml += '<td>'+formatDate(v.createDate)+'</td>';
+                        tbodyHtml += '<td>'+formatDate(v.lastLoginTime)+'</td>';
+                        tbodyHtml += '<td>'+'<a class="link-update" href="/Admin_updateInput_admin?id=">修改</a>&nbsp&nbsp&nbsp&nbsp' +
+                            '<a class="link-del" href="/Admin_delete_admin?id=" onclick="delcfm()">删除</a>' + '</td>';
+                        tbodyHtml += '</tr>';
+                    });
+                    $("#content").html(tbodyHtml);
+                }
+            }
+        });
+    }
+</script>
+</html>

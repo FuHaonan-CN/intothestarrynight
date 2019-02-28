@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>『星月夜』后台管理首页</title>
+    <th:block th:include="/admin/commonModule/common :: head">admin公共的head引用</th:block>
+</head>
+<body>
+<!--头部导航栏-->
+<div th:replace="/admin/commonModule/common :: top_nav_bar"></div>
+<!--主体-->
+<div class="container clearfix">
+    <!--左侧导航栏-->
+    <div th:replace="/admin/commonModule/common :: left_nav_bar"></div>
+    <!--快捷操作-->
+    <div class="main-wrap">
+        <!--欢迎横条-->
+        <div class="crumb-wrap">
+            <div class="crumb-list"><i class="icon-font">&#xe06b;</i><span>『』欢迎回来。</span>
+            </div>
+        </div>
+        <div id="main">main</div>
+    </div>
+</div>
+</body>
+</html>

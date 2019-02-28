@@ -18,6 +18,8 @@ import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -81,10 +83,64 @@ public class IndexController extends BaseController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @LoggerManage(description = "登录")
     @ResponseBody
-    public ResponseData login(User user, HttpServletRequest request, HttpServletResponse response, Map<String, Object> map) throws Exception{
+    public ResponseData login(User loginInfo, HttpServletRequest request, HttpServletResponse response) throws Exception{
         logger.info("=================dologin==============");
+        String msg ;
+        Subject subject = SecurityUtils.getSubject();
+        try {
+            String userPhoneOrName = StringUtils.isBlank(loginInfo.getUserName()) ? loginInfo.getPhoneNum() : null;
+            UsernamePasswordToken token = new UsernamePasswordToken(userPhoneOrName, loginInfo.getUserPassWord());
+
+            subject.login(token);
+            String preUrl = "/";
+            User user = (User) subject.getPrincipal();
+            String newToken = userService.generateJwtToken(user.getUserName());
+            response.setHeader("x-auth-token", newToken);
+
+            // TODO: 此处存入cookie和session
+
+            return new ResponseData(ExceptionMsg.SUCCESS, preUrl);
+//            return ResponseEntity.ok().build();
+
+        }catch (IncorrectCredentialsException e) {
+            msg = "登录密码错误. Password for account " + loginInfo.getUserName() + " was incorrect.";
+            System.out.println(msg);
+        } catch (ExcessiveAttemptsException e) {
+            msg = "登录失败次数过多";
+            System.out.println(msg);
+        } catch (LockedAccountException e) {
+            msg = "帐号已被锁定. The account for username " + loginInfo.getUserName() + " was locked.";
+            System.out.println(msg);
+        } catch (DisabledAccountException e) {
+            msg = "帐号已被禁用. The account for username " + loginInfo.getUserName() + " was disabled.";
+            System.out.println(msg);
+        } catch (ExpiredCredentialsException e) {
+            msg = "帐号已过期. the account for username " + loginInfo.getUserName() + "  was expired.";
+            System.out.println(msg);
+        } catch (UnknownAccountException e) {
+            msg = "帐号不存在. There is no user with username of " + loginInfo.getUserName();
+            System.out.println(msg);
+        } catch (UnauthorizedException e) {
+            msg = "您没有得到相应的授权！" + e.getMessage();
+            System.out.println(msg);
+        }catch (AuthenticationException e) {
+            logger.error("User {} login fail, Reason:{}", loginInfo.getUserName(), e.getMessage());
+            System.out.println(e.getMessage());
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+        return new ResponseData(ExceptionMsg.FAILED);
+//        catch (AuthenticationException e) {
+//            logger.error("User {} login fail, Reason:{}", loginInfo.getUserName(), e.getMessage());
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//        }
+
         //跨域
-        response.setHeader("Access-Control-Allow-Origin","*");
+        /*response.setHeader("Access-Control-Allow-Origin","*");
         String msg ;
         Subject currentUser = SecurityUtils.getSubject();
         String userPhoneOrName = StringUtils.isBlank(user.getUserName()) ? user.getPhoneNum() : null;
@@ -119,7 +175,7 @@ public class IndexController extends BaseController {
             msg = "您没有得到相应的授权！" + e.getMessage();
             System.out.println(msg);
         }
-        return new ResponseData(ExceptionMsg.FAILED);
+        return new ResponseData(ExceptionMsg.FAILED);*/
 
         // 登录失败从request中获取shiro处理的异常信息。
         // shiroLoginFailure:就是shiro异常类的全类名.
@@ -181,8 +237,8 @@ public class IndexController extends BaseController {
     @ResponseBody
     public Response create(User user, String phoneCaptcha) {
         try {
-            User registerUser = userRepo.findByPhoneNum(user.getPhoneNum());
-            if (null != registerUser) {
+            User phoneNumUser = userRepo.findByPhoneNum(user.getPhoneNum());
+            if (null != phoneNumUser) {
                 return result(ExceptionMsg.PhoneUsed);
             }
             User userNameUser = userRepo.findByUserName(user.getUserName());
@@ -205,8 +261,7 @@ public class IndexController extends BaseController {
             logger.error("create user failed, ", e);
             return result(ExceptionMsg.FAILED);
         }
-        Response response = result();
-        return response;
+        return result();
     }
 
 //    public List<Girl> girlList() {
