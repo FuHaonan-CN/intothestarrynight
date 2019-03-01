@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/admin/common.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/admin/main.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/admin/style.css}"/>
+    <script th:src="@{/js/jquery-1.11.3.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/admin/libs/modernizr.min.js}"></script>
 </div>
 
@@ -205,12 +206,10 @@
                 <a style="font-size: 20px">&nbsp;&nbsp;<i class="icon-font">&#xe003;</i> 常用操作</a>
                 <ul class="sub-menu">
                     <!--<li><a href="javascript:void(0);"><i class="icon-font">&#xe008;</i>用户管理</a></li>-->
-                    <li><a th:href="@{/admin/userManager}"><i class="icon-font">&#xe008;</i>用户管理</a></li>
-                    <li><a target="admin_user.html"><i class="icon-font">&#xe008;</i>新用户管理</a></li>
-                    <li><a target="admin_role.html"><i class="icon-font">&#xe008;</i>新角色管理</a></li>
-                    <li><a th:href="@{/admin/roleManager}"><i class="icon-font">&#xe008;</i>角色管理</a></li>
-                    <li><a th:href="@{/admin/permissionManager}"><i class="icon-font">&#xe008;</i>权限管理</a></li>
-                    <li><a th:href="@{/admin/allPostManager}"><i class="icon-font">&#xe006;</i>所有帖子管理</a></li>
+                    <li><a target="main_user" href="javascript:void(0);"><i class="icon-font">&#xe008;</i>用户管理</a></li>
+                    <li><a target="main_role" href="javascript:void(0);"><i class="icon-font">&#xe008;</i>角色管理</a></li>
+                    <li><a target="main_permission" href="javascript:void(0);"><i class="icon-font">&#xe008;</i>权限管理</a></li>
+                    <li><a target="main_allPost" href="javascript:void(0);"><i class="icon-font">&#xe006;</i>所有帖子管理</a></li>
                     <li><a th:href="@{/admin/myPostManager}"><i class="icon-font">&#xe006;</i>我的帖子管理</a></li>
                     <li><a th:href="@{/admin/homePostManager}"><i class="icon-font">&#xe005;</i>轮播新闻管理</a></li>
                     <li><a th:href="@{/admin/staryInfoManager}"><i class="icon-font">&#xe052;</i>星球信息管理</a></li>

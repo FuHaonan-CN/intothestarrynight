@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>『星月夜』后台管理首页</title>
+    <th:block th:include="/admin/commonModule/common :: head">admin公共的head引用</th:block>
+    <th:block th:include="/admin/commonModule/common :: head_page">admin公共的分页head引用</th:block>
+</head>
+<body>
+<!--头部导航栏-->
+<div th:replace="/admin/commonModule/common :: top_nav_bar"></div>
+<!--主体-->
+<div class="container clearfix">
+    <!--左侧导航栏-->
+    <div th:replace="/admin/commonModule/common :: left_nav_bar"></div>
+    <!--快捷操作-->
+    <div class="main-wrap">
+        <!--<iframe id="main-iframe" height=500px width="100%" frameborder="0" style="border:none;">main</iframe>-->
+        <div id="main" >main</div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+//        $(function(){
+//            $.get('main_role.html',function(data){
+//                $("#main").html(data);
+//            });   //初始化页面显示
+//            $(".sub-menu li").click(function(){
+//                var current = $(this);
+//                target = current.find('a').attr('target');   //找到a的链接
+//                $.get(target,function(data){
+//                    $("#main").html(data);
+//                });
+//            });
+//        });
+        $(function () {
+                set_iframe_url('main_index');
+            });
+            $(".sub-menu li").click(
+                function(){
+                    var current = $(this);
+                    target = current.find('a').attr('target');   //找到a的链接
+                    set_iframe_url(target);
+                }
+            );
+            function set_iframe_url(message) {
+                var curHost = window.location.host;
+        var curUrl = 'http://' + curHost + '/admin/' + message ;
+                $.get(curUrl,function(data){
+                    $("#main").html(data);
+                });
+            }
+
+
+
+
+//    $(function () {
+//        set_iframe_url('main_index');
+//    });
+//    $(".sub-menu li").click(
+//        function(){
+//            var current = $(this);
+//            target = current.find('a').attr('target');   //找到a的链接
+//            set_iframe_url(target);
+//        }
+//    );
+//    function set_iframe_url(message) {
+//        var curHost = window.location.host;
+//        var curUrl = 'http://' + curHost + '/admin/' + message ;
+//        $('#main-iframe').attr('src', curUrl);
+//    }
+
+</script>
+</html>

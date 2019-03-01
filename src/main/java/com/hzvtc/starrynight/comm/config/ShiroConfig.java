@@ -41,7 +41,7 @@ public class ShiroConfig {
         filterRegistration.addInitParameter("targetFilterLifecycle", "true");
         filterRegistration.setAsyncSupported(true);
         filterRegistration.setEnabled(true);
-        filterRegistration.setDispatcherTypes(DispatcherType.REQUEST);
+        filterRegistration.setDispatcherTypes(DispatcherType.REQUEST,DispatcherType.ASYNC);
 
         return filterRegistration;
     }
@@ -102,7 +102,6 @@ public class ShiroConfig {
     @Bean("shiroFilter")
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager, UserService userService) {
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
-        factoryBean.setSecurityManager(securityManager);
 
         //外部自定义filter拦截器
         Map<String, Filter> filterMap = factoryBean.getFilters();
@@ -110,6 +109,12 @@ public class ShiroConfig {
         filterMap.put("anyRole", createRolesFilter());
         factoryBean.setFilters(filterMap);
 
+        factoryBean.setSecurityManager(securityManager);
+        //登陆页面
+        factoryBean.setLoginUrl("/index/login");
+        //登陆成功页面
+        factoryBean.setSuccessUrl("/index");
+        //添加filterMap
         factoryBean.setFilterChainDefinitionMap(shiroFilterChainDefinition().getFilterChainMap());
 
         return factoryBean;
@@ -140,10 +145,11 @@ public class ShiroConfig {
 //        chainDefinition.addPathDefinition("/article/list", "noSessionCreation,authcToken");
 //        chainDefinition.addPathDefinition("/article/*", "noSessionCreation,authcToken[permissive]");
         // 默认进行用户鉴权
-        chainDefinition.addPathDefinition("/**", "noSessionCreation,authcToken");
+        chainDefinition.addPathDefinition("/**", "noSessionCreation,authc");
 //        chainDefinition.addPathDefinition("/**", "authc");
         return chainDefinition;
     }
+
     //注意不要加@Bean注解，不然spring会自动注册成filter
     protected JwtAuthFilter createAuthFilter(UserService userService){
         return new JwtAuthFilter(userService);

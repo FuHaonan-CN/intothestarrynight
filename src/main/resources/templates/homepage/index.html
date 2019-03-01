@@ -443,7 +443,7 @@
 
 <script type="text/javascript">
     function loginAndRegister(message) {
-        if ($('#passport-iframe-con')[0] == undefined) {
+        if ($('#passport-iframe-con')[0] === undefined) {
             var insertText = '<div id="passport-iframe-con" class="passport-iframe-con"\n' +
                 'style="width: 400px; height: 525px; position: fixed; z-index: 9999; top: 50%; left: 50%; visibility: visible;\n' +
                 'border-radius: 4px; border: 1px solid rgb(255, 255, 255); background: rgb(255, 255, 255); margin-top: -257.5px; margin-left: -200px;">\n' +

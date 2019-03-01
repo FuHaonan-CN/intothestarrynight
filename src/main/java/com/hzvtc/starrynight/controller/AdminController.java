@@ -4,6 +4,7 @@ import com.hzvtc.starrynight.comm.aop.LoggerManage;
 import com.hzvtc.starrynight.entity.User;
 import com.hzvtc.starrynight.entity.result.Result;
 import com.hzvtc.starrynight.service.PostService;
+import com.hzvtc.starrynight.service.RoleService;
 import com.hzvtc.starrynight.service.UserService;
 import com.hzvtc.starrynight.utils.ResultUtil;
 import org.apache.catalina.Manager;
@@ -29,10 +30,12 @@ public class AdminController extends BaseController {
     private final static Logger logger = LoggerFactory.getLogger(AdminController.class);
     private final UserService userService;
     private final PostService postService;
+    private final RoleService roleService;
 
     @Autowired
-    public AdminController(UserService userService, PostService postService) {
+    public AdminController(UserService userService, PostService postService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
         this.postService = postService;
     }
 
@@ -41,30 +44,35 @@ public class AdminController extends BaseController {
     public String index(Model model) {
 //        List sixNews = postService.findSixNews();
 //        model.addAttribute("news", sixNews);
-        User user = super.getUser();
-        if (null != user) {
-            user.setId(11L);
-            model.addAttribute("user", user);
-        }
-        return "admin/admin_new.html";
+//        User user = super.getUser();
+//        if (null != user) {
+//            user.setId(11L);
+//            model.addAttribute("user", user);
+//        }
+        return "admin/index.html";
+    }
+    @RequestMapping(value = "/main_index", method = RequestMethod.GET)
+    @LoggerManage(description = "main内容")
+    public String main(Model model) {
+        return "admin/main/main.html";
     }
 
-    @RequestMapping(value = "/userManager", method = RequestMethod.GET)
+    @RequestMapping(value = "/main_user", method = RequestMethod.GET)
     @LoggerManage(description = "用户管理页面")
     public String userManager(Model model) {
-        return "admin/adminManager.html";
+        return "admin/main/main_user.html";
     }
 
-    @RequestMapping(value = "/roleManager", method = RequestMethod.GET)
+    @RequestMapping(value = "/main_role", method = RequestMethod.GET)
     @LoggerManage(description = "角色管理页面")
     public String roleManager(Model model) {
-        return "admin/roleManager.html";
+        return "admin/main/main_role.html";
     }
 
     @RequestMapping(value = "/permissionManager", method = RequestMethod.GET)
     @LoggerManage(description = "权限管理页面")
     public String permissionManager(Model model) {
-        return "admin/permissionManager.html";
+        return "admin/main_permission.html";
     }
 
     @RequestMapping(value = "/allPostManager", method = RequestMethod.GET)
@@ -90,46 +98,46 @@ public class AdminController extends BaseController {
 
 
 
-    @RequestMapping(value = "/data/userPageData", method = RequestMethod.POST)
+    @RequestMapping(value = "/data/userPage", method = RequestMethod.POST)
     @LoggerManage(description = "用户分页数据")
     @ResponseBody
     public Result userPageData(int page, int size, String key) {
         return ResultUtil.success(userService.findUsersByKey(page, size, key));
     }
 
-    @RequestMapping(value = "/data/rolePageData", method = RequestMethod.POST)
+    @RequestMapping(value = "/data/rolePage", method = RequestMethod.POST)
     @LoggerManage(description = "角色分页数据")
     @ResponseBody
     public Result rolePageData(int page, int size, String key) {
-        return ResultUtil.success(userService.findUsersByKey(page, size, key));
+        return ResultUtil.success(roleService.findRolesByKey(page, size, key));
     }
 
-    @RequestMapping(value = "/data/permissionPageData", method = RequestMethod.POST)
+    @RequestMapping(value = "/data/permissionPage", method = RequestMethod.POST)
     @LoggerManage(description = "权限分页数据")
     @ResponseBody
     public Result permissionPageData(int page, int size, String key) {
         return ResultUtil.success(userService.findUsersByKey(page, size, key));
     }
 
-    @RequestMapping(value = "/data/allPostPageData", method = RequestMethod.POST)
+    @RequestMapping(value = "/data/allPostPage", method = RequestMethod.POST)
     @LoggerManage(description = "所有帖子分页数据")
     @ResponseBody
     public Result allPostPageData(int page, int size, String key) {
         return ResultUtil.success(userService.findUsersByKey(page, size, key));
     }
-    @RequestMapping(value = "/data/myPostPageData", method = RequestMethod.POST)
+    @RequestMapping(value = "/data/myPostPage", method = RequestMethod.POST)
     @LoggerManage(description = "我的帖子分页数据")
     @ResponseBody
     public Result myPostPageData(int page, int size, String key) {
         return ResultUtil.success(userService.findUsersByKey(page, size, key));
     }
-    @RequestMapping(value = "/data/homePostPageData", method = RequestMethod.POST)
+    @RequestMapping(value = "/data/homePostPage", method = RequestMethod.POST)
     @LoggerManage(description = "首页轮播新闻分页数据")
     @ResponseBody
     public Result homePostPageData(int page, int size, String key) {
         return ResultUtil.success(userService.findUsersByKey(page, size, key));
     }
-    @RequestMapping(value = "/data/starInfoPageData", method = RequestMethod.POST)
+    @RequestMapping(value = "/data/starInfoPage", method = RequestMethod.POST)
     @LoggerManage(description = "星球信息分页数据")
     @ResponseBody
     public Result starInfoPageData(int page, int size, String key) {

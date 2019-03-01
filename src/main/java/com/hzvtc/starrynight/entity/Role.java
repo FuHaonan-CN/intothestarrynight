@@ -38,4 +38,5 @@ public class Role extends BaseEntity {
     @JoinTable(name="UserRole",joinColumns={@JoinColumn(name="roleId")},inverseJoinColumns={@JoinColumn(name="uid")})
     private List<User> users;
 
+    /*操作人*/
 }

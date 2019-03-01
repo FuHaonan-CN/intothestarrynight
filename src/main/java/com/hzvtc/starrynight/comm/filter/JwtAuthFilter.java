@@ -33,7 +33,8 @@ public class JwtAuthFilter extends AuthenticatingFilter {
 
     public JwtAuthFilter(UserService userService){
         this.userService = userService;
-        this.setLoginUrl("/login");
+//        this.setLoginUrl("/index/login");
+//        this.setSuccessUrl("/index");
     }
 
     @Override
@@ -112,9 +113,9 @@ public class JwtAuthFilter extends AuthenticatingFilter {
                 newToken = userService.generateJwtToken(user.getUserName());
             }
         }
-        if(StringUtils.isNotBlank(newToken))
+        if(StringUtils.isNotBlank(newToken)) {
             httpResponse.setHeader("x-auth-token", newToken);
-
+        }
         return true;
     }
     /**

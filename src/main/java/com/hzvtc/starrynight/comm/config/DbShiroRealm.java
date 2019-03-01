@@ -28,7 +28,9 @@ public class DbShiroRealm extends AuthorizingRealm {
         this.userService = userService;
         this.setCredentialsMatcher(new HashedCredentialsMatcher(Sha256Hash.ALGORITHM_NAME));
     }
-
+    /**
+     * 大坑！，必须重写此方法，不然Shiro会报错
+     */
     @Override
     public boolean supports(AuthenticationToken token) {
         return token instanceof UsernamePasswordToken;

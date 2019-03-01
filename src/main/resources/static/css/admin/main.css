@@ -2,7 +2,7 @@
 .main-wrap{margin-left: 190px;min-height:100%;}
 .sidebar-title{height: 40px;line-height: 40px;text-indent:1em;font-size: 24px;text-align: left;}
 .sidebar-title h1{font-weight: normal;}
-.sidebar-content{padding-top: 5px;}
+.sidebar-content{padding-top: 0;}
 .sidebar-list li{border:1px solid #e5e5e5;border-width:1px 0;}
 .sidebar-list li .icon-font{margin-right: 5px;color: #888;font-size: 14px;}
 .sidebar-list li a{padding: 0 16px 0 20px;display: block;height: 38px;line-height: 38px;color: #333;}
