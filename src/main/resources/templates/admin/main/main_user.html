@@ -20,7 +20,7 @@
     <div class="crumb-wrap">
         <div class="crumb-list">
             <i class="icon-font"></i>
-            <a href="">后台首页</a>
+            <a target="main_index" href="javascript:void(0);">后台首页</a>
             <span class="crumb-step">&gt;</span>
             <span class="crumb-name">账号管理</span>
         </div>
@@ -88,54 +88,20 @@
     </div>
 </div>
 </body>
-<script type="text/javascript">
 
-    /*模糊查询*/
-    function query() {
+<script type="text/javascript">
+    $(function () {
         /*获取数据*/
         initRecord(1);
         /*初始化分页*/
         initPage();
-    }
-    /*格式化显示ZonedDateTime时间*/
-    function formatDate(v) {
-        if (v === 0||v === null){
-            return null;
-        }
-        if (/^(-)?\d{1,10}$/.test(v)) {
-            v = v * 1000;
-        } else if (/^(-)?\d{1,13}$/.test(v)) {
-            v = v * 1;
-        }
-        var dateObj = new Date(v);
-        var month = dateObj.getMonth() + 1;
-        var day = dateObj.getDate();
-        var hours = dateObj.getHours();
-        var minutes = dateObj.getMinutes();
-        var seconds = dateObj.getSeconds();
-        if (month < 10) {
-            month = "0" + month;
-        }
-        if (day < 10) {
-            day = "0" + day;
-        }
-        if (hours < 10) {
-            hours = "0" + hours;
-        }
-        if (minutes < 10) {
-            minutes = "0" + minutes;
-        }
-        if (seconds < 10) {
-            seconds = "0" + seconds;
-        }
-        return dateObj.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
-    }
+    });
     /*获取并填充数据*/
     function initRecord(pageNo) {
         $.ajax({
             type: "POST",//方法类型
             dataType: "json",//预期服务器返回的数据类型
-            url: "/admin/data/userPageData",//${pageContext.request.contextPath}
+            url: "/admin/data/userPage",//${pageContext.request.contextPath}
 //                processData: false,//必须false才会避开jQuery对 formdata 的默认处理
 //                contentType: false,//必须false才会自动加上正确的Content-Type
 

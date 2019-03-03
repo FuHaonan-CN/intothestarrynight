@@ -14,60 +14,17 @@
     <div th:replace="/admin/commonModule/common :: left_nav_bar"></div>
     <!--快捷操作-->
     <div class="main-wrap">
-        <!--<iframe id="main-iframe" height=500px width="100%" frameborder="0" style="border:none;">main</iframe>-->
+        <!--<iframe id="main-iframe" height=600px width="100%" frameborder="0" style="border:none;">main</iframe>-->
         <div id="main" >main</div>
     </div>
 </div>
 </body>
+
 <script type="text/javascript">
-//        $(function(){
-//            $.get('main_role.html',function(data){
-//                $("#main").html(data);
-//            });   //初始化页面显示
-//            $(".sub-menu li").click(function(){
-//                var current = $(this);
-//                target = current.find('a').attr('target');   //找到a的链接
-//                $.get(target,function(data){
-//                    $("#main").html(data);
-//                });
-//            });
-//        });
-        $(function () {
-                set_iframe_url('main_index');
-            });
-            $(".sub-menu li").click(
-                function(){
-                    var current = $(this);
-                    target = current.find('a').attr('target');   //找到a的链接
-                    set_iframe_url(target);
-                }
-            );
-            function set_iframe_url(message) {
-                var curHost = window.location.host;
-        var curUrl = 'http://' + curHost + '/admin/' + message ;
-                $.get(curUrl,function(data){
-                    $("#main").html(data);
-                });
-            }
-
-
-
-
-//    $(function () {
-//        set_iframe_url('main_index');
-//    });
-//    $(".sub-menu li").click(
-//        function(){
-//            var current = $(this);
-//            target = current.find('a').attr('target');   //找到a的链接
-//            set_iframe_url(target);
-//        }
-//    );
-//    function set_iframe_url(message) {
-//        var curHost = window.location.host;
-//        var curUrl = 'http://' + curHost + '/admin/' + message ;
-//        $('#main-iframe').attr('src', curUrl);
-//    }
+    $(function () {
+        set_iframe_url('main_index');
+    });
 
 </script>
+<script type="text/javascript" th:src="@{/js/admin.js}"></script>
 </html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>-->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <!--html公共头部-->
@@ -7,7 +7,6 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/admin/common.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/admin/main.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/admin/style.css}"/>
-    <script th:src="@{/js/jquery-1.11.3.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/admin/libs/modernizr.min.js}"></script>
 </div>
 
@@ -29,7 +28,7 @@
         <div id="kkpager"></div>
     </div>
 
-    <script type="text/javascript">
+   <!-- <script type="text/javascript">
         //js获取地址栏参数的值, name为参数名
         function getParameter(name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
@@ -68,88 +67,9 @@
                 }
             },true);//搜索查询必须加上true-fhn
         }
-        /*格式化时间*/
-        /*function formatDate(v) {
-            if (v === 0||v === null){
-                return null;
-            }
-            if (/^(-)?\d{1,10}$/.test(v)) {
-                v = v * 1000;
-            } else if (/^(-)?\d{1,13}$/.test(v)) {
-                v = v * 1;
-            }
-            var dateObj = new Date(v);
-            var month = dateObj.getMonth() + 1;
-            var day = dateObj.getDate();
-            var hours = dateObj.getHours();
-            var minutes = dateObj.getMinutes();
-            var seconds = dateObj.getSeconds();
-            if (month < 10) {
-                month = "0" + month;
-            }
-            if (day < 10) {
-                day = "0" + day;
-            }
-            if (hours < 10) {
-                hours = "0" + hours;
-            }
-            if (minutes < 10) {
-                minutes = "0" + minutes;
-            }
-            if (seconds < 10) {
-                seconds = "0" + seconds;
-            }
-            var UnixTimeToDate = dateObj.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
-            return UnixTimeToDate;
-        }*/
 
-        /*填充数据*/
-        /*function initRecord(pageNo) {
-            console.log(pageNo);
-            $.ajax({
-                type: "POST",//方法类型
-                dataType: "json",//预期服务器返回的数据类型
-                url: "/test/admin/pagesj",//${pageContext.request.contextPath}
-//                processData: false,//必须false才会避开jQuery对 formdata 的默认处理
-//                contentType: false,//必须false才会自动加上正确的Content-Type
 
-                async: false,//这里面必须改为同步，因为要先执行ajax获取记录总数totalRecords
-                data: {
-//                    "token": token,
-                    "page": pageNo-1,
-                    "size": 5,
-                    "key": "1",
-                    "sort": "asc"
-                },
-                success: function (res) {
-                    console.log(res);
-                    if (res.code === 0) {
-                        total = res.data.totalPages;
-                        totalRecords = res.data.totalElements;
-                        var tbodyHtml = "";
-                        $.each(res.data.content,function(k,v){
-                            tbodyHtml += '<tr>';
-                            tbodyHtml += '<td class="tc">'+'<input name="adminId" type="checkbox" value="'+v.id+'">'+'</td>';
-                            tbodyHtml += '<td>'+v.id+'</td>';
-                            tbodyHtml += '<td>'+v.userName+'</td>';
-                            tbodyHtml += '<td>'+'xxx'+'</td>';
-                            tbodyHtml += '<td>'+'<img src="" width="30" height="30"/>'+'</td>';
-                            tbodyHtml += '<td>'+v.phoneNum+'</td>';
-                            tbodyHtml += '<td>'+v.email+'</td>';
-                            tbodyHtml += '<td>'+formatDate(v.createDate)+'</td>';
-                            tbodyHtml += '<td>'+formatDate(v.lastLoginTime)+'</td>';
-                            tbodyHtml += '<td>'+'<a class="link-update" href="/Admin_updateInput_admin?id=">修改</a>' +
-                                '<a class="link-del" href="/Admin_delete_admin?id=" onclick="delcfm()">删除</a>' + '</td>';
-                            tbodyHtml += '</tr>';
-                        });
-                        $("#content").html(tbodyHtml);
-
-                    }
-                }
-            })
-        }*/
-
-    </script>
+    </script>-->
 </div>
 
 <!--html页尾-->
@@ -204,7 +124,7 @@
         <ul class="sidebar-list">
             <li>
                 <a style="font-size: 20px">&nbsp;&nbsp;<i class="icon-font">&#xe003;</i> 常用操作</a>
-                <ul class="sub-menu">
+                <ul id="sub_nav_left" class="sub-menu">
                     <!--<li><a href="javascript:void(0);"><i class="icon-font">&#xe008;</i>用户管理</a></li>-->
                     <li><a target="main_user" href="javascript:void(0);"><i class="icon-font">&#xe008;</i>用户管理</a></li>
                     <li><a target="main_role" href="javascript:void(0);"><i class="icon-font">&#xe008;</i>角色管理</a></li>

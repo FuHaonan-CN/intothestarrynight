@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <script th:src="@{/js/jquery-1.11.3.min.js}"></script>
-    <!--<title>角色管理</title>
+    <title>角色管理</title>
     <th:block th:include="/admin/commonModule/common :: head">admin公共的head引用</th:block>
     <th:block th:include="/admin/commonModule/common :: head_page">admin公共的分页head引用</th:block>
     <script language='javascript'>
@@ -12,7 +11,7 @@
                 window.event.returnValue = false;
             }
         }
-    </script>-->
+    </script>
 </head>
 <body>
 <!--主体-->
@@ -21,7 +20,7 @@
     <div class="crumb-wrap">
         <div class="crumb-list">
             <i class="icon-font"></i>
-            <a href="">后台首页</a>
+            <a target="main_index" href="javascript:void(0);">后台首页</a>
             <span class="crumb-step">&gt;</span>
             <span class="crumb-name">角色管理</span>
         </div>
@@ -79,49 +78,14 @@
         </form>
     </div>
 </div>
-</body>
-<script type="text/javascript">
 
-    /*模糊查询*/
-    function query() {
+<script type="text/javascript">
+    $(function () {
         /*获取数据*/
         initRecord(1);
         /*初始化分页*/
         initPage();
-    }
-    /*格式化显示ZonedDateTime时间*/
-    function formatDate(v) {
-        if (v === 0||v === null){
-            return null;
-        }
-        if (/^(-)?\d{1,10}$/.test(v)) {
-            v = v * 1000;
-        } else if (/^(-)?\d{1,13}$/.test(v)) {
-            v = v * 1;
-        }
-        var dateObj = new Date(v);
-        var month = dateObj.getMonth() + 1;
-        var day = dateObj.getDate();
-        var hours = dateObj.getHours();
-        var minutes = dateObj.getMinutes();
-        var seconds = dateObj.getSeconds();
-        if (month < 10) {
-            month = "0" + month;
-        }
-        if (day < 10) {
-            day = "0" + day;
-        }
-        if (hours < 10) {
-            hours = "0" + hours;
-        }
-        if (minutes < 10) {
-            minutes = "0" + minutes;
-        }
-        if (seconds < 10) {
-            seconds = "0" + seconds;
-        }
-        return dateObj.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
-    }
+    });
     /*获取并填充数据*/
     function initRecord(pageNo) {
         $.ajax({
@@ -164,4 +128,5 @@
         });
     }
 </script>
+</body>
 </html>
