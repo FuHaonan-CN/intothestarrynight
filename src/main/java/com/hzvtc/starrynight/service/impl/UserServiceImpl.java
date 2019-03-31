@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService {
         userRepo.save(user);
     }
 
+
     /**
      * 根据name删除一个用户高
      * @Param: name
@@ -86,7 +87,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getJwtTokenInfo(String username) {
         /**
-         * @todo 从数据库或者缓存中取出jwt token生成时用的salt
+         * 从数据库或者缓存中取出jwt token生成时用的salt
          * salt = redisTemplate.opsForValue().get("token:"+username);
          */
         User user = findByUserName(username);

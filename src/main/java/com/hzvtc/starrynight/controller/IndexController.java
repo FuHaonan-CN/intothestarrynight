@@ -48,7 +48,8 @@ public class IndexController extends BaseController {
     private UserRepo userRepo;
 
     @Autowired
-    public IndexController(UserService userService, PostService postService) {
+    public IndexController(UserService userService,
+                           PostService postService) {
         this.userService = userService;
         this.postService = postService;
     }
@@ -68,16 +69,10 @@ public class IndexController extends BaseController {
         return "homepage/index.html";
     }
 
-    @RequestMapping(value = "/index/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/index/{name}", method = RequestMethod.GET)
     @LoggerManage(description = "登录页面")
-    public String login(Model model) {
-        return "homepage/login.html";
-    }
-
-    @RequestMapping(value = "/index/register", method = RequestMethod.GET)
-    @LoggerManage(description = "注册页面")
-    public String register(Model model) {
-        return "homepage/register.html";
+    public String login(@PathVariable("name") String name) {
+        return "homepage/" + name + ".html";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -245,11 +240,11 @@ public class IndexController extends BaseController {
             if (null != userNameUser) {
                 return result(ExceptionMsg.UserNameUsed);
             }
-            ZonedDateTime zonedDateTime = DateUtils.getCurrentZonedDateTime();
+//            ZonedDateTime zonedDateTime = DateUtils.getCurrentZonedDateTime();
             user.setUserPassWord(getPwd(user));
             user.setAreaCode(user.getAreaCode());
-            user.setCreateDate(zonedDateTime);
-            user.setModifyDate(zonedDateTime);
+//            user.setCreateDate(zonedDateTime);
+//            user.setModifyDate(zonedDateTime);
             //user.setRoleList();
             userRepo.save(user);
             // 添加默认收藏夹

@@ -68,27 +68,4 @@ public abstract class BaseEntity implements Comparable<BaseEntity>,Serializable 
         return ToStringBuilder.reflectionToString(this);
     }
 
-    /*public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public ZonedDateTime getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(ZonedDateTime createDate) {
-        this.createDate = createDate;
-    }
-
-    public ZonedDateTime getModifyDate() {
-        return modifyDate;
-    }
-
-    public void setModifyDate(ZonedDateTime modifyDate) {
-        this.modifyDate = modifyDate;
-    }*/
 }

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>新增角色</title>
+    <th:block th:include="/admin/commonModule/common :: head_bootstrap">bootstrap引用</th:block>
+
+    <style>
+        .iframe-con{
+        }
+        .iframe-box{
+            width: 400px;
+            position: relative;
+            z-index: 1001;
+            font-size: 12px;
+            background: #fff;
+            border-radius: 6px;
+        }
+        .iframe-head{
+            padding: 50px;
+            height: 50px;
+        }
+        .iframe-close{
+            width: 12px;
+            height: 12px;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            cursor: pointer;
+            background: url(../../res/com/loginbox/login-icon.png) -230px 0 no-repeat;
+            z-index: 1002;
+        }
+        .iframe-body{
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-right: 50px;
+            padding-left: 50px;
+        }
+        .iframe-group{
+
+        }
+    </style>
+    <!--表单验证-->
+    <script type="text/javascript">
+        function insertCheck(insertForm) {
+            if (insertForm.adminName.value == "") {
+                alert("用户名不能为空，请输入用户名！");
+                insertForm.adminName.focus();
+                return false;
+            }
+            else if (insertForm.adminPassword.value == "") {
+                alert("密码不能为空，请输入密码！");
+                insertForm.adminPassword.focus();
+                return false;
+            } else if (insertForm.adminPassword.value != insertForm.checkPassword.value) {
+                alert("两次密码输入不相同，请重新输入！");
+                insertForm.checkPassword.focus();
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+    </script>
+</head>
+<body>
+<!--主体-->
+<div class="iframe-con">
+    <div class="iframe-box">
+        <div class="iframe-head">
+            <h3>角色管理</h3>
+            <span class="iframe-close"></span>
+        </div>
+        <form id="addForm" class="iframe-body" action="" method="post" onsubmit="return false;">
+            <div class="form-group">
+                <label for="roleName">角色名称:</label>
+                <input type="text" class="form-control" id="roleName" name="roleName">
+            </div>
+            <div class="form-group">
+                <label for="roleDesc">角色描述:</label>
+                <input type="text" class="form-control" id="roleDesc" name="roleDesc">
+            </div>
+            <button type="submit" class="btn btn-primary">提交</button>
+        </form>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $("#addForm").submit(function (e){
+        var form = new FormData($("#addForm")[0]);
+        console.log(form);
+        $.ajax({
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/admin/role/addOrEdit",//${pageContext.request.contextPath}
+            data: form,
+            processData: false,//必须false才会避开jQuery对 formdata 的默认处理
+            contentType: false,//必须false才会自动加上正确的Content-Type
+            success: function (result) {
+                console.log(result);
+                if (result.code === 0) {
+                    //parent.layer.close();//关闭弹出层
+//                    parent.location.reload();//更新父级页面
+                    // /*用于登录后跳转到其他页面*/
+                    // window.location.href="/index";
+                } else {
+//                    $("#errorMsg")[0].style.display = "block";
+//                    $("#errorMsg div p").html(result.msg);
+//                    setTimeout(function () {
+//                        $("#errorMsg")[0].style.display = "none";
+//                    }, 3000);
+                }
+            },
+            error: function (e) {
+                alert("错误！！");
+                // window.clearInterval(timer);
+            }
+        });
+
+    })
+
+</script>
+</body>
+</html>

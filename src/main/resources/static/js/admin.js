@@ -9,7 +9,7 @@ $("#sub_nav_left > li").click(
  /*使用jquery替换main方法*/
 function set_iframe_url(message) {
     var curHost = window.location.host;
-    var curUrl = 'http://' + curHost + '/admin/' + message ;
+    var curUrl = 'http://' + curHost + '/admin/main/' + message ;
     $("#main").load(curUrl);
 }
 /* 使用iframe方法 */

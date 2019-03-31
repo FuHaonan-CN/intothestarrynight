@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>admin账号管理</title>
+    <title>角色管理</title>
     <th:block th:include="/admin/commonModule/common :: head">admin公共的head引用</th:block>
     <th:block th:include="/admin/commonModule/common :: head_page">admin公共的分页head引用</th:block>
     <script language='javascript'>
@@ -12,6 +12,17 @@
             }
         }
     </script>
+    <style>
+        #modal-con{
+            width: 400px; height: 525px;
+            position: fixed; z-index: 9999; top: 50%; left: 50%; visibility: visible;
+            border-radius: 4px; border: 1px solid rgb(255, 255, 255); background: rgb(255, 255, 255); margin-top: -257.5px; margin-left: -200px;
+        }
+        .modal-con-mask{
+            width: 100%;height: 100%;position: fixed;top: 0px;left: 0px;
+            z-index: 8888;opacity: 0.3;background-color: rgb(0, 0, 0);display: block;
+        }
+    </style>
 </head>
 <body>
 <!--主体-->
@@ -20,9 +31,9 @@
     <div class="crumb-wrap">
         <div class="crumb-list">
             <i class="icon-font"></i>
-            <a target="main_index" href="javascript:void(0);">后台首页</a>
+            <a target="index" href="javascript:void(0);">后台首页</a>
             <span class="crumb-step">&gt;</span>
-            <span class="crumb-name">账号管理</span>
+            <span class="crumb-name">角色管理</span>
         </div>
     </div>
     <!--模糊查询-->
@@ -31,17 +42,11 @@
             <form action="" method="post" onsubmit="return false;">
                 <table class="search-tab">
                     <tr>
-                        <!--<th width="120">角色</th>
-                        <td>
-                            <select name="privilege" list="'0':'全部','1':'超级管理员','2':'网页维护员'"/>
-                        </td>-->
-                        <th width="120">账号名称:</th>
+                        <th width="120">角色名称:</th>
                         <td>
                             <input id="keyWords" class="common-text" placeholder="关键字" value="" type="text">
                         </td>
                         <td>
-                            <!--<input class="btn btn-primary btn2" id="query"
-                                   value="查询" type="button">-->
                             <button class="btn btn-primary" onclick="query()">查询</button>
                         </td>
                     </tr>
@@ -49,30 +54,43 @@
             </form>
         </div>
     </div>
-    <!--admin列表-->
+
+    <!--嵌入iframe用作增加修改-->
+    <div id="iframe-add-box" class="container" style="display: none">
+        <div id="iframe-add-con" class="passport-iframe-con" style="width: 400px; height: 525px; position: fixed;
+        z-index: 9999; top: 50%; left: 50%; visibility: visible;
+        border-radius: 4px; border: 1px solid rgb(255, 255, 255); background: rgb(255, 255, 255); margin-top: -257.5px; margin-left: -200px;">
+            <iframe id="iframe-add" height="100%" scrolling="no" width="100%" frameborder="0"
+                    style="border:none;" src=""></iframe>
+        </div>
+        <div class="iframe-add-shadow"
+             style="width: 100%;height: 100%;position: fixed;top: 0px;left: 0px;z-index: 8888;opacity: 0.3;background-color: rgb(0, 0, 0);display: block;">
+        </div>
+    </div>
+
+    <!--角色列表-->
     <div class="result-wrap">
         <form action="" id="myform" method="post">
+            <!--快捷操作-->
             <div class="result-title">
                 <div class="result-list">
-                    <a href="javascript:void(0);" id="batchDel"
-                       onclick="document.getElementById('myform').submit();delcfm()">
-                        <i class="icon-font"></i>批量删除 </a>
-                    <a id="updateOrd" href="javascript:void(0);"> <i class="icon-font"> </i>更新排序 </a>
+                    <a href="javascript:void(0);" id="btn_add" target="role_addOrEdit">新增</a>
+                    <a href="javascript:void(0);" id="btn_batchDel"
+                       onclick="document.getElementById('myform').submit();delcfm()">批量删除 </a>
+                    <a id="btn_updateOrd" href="javascript:void(0);">更新排序 </a>
                 </div>
             </div>
+            <!--表格显示内容-->
             <div class="result-content">
                 <table class="result-tab" width="90%">
                     <thead>
                     <tr>
                         <th class="tc" width="5%"><input id="allChoose" class="allChoose" type="checkbox">全选</th>
                         <th width="5%">ID</th>
-                        <th width="10%">用户名称</th>
-                        <th width="10%">角色</th>
-                        <th width="10%">图片</th>
-                        <th width="10%">手机号</th>
-                        <th width="10%">邮箱</th>
-                        <th width="10%">注册时间</th>
-                        <th width="10%">最近登录时间</th>
+                        <th width="10%">角色名称</th>
+                        <th width="10%">角色描述</th>
+                        <th width="20%">权限列表</th>
+                        <th width="20%">创建时间</th>
                         <th width="10%">操作</th>
                     </tr>
                     </thead>
@@ -87,7 +105,6 @@
         </form>
     </div>
 </div>
-</body>
 
 <script type="text/javascript">
     $(function () {
@@ -101,7 +118,7 @@
         $.ajax({
             type: "POST",//方法类型
             dataType: "json",//预期服务器返回的数据类型
-            url: "/admin/data/userPage",//${pageContext.request.contextPath}
+            url: "/admin/data/rolePage",//${pageContext.request.contextPath}
 //                processData: false,//必须false才会避开jQuery对 formdata 的默认处理
 //                contentType: false,//必须false才会自动加上正确的Content-Type
 
@@ -109,26 +126,25 @@
             data: {
 //                    "token": token,
                 "page": pageNo-1,
-                "size": 5,
+                "size": 3,
                 "key": $('#keyWords').val(),
                 "sort": "asc"
             },
             success: function (res) {
                 if (res.code === 0) {
+                    console.log(res);
                     total = res.data.totalPages;
                     totalRecords = res.data.totalElements;
                     var tbodyHtml = "";
                     $.each(res.data.content,function(k,v){
                         tbodyHtml += '<tr>';
-                        tbodyHtml += '<td class="tc">'+'<input name="adminId" type="checkbox" value="'+v.id+'">'+'</td>';
+                        tbodyHtml += '<td class="tc">'+'<input name="roleId" type="checkbox" value="'+v.id+'">'+'</td>';
                         tbodyHtml += '<td>'+v.id+'</td>';
-                        tbodyHtml += '<td>'+v.userName+'</td>';
-                        tbodyHtml += '<td>'+'xxx'+'</td>';
-                        tbodyHtml += '<td>'+'<img src="" width="30" height="30"/>'+'</td>';
-                        tbodyHtml += '<td>'+v.phoneNum+'</td>';
-                        tbodyHtml += '<td>'+v.email+'</td>';
+                        tbodyHtml += '<td>'+v.roleName+'</td>';
+                        tbodyHtml += '<td>'+v.roleDesc+'</td>';
+                        tbodyHtml += '<td>'+'XXX'+'</td>';
                         tbodyHtml += '<td>'+formatDate(v.createDate)+'</td>';
-                        tbodyHtml += '<td>'+formatDate(v.lastLoginTime)+'</td>';
+//                        tbodyHtml += '<td>'+formatDate(v.lastLoginTime)+'</td>';
                         tbodyHtml += '<td>'+'<a class="link-update" href="/Admin_updateInput_admin?id=">修改</a>&nbsp&nbsp&nbsp&nbsp' +
                             '<a class="link-del" href="/Admin_delete_admin?id=" onclick="delcfm()">删除</a>' + '</td>';
                         tbodyHtml += '</tr>';
@@ -138,5 +154,23 @@
             }
         });
     }
+    $(".result-list>a").click(
+        function(){
+            var current = $(this);
+            var target = current.attr('target');   //找到a的链接
+            set_modal_url(target);
+        }
+    );
+    /*使用jquery替换main方法*/
+    function set_modal_url(message) {
+        var curHost = window.location.host;
+        var curUrl = 'http://' + curHost + '/admin/main/role/' + message ;
+        $('#iframe-add').attr('src', curUrl);
+        /*js方式注入*/
+        //$("#modal-con").load(curUrl);
+
+        $('#iframe-add-box')[0].style.display = "";
+    }
 </script>
+</body>
 </html>

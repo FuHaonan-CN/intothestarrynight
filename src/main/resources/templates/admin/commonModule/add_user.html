@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>新增角色</title>
+    <th:block th:include="/admin/commonModule/common :: head">admin公共的head引用</th:block>
+    <style>
+        
+    </style>
+    <!--表单验证-->
+    <script type="text/javascript">
+        function insertCheck(insertForm) {
+            if (insertForm.adminName.value == "") {
+                alert("用户名不能为空，请输入用户名！");
+                insertForm.adminName.focus();
+                return false;
+            }
+            else if (insertForm.adminPassword.value == "") {
+                alert("密码不能为空，请输入密码！");
+                insertForm.adminPassword.focus();
+                return false;
+            } else if (insertForm.adminPassword.value != insertForm.checkPassword.value) {
+                alert("两次密码输入不相同，请重新输入！");
+                insertForm.checkPassword.focus();
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+    </script>
+</head>
+<body>
+<!--主体-->
+<div class="container">
+    <!--表单-->
+    <form id="insertForm" name="insertForm" action="" method="post" onsubmit="return insertCheck(this);">
+        <table class="insert-tab" width="100%">
+            <tbody>
+            <tr>
+                <th width="120"><i class="require-red">*</i>权限等级：</th>
+                <td><select name="admin.privilege" id="privilege"
+                            class="required" required="">
+                    <option value="">请选择</option>
+                    <option value="1">超级管理员</option>
+                    <option value="2">网页维护员</option>
+                </select></td>
+            </tr>
+            <tr>
+                <th><i class="require-red">*</i>admin账户：</th>
+                <td><input class="common-text required" id="adminName"
+                           name="admin.adminname" size="16" required="" type="text"></td>
+            </tr>
+            <tr>
+                <th><i class="require-red">*</i>再次输入密码：</th>
+                <td><input class="common-text" id="checkPassword" name="checkPassword"
+                           size="16" required="" type="password"></td>
+            </tr>
+            <tr>
+                <th>备注：</th>
+                <td>
+                    <input name="admin.remarks" id="remarks" type="text">
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <input class="btn btn-primary btn6 mr10" value="提交" type="submit">
+                    <input class="btn btn6" onclick="history.go(-1)" value="返回" type="button">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        /*获取数据*/
+        initRecord(1);
+        /*初始化分页*/
+        initPage();
+    });
+
+    /*获取并填充数据*/
+    function initRecord(pageNo) {
+        $.ajax({
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/admin/data/rolePage",//${pageContext.request.contextPath}
+//                processData: false,//必须false才会避开jQuery对 formdata 的默认处理
+//                contentType: false,//必须false才会自动加上正确的Content-Type
+
+            async: false,//这里面必须改为同步，因为要先执行ajax获取记录总数totalRecords
+            data: {
+//                    "token": token,
+                "page": pageNo - 1,
+                "size": 3,
+                "key": $('#keyWords').val(),
+                "sort": "asc"
+            },
+            success: function (res) {
+                if (res.code === 0) {
+                    console.log(res);
+
+                }
+            }
+        });
+    }
+
+</script>
+</body>
+</html>
