@@ -13,9 +13,10 @@ public interface UserService {
 
     /**
      * 新增一个用户
-     * @Param: User
+     * @param user .
+     * @return User
      */
-    public void save(User user);
+    public User save(User user);
 
 
     /**

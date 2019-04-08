@@ -20,6 +20,7 @@ public interface RoleService{
     /**
      * 新增一个角色
      * @param role .
+     * @return role
      */
     public Role saveOrUpdate(Role role);
 
