@@ -69,4 +69,21 @@ public abstract class BaseEntity implements Comparable<BaseEntity>,Serializable 
         return ToStringBuilder.reflectionToString(this);
     }
 
+//    public String toString() {
+//        return (new ReflectionToStringBuilder(this) {
+//            // 注意这里为了表达上的简洁用了匿名内部类.
+//            protected boolean accept(Field f) {
+//                return super.accept(f) && !f.getName().equals("password");
+//            }
+//        }).toString();
+//    }
+
+//    @Override
+//    public String toString() {
+//        return "BaseEntity{" +
+//                "id=" + id +
+//                ", createDate=" + createDate +
+//                ", modifyDate=" + modifyDate +
+//                '}';
+//    }
 }

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface RoleRepo extends JpaRepository<Role, Long> {
-    Role findById(long id);
+//    Role findById(long id);
 
     /**
      * 逻辑删除
@@ -25,7 +25,7 @@ public interface RoleRepo extends JpaRepository<Role, Long> {
      * @return  int
      */
     @Modifying
-    @Query("update Role u set u.isDel = '1' where u.id = ?1")
+    @Query("update Role r set r.isDel = '1' where r.id = ?1")
     int deleteById2(long id);
 
     void deleteById(long id);
