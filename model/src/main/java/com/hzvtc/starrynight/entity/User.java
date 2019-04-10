@@ -114,24 +114,4 @@ public class User extends BaseEntity {
         return Const.PASSWORD_KEY + this.salt;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userName='" + userName + '\'' +
-                ", userPassWord='" + userPassWord + '\'' +
-                ", salt='" + salt + '\'' +
-                ", actualName='" + actualName + '\'' +
-                ", userSex=" + userSex +
-                ", birthPlace='" + birthPlace + '\'' +
-                ", nationality='" + nationality + '\'' +
-                ", areaCode='" + areaCode + '\'' +
-                ", phoneNum='" + phoneNum + '\'' +
-                ", email='" + email + '\'' +
-                ", picId=" + picId +
-                ", roleList=" + roleList +
-                ", isDel=" + isDel +
-                ", loginTime=" + loginTime +
-                ", lastLoginTime=" + lastLoginTime +
-                '}';
-    }
 }
