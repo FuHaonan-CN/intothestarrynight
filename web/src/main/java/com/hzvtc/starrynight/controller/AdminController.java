@@ -4,7 +4,7 @@ import com.hzvtc.starrynight.comm.aop.LoggerManage;
 import com.hzvtc.starrynight.entity.Role;
 import com.hzvtc.starrynight.service.PostService;
 import com.hzvtc.starrynight.utils.ResultUtil;
-import com.hzvtc.starrynight.entity.result.Result;
+import com.hzvtc.starrynight.response.Result;
 import com.hzvtc.starrynight.service.RoleService;
 import com.hzvtc.starrynight.service.UserService;
 import org.slf4j.Logger;

@@ -1,17 +1,19 @@
 
-package com.hzvtc.starrynight.entity.result;
+package com.hzvtc.starrynight.response;
 
-public enum ExceptionMsg {
+import com.hzvtc.starrynight.response.error.CommonError;
+
+/**
+ * @author FHN
+ */
+public enum EmExceptionMsg implements CommonError{
     /**
-     * @Description: TODO
-     * @Return:
-     * @Author: fhn
-     * @Date: 2018/12/26 11:11 
+     * TODO .
      */
-	SUCCESS("000000", "操作成功"),
-	FAILED("999999","操作失败"),
+    SUCCESS("000000", "操作成功"),
+    FAILED("999999","操作失败"),
     ParamError("000001", "参数错误！"),
-    
+
     LoginNameOrPassWordError("000100", "用户名或者密码错误！"),
     PhoneUsed("000101","该邮箱已被注册"),
     UserNameUsed("000102","该登录名称已存在"),
@@ -25,27 +27,35 @@ public enum ExceptionMsg {
 
     FavoritesNameIsNull("000200","收藏夹名称不能为空"),
     FavoritesNameUsed("000201","收藏夹名称已被创建"),
-    
+
     CollectExist("000300","该文章已被收藏"),
-    
+
     FileEmpty("000400","上传文件为空"),
     LimitPictureSize("000401","图片大小必须小于2M"),
     LimitPictureType("000402","图片格式必须为'jpg'、'png'、'jpge'、'gif'、'bmp'")
     ;
-   private ExceptionMsg(String code, String msg) {
-        this.code = code;
-        this.msg = msg;
-    }
-    private String code;
-    private String msg;
-    
-	public String getCode() {
-		return code;
-	}
-	public String getMsg() {
-		return msg;
-	}
 
-    
+
+    private EmExceptionMsg(String code, String msg) {
+        this.errCode = code;
+        this.errMsg = msg;
+    }
+    private String errCode;
+    private String errMsg;
+
+    @Override
+    public String getErrCode() {
+        return errCode;
+    }
+
+    @Override
+    public String getErrMsg() {
+        return errMsg;
+    }
+
+    @Override
+    public CommonError setErrMsg(String errMsg) {
+        return null;
+    }
 }
 

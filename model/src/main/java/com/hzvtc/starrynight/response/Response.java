@@ -1,4 +1,4 @@
-package com.hzvtc.starrynight.entity.result;
+package com.hzvtc.starrynight.response;
 
 public class Response {
 	/** 返回信息码*/
@@ -9,9 +9,9 @@ public class Response {
 	public Response() {
 	}
 	
-	public Response(ExceptionMsg msg){
-		this.rspCode=msg.getCode();
-		this.rspMsg=msg.getMsg();
+	public Response(EmExceptionMsg msg){
+		this.rspCode=msg.getErrCode();
+		this.rspMsg=msg.getErrCode();
 	}
 	
 	public Response(String rspCode) {

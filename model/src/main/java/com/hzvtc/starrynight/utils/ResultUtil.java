@@ -1,7 +1,7 @@
 package com.hzvtc.starrynight.utils;
 
 
-import com.hzvtc.starrynight.entity.result.Result;
+import com.hzvtc.starrynight.response.Result;
 
 /**
  * ResultUtil

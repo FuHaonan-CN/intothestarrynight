@@ -1,4 +1,4 @@
-package com.hzvtc.starrynight.entity.result;
+package com.hzvtc.starrynight.response;
 
 import lombok.Getter;
 import lombok.Setter;

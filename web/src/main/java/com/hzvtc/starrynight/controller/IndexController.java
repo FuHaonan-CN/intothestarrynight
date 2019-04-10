@@ -4,11 +4,11 @@ import com.hzvtc.starrynight.comm.Const;
 import com.hzvtc.starrynight.comm.aop.LoggerManage;
 import com.hzvtc.starrynight.entity.User;
 import com.hzvtc.starrynight.repository.UserRepo;
+import com.hzvtc.starrynight.response.EmExceptionMsg;
 import com.hzvtc.starrynight.service.PostService;
 import com.hzvtc.starrynight.service.UserService;
-import com.hzvtc.starrynight.entity.result.ExceptionMsg;
-import com.hzvtc.starrynight.entity.result.Response;
-import com.hzvtc.starrynight.entity.result.ResponseData;
+import com.hzvtc.starrynight.response.Response;
+import com.hzvtc.starrynight.response.ResponseData;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -88,7 +88,7 @@ public class IndexController extends BaseController {
 
             // TODO: 此处存入cookie和session
 
-            return new ResponseData(ExceptionMsg.SUCCESS, preUrl);
+            return new ResponseData(EmExceptionMsg.SUCCESS, preUrl);
 //            return ResponseEntity.ok().build();
 
         }catch (IncorrectCredentialsException e) {
@@ -120,7 +120,7 @@ public class IndexController extends BaseController {
             System.out.println(e.getMessage());
 //            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        return new ResponseData(ExceptionMsg.FAILED);
+        return new ResponseData(EmExceptionMsg.FAILED);
 //        catch (AuthenticationException e) {
 //            logger.error("User {} login fail, Reason:{}", loginInfo.getUserName(), e.getMessage());
 //            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -141,7 +141,7 @@ public class IndexController extends BaseController {
 
             // TODO: 此处存入cookie和session
 
-            return new ResponseData(ExceptionMsg.SUCCESS, preUrl);
+            return new ResponseData(EmExceptionMsg.SUCCESS, preUrl);
         }catch (IncorrectCredentialsException e) {
             msg = "登录密码错误. Password for account " + token.getPrincipal() + " was incorrect.";
             System.out.println(msg);
@@ -164,7 +164,7 @@ public class IndexController extends BaseController {
             msg = "您没有得到相应的授权！" + e.getMessage();
             System.out.println(msg);
         }
-        return new ResponseData(ExceptionMsg.FAILED);*/
+        return new ResponseData(EmExceptionMsg.FAILED);*/
 
         // 登录失败从request中获取shiro处理的异常信息。
         // shiroLoginFailure:就是shiro异常类的全类名.
@@ -197,9 +197,9 @@ public class IndexController extends BaseController {
             //这里不是bug，前端userName有可能是邮箱也有可能是昵称。
             User loginUser = userRepo.findByPhoneNumOrUserName(user.getPhoneNum(), user.getUserName());
             if (loginUser == null) {
-                return new ResponseData(ExceptionMsg.LoginNameNotExists);
+                return new ResponseData(EmExceptionMsg.LoginNameNotExists);
             } else if (!loginUser.getUserPassWord().equals(getPwd(user.getUserPassWord()))) {
-                return new ResponseData(ExceptionMsg.LoginNameOrPassWordError);
+                return new ResponseData(EmExceptionMsg.LoginNameOrPassWordError);
             }
             Cookie cookie = new Cookie(Const.LOGIN_SESSION_KEY, cookieSign(loginUser.getId().toString()));
             cookie.setMaxAge(Const.COOKIE_TIMEOUT);
@@ -207,11 +207,11 @@ public class IndexController extends BaseController {
             response.addCookie(cookie);
             getSession().setAttribute(Const.LOGIN_SESSION_KEY, loginUser);
             String preUrl = "/";
-            return new ResponseData(ExceptionMsg.SUCCESS, preUrl);
+            return new ResponseData(EmExceptionMsg.SUCCESS, preUrl);
         } catch (Exception e) {
             // TODO: handle exception
             logger.error("login failed, ", e);
-            return new ResponseData(ExceptionMsg.FAILED);
+            return new ResponseData(EmExceptionMsg.FAILED);
         }
     }*/
 
@@ -228,11 +228,11 @@ public class IndexController extends BaseController {
         try {
             User phoneNumUser = userRepo.findByPhoneNum(user.getPhoneNum());
             if (null != phoneNumUser) {
-                return result(ExceptionMsg.PhoneUsed);
+                return result(EmExceptionMsg.PhoneUsed);
             }
             User userNameUser = userRepo.findByUserName(user.getUserName());
             if (null != userNameUser) {
-                return result(ExceptionMsg.UserNameUsed);
+                return result(EmExceptionMsg.UserNameUsed);
             }
 //            ZonedDateTime zonedDateTime = DateUtils.getCurrentZonedDateTime();
             user.setUserPassWord(getPwd(user));
@@ -248,7 +248,7 @@ public class IndexController extends BaseController {
             getSession().setAttribute(Const.LOGIN_SESSION_KEY, user);
         } catch (Exception e) {
             logger.error("create user failed, ", e);
-            return result(ExceptionMsg.FAILED);
+            return result(EmExceptionMsg.FAILED);
         }
         return result();
     }

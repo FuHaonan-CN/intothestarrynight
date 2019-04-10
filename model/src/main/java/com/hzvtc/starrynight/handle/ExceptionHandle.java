@@ -1,7 +1,7 @@
 package com.hzvtc.starrynight.handle;
 
 import com.hzvtc.starrynight.utils.ResultUtil;
-import com.hzvtc.starrynight.entity.result.Result;
+import com.hzvtc.starrynight.response.Result;
 import com.hzvtc.starrynight.exception.GirlException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

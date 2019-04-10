@@ -1,4 +1,4 @@
-package com.hzvtc.starrynight.entity.result;
+package com.hzvtc.starrynight.response;
 
 public class ResponseData extends Response{
     private Object data;
@@ -7,7 +7,7 @@ public class ResponseData extends Response{
         this.data = data;
     }
     
-    public ResponseData(ExceptionMsg msg) {
+    public ResponseData(EmExceptionMsg msg) {
     	  super(msg);
     }
     
@@ -20,7 +20,7 @@ public class ResponseData extends Response{
         this.data = data;
     }
 
-    public ResponseData(ExceptionMsg msg, Object data) {
+    public ResponseData(EmExceptionMsg msg, Object data) {
         super(msg);
         this.data = data;
     }

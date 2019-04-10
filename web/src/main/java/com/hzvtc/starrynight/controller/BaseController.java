@@ -2,8 +2,8 @@ package com.hzvtc.starrynight.controller;
 
 import com.hzvtc.starrynight.comm.Const;
 import com.hzvtc.starrynight.entity.User;
-import com.hzvtc.starrynight.entity.result.ExceptionMsg;
-import com.hzvtc.starrynight.entity.result.Response;
+import com.hzvtc.starrynight.response.EmExceptionMsg;
+import com.hzvtc.starrynight.response.Response;
 import com.hzvtc.starrynight.utils.Des3EncryptionUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
@@ -23,7 +23,7 @@ public class BaseController {
 
     protected Logger logger =  LoggerFactory.getLogger(this.getClass());
     
-    protected Response result(ExceptionMsg msg){
+    protected Response result(EmExceptionMsg msg){
     	return new Response(msg);
     }
     protected Response result(){

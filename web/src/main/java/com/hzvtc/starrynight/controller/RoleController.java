@@ -3,7 +3,7 @@ package com.hzvtc.starrynight.controller;
 import com.hzvtc.starrynight.comm.aop.LoggerManage;
 import com.hzvtc.starrynight.entity.Role;
 import com.hzvtc.starrynight.utils.ResultUtil;
-import com.hzvtc.starrynight.entity.result.Result;
+import com.hzvtc.starrynight.response.Result;
 import com.hzvtc.starrynight.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

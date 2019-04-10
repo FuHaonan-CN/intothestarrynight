@@ -1,7 +1,7 @@
 package com.hzvtc.starrynight.controller;
 
 import com.hzvtc.starrynight.comm.aop.LoggerManage;
-import com.hzvtc.starrynight.entity.result.Result;
+import com.hzvtc.starrynight.response.Result;
 import com.hzvtc.starrynight.service.UserService;
 import com.hzvtc.starrynight.utils.ResultUtil;
 import org.apache.shiro.authc.IncorrectCredentialsException;
