@@ -1,13 +1,23 @@
 package com.hzvtc.starrynight.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.hzvtc.starrynight.comm.Const;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 /**
  * 用户表
  *
@@ -17,7 +27,10 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+//@JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 //@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "postCache")
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@Where(clause="is_Del = 0")
 public class User extends BaseEntity {
 
     private static final SimpleDateFormat SLUG_DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd");
@@ -32,7 +45,7 @@ public class User extends BaseEntity {
      * 密码(加密)
      */
     @Column(nullable = false)
-//    @JsonIgnore
+    @JsonIgnore
     private String userPassWord;
 
     /**
@@ -83,9 +96,14 @@ public class User extends BaseEntity {
     /**
      * 角色id 立即从数据库中进行加载数据
      */
+//    @JsonIgnoreProperties(value = {"users"})
+    @JsonBackReference
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "uid")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
-    private List<Role> roleList;
+//    @JsonIgnoreProperties(value = {"users"})
+//    @JoinTable(name = "UserRole",
+//            joinColumns = {@JoinColumn(name = "userId", nullable = false, updatable = false)},
+//            inverseJoinColumns = {@JoinColumn(name = "roleId", nullable = false, updatable = false)})
+    private Set<Role> roles = new HashSet<>();
 
     /**
      * 是否有效
@@ -96,22 +114,60 @@ public class User extends BaseEntity {
     /**
      * 登录时间
      */
-    private ZonedDateTime loginTime;
+    private Date loginTime;
 
     /**
      * 上次登录时间
      */
-    private ZonedDateTime lastLoginTime;
+    private Date lastLoginTime;
 
     public User() {
         super();
     }
+
     /**
      * 密码盐.
      * @return String
      */
-    public String getCredentialsSalt(){
+    public String creatCredentialsSalt(){
         return Const.PASSWORD_KEY + this.salt;
     }
 
+    //重写hashCode方法
+//    public int hashcode() {
+//        return code*name.hashCode();
+//    }
+
+    //重写equals方法
+//    public boolean equals(Object o) {
+//        if(o instanceof Student){
+//            Student stu=(Student) o;
+//            return name.equalsIgnoreCase(stu.getName().trim());
+//        }
+//        return false;
+//    }
+
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id" + super.getId() +
+                "createDate" + super.getCreateDate() +
+                "modifyDate" + super.getModifyDate() +
+                "userName='" + userName + '\'' +
+                ", userPassWord='" + userPassWord + '\'' +
+                ", salt='" + salt + '\'' +
+                ", actualName='" + actualName + '\'' +
+                ", userSex=" + userSex +
+                ", birthPlace='" + birthPlace + '\'' +
+                ", nationality='" + nationality + '\'' +
+                ", areaCode='" + areaCode + '\'' +
+                ", phoneNum='" + phoneNum + '\'' +
+                ", email='" + email + '\'' +
+                ", picId=" + picId +
+                ", isDel=" + isDel +
+                ", loginTime=" + loginTime +
+                ", lastLoginTime=" + lastLoginTime +
+                '}';
+    }
 }

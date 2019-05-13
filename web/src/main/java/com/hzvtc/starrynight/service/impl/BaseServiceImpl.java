@@ -1,7 +1,9 @@
 package com.hzvtc.starrynight.service.impl;
 
 import com.hzvtc.starrynight.service.BaseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 /**
  * @Description: BaseServiceImpl
@@ -11,19 +13,26 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class BaseServiceImpl implements BaseService {
+//    @Autowired
+//    protected  RedisUtil redisUtil;
+
     /**
-     * 判断是否为空
+     * 判断对象是否存在
      * @param object .
      * @return boolean
      */
     @Override
-    public boolean isPresent(Object object){
+    public boolean isEmpty(Object object){
         boolean flag = false;
-        if (object == null) {
+        if (StringUtils.isEmpty(object)) {
             flag = true;
         }
         return flag;
     }
 
+    @Override
+    public boolean isNotEmpty(Object object) {
+        return !isEmpty(object);
+    }
 
 }

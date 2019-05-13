@@ -4,8 +4,8 @@ import com.hzvtc.starrynight.comm.aop.LoggerManage;
 import com.hzvtc.starrynight.response.Result;
 import com.hzvtc.starrynight.service.UserService;
 import com.hzvtc.starrynight.utils.ResultUtil;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
+//import org.apache.shiro.authc.IncorrectCredentialsException;
+//import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
@@ -32,6 +34,16 @@ public class HelloWorldController extends BaseController {
 
     public HelloWorldController(UserService userService) {
         this.userService = userService;
+    }
+
+    @RequestMapping(value = "/setCookies",method = RequestMethod.GET)
+    public  String setCookies(HttpServletResponse response){
+        //HttpServerletRequest 装请求信息类
+        //HttpServerletRespionse 装相应信息的类
+        Cookie cookie=new Cookie("sessionId","CookieTestInfo");
+        response.addCookie(cookie);
+        cookie.setPath("/");
+        return "获得cookies信息成功";
     }
 
     @RequestMapping({"/","/index"})
@@ -54,7 +66,7 @@ public class HelloWorldController extends BaseController {
         System.out.println("exception=" + exception);
         String msg = "";
         if (exception != null) {
-            if (UnknownAccountException.class.getName().equals(exception)) {
+            /*if (UnknownAccountException.class.getName().equals(exception)) {
                 System.out.println("UnknownAccountException -- > 账号不存在：");
                 msg = "UnknownAccountException -- > 账号不存在：";
             } else if (IncorrectCredentialsException.class.getName().equals(exception)) {
@@ -66,7 +78,7 @@ public class HelloWorldController extends BaseController {
             } else {
                 msg = "else >> "+exception;
                 System.out.println("else -- >" + exception);
-            }
+            }*/
         }
         map.put("msg", msg);
         // 此方法不处理登录成功,由shiro进行处理

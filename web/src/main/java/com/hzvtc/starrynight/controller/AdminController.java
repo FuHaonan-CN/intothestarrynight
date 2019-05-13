@@ -73,18 +73,19 @@ public class AdminController extends BaseController {
     @RequestMapping(value = "/data/{name}", method = RequestMethod.POST)
     @LoggerManage(description = "各类信息数据获取")
     @ResponseBody
-    public Result getData(@PathVariable("name") String name,int page, int size, String key) {
+    public Result getData(@PathVariable("name") String name,int PageIndex, int PageSize, String key) {
         Page data = null;
+        PageIndex -= 1;
         switch (name){
             case "userPage":
-                data = userService.findUsersByKey(page, size, key); break;
+                data = userService.findUsersByKey(PageIndex, PageSize, key); break;
             case "rolePage":
-                 data = roleService.findRolesByKey(page, size, key); break;
+                 data = roleService.findRolesByKey(PageIndex, PageSize, key); break;
             default:
                 System.out.println("暂时无法处理该请求！");
                 break;
         }
-        System.out.println("data = " + data.toString());
+//        System.out.println("data = " + data.toString());
         return ResultUtil.success(data);
     }
 

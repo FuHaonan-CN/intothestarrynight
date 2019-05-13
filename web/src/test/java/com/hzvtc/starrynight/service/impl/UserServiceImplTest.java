@@ -2,6 +2,7 @@ package com.hzvtc.starrynight.service.impl;
 
 import com.hzvtc.starrynight.entity.User;
 import com.hzvtc.starrynight.repository.UserRepo;
+import com.hzvtc.starrynight.service.UserService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +27,8 @@ import static org.junit.Assert.*;
 public class UserServiceImplTest {
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private UserService userService;
 
     @Before
     public void setUp() throws Exception {
@@ -59,10 +62,7 @@ public class UserServiceImplTest {
 
     @Test
     public void fingById() throws Exception {
-
-        Optional<User> repo = userRepo.findById(123L);
-
-        User user = repo.orElse(null);
+        User user = userService.findById(1L);
         System.out.println("user = " + user);
 
 //        User save = userRepo.findById(123);
@@ -82,7 +82,7 @@ public class UserServiceImplTest {
 //        System.out.println("id = " + save.getId());
 //        System.out.println("save = " + save.toString());
 
-        int b = userRepo.deleteById2(1);
+        int b = userRepo.deleteByIdFalse(1);
         System.out.println("b = " + b);
 
 

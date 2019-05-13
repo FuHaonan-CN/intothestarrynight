@@ -1,10 +1,13 @@
 package com.hzvtc.starrynight.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Description: 权限表
@@ -27,7 +30,23 @@ public class Permission extends BaseEntity {
     /** 权限描述 */
     private String permDesc;
 
-    @ManyToMany
-    @JoinTable(name="RolePermission",joinColumns={@JoinColumn(name="permissionId")},inverseJoinColumns={@JoinColumn(name="roleId")})
-    private List<Role> roles;
+//    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch= FetchType.LAZY, mappedBy = "permissions")
+//    @JsonIgnore
+//    @JoinTable(name="RolePermission",
+//            joinColumns={@JoinColumn(name="permissionId", nullable = false, updatable = false)},
+//            inverseJoinColumns={@JoinColumn(name="roleId", nullable = false, updatable = false)})
+    private Set<Role> roles = new HashSet<>();
+
+    @Override
+    public String toString() {
+        return "Permission{" +
+                "id" + super.getId() +
+                "createDate" + super.getCreateDate() +
+                "modifyDate" + super.getModifyDate() +
+                "parentPermId=" + parentPermId +
+                ", permName='" + permName + '\'' +
+                ", permDesc='" + permDesc + '\'' +
+                '}';
+    }
 }

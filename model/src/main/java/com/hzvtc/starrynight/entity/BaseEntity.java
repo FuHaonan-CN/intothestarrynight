@@ -1,11 +1,13 @@
 package com.hzvtc.starrynight.entity;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.time.ZonedDateTime;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
@@ -69,21 +71,16 @@ public abstract class BaseEntity implements Comparable<BaseEntity>,Serializable 
         return ToStringBuilder.reflectionToString(this);
     }
 
+//    @Override
 //    public String toString() {
 //        return (new ReflectionToStringBuilder(this) {
 //            // 注意这里为了表达上的简洁用了匿名内部类.
+//            @Override
 //            protected boolean accept(Field f) {
 //                return super.accept(f) && !f.getName().equals("password");
 //            }
 //        }).toString();
 //    }
 
-//    @Override
-//    public String toString() {
-//        return "BaseEntity{" +
-//                "id=" + id +
-//                ", createDate=" + createDate +
-//                ", modifyDate=" + modifyDate +
-//                '}';
-//    }
+
 }

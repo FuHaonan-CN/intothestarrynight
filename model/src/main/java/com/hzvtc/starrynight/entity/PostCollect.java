@@ -20,9 +20,9 @@ public class PostCollect extends BaseEntity {
     @Column(nullable = false)
     private Long postId;
 
-    /** 用户名 */
+    /** 用户Id */
     @Column(nullable = false)
-    private String userName;
+    private Long userId;
 
     /** 收藏状态 */
     @Column(nullable = false, columnDefinition="tinyint default 0")

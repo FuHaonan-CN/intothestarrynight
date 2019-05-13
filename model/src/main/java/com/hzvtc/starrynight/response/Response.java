@@ -1,5 +1,7 @@
 package com.hzvtc.starrynight.response;
 
+import com.hzvtc.starrynight.error.EmExceptionMsg;
+
 public class Response {
 	/** 返回信息码*/
 	private String rspCode="000000";

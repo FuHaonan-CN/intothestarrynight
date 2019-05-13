@@ -1,6 +1,7 @@
 package com.hzvtc.starrynight.utils;
 
 
+import com.hzvtc.starrynight.error.EmExceptionMsg;
 import com.hzvtc.starrynight.response.Result;
 
 /**
@@ -13,8 +14,9 @@ public class ResultUtil {
 
     public static Result success(Object object) {
         Result result = new Result();
-        result.setCode(0);
-        result.setMsg("操作成功");
+        // 该处返回的时正确信息码，为便于管理，统一加到EmExceptionMsg枚举类中
+        result.setCode(EmExceptionMsg.SUCCESS.getErrCode());
+        result.setMsg(EmExceptionMsg.SUCCESS.getErrMsg());
         result.setData(object);
         return result;
     }
@@ -23,10 +25,17 @@ public class ResultUtil {
         return success(null);
     }
 
-    public static Result error(Integer code, String msg) {
+    public static Result error(String code, String msg) {
         Result result = new Result();
         result.setCode(code);
         result.setMsg(msg);
+        return result;
+    }
+
+    public static Result error(EmExceptionMsg e) {
+        Result result = new Result();
+        result.setCode(e.getErrCode());
+        result.setMsg(e.getErrMsg());
         return result;
     }
 }

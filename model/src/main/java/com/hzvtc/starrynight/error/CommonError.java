@@ -1,4 +1,4 @@
-package com.hzvtc.starrynight.response.error;
+package com.hzvtc.starrynight.error;
 
 /**
  * TODO .

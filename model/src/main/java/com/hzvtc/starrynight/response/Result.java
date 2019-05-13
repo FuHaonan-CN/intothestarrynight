@@ -5,7 +5,7 @@ import lombok.Setter;
 
 /**
  * http请求返回的最外层对象
- * Created by fhn
+ * @author FHN
  * 2017-01-21 13:34
  */
 @Getter
@@ -13,7 +13,7 @@ import lombok.Setter;
 public class Result<T> {
 
     /** 错误码. */
-    private int code;
+    private String code;
 
     /** 提示信息. */
     private String msg;

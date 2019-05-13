@@ -13,6 +13,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.springframework.context.annotation.Lazy;
 
 import javax.annotation.Resource;
 
@@ -25,14 +26,26 @@ import javax.annotation.Resource;
  * @Version: 1.0
  */
 public class MyShiroRealm extends AuthorizingRealm {
+
+    // 0415 针对redis注入失败所需
+    @Lazy
     @Resource
     private UserService userInfoService;
+
+    /**
+     * 必须重写此方法，不然Shiro会报错
+     */
+    @Override
+    public boolean supports(AuthenticationToken token) {
+        return token instanceof JWTToken;
+    }
+
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         System.out.println("权限配置-->MyShiroRealm.doGetAuthorizationInfo()");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         User userInfo  = (User)principals.getPrimaryPrincipal();
-        for(Role role:userInfo.getRoleList()){
+        for(Role role:userInfo.getRoles()){
             authorizationInfo.addRole(role.getRoleName());
             for(Permission p:role.getPermissions()){
                 authorizationInfo.addStringPermission(p.getPermName());
@@ -65,7 +78,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 user, //用户
                 user.getUserPassWord(), //密码
-                ByteSource.Util.bytes(user.getCredentialsSalt()),//salt=username+salt
+                ByteSource.Util.bytes(user.creatCredentialsSalt()),//salt=username+salt
                 getName()  //realm name
         );
         return authenticationInfo;

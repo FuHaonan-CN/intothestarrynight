@@ -1,10 +1,15 @@
 package com.hzvtc.starrynight.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Description: 角色表
@@ -14,6 +19,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+//@JsonIgnoreProperties(value = { "users" })
 public class Role extends BaseEntity {
     public Role() {
     }
@@ -31,13 +37,33 @@ public class Role extends BaseEntity {
 
     /** 角色 - 权限关系：多对多关系 */
     @ManyToMany(fetch= FetchType.EAGER)
-    @JoinTable(name="RolePermission",joinColumns={@JoinColumn(name="roleId")},inverseJoinColumns={@JoinColumn(name="permissionId")})
-    private List<Permission> permissions;
+//    @JoinTable(name="RolePermission",
+//            joinColumns={@JoinColumn(name="roleId", nullable = false, updatable = false)},
+//            inverseJoinColumns={@JoinColumn(name="permissionId", nullable = false, updatable = false)})
+    private Set<Permission> permissions = new HashSet<>();
 
     /** 用户 - 角色关系：多对多关系 */
-    @ManyToMany
-    @JoinTable(name="UserRole",joinColumns={@JoinColumn(name="roleId")},inverseJoinColumns={@JoinColumn(name="uid")})
-    private List<User> users;
+//    @JsonIgnoreProperties(value = {"roles","users"})
+    @JsonBackReference
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "roles")
+//    @JsonIgnore
+//    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST})
+//    @JoinTable(name="UserRole",
+//            joinColumns={@JoinColumn(name="roleId", nullable = false, updatable = false)},
+//            inverseJoinColumns={@JoinColumn(name="uid", nullable = false, updatable = false)})
+    private Set<User> users = new HashSet<>();
 
     /*操作人*/
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id" + super.getId() +
+                "createDate" + super.getCreateDate() +
+                "modifyDate" + super.getModifyDate() +
+                "roleName='" + roleName + '\'' +
+                ", roleDesc='" + roleDesc + '\'' +
+                ", isDel=" + isDel +
+                '}';
+    }
 }

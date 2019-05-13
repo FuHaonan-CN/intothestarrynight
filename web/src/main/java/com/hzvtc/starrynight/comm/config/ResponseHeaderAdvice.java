@@ -13,6 +13,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * TODO .
+ * @author FHN
+ * @date 2019/5/1 13:26
+ * @version 1.0
+ */
 @ControllerAdvice
 public class ResponseHeaderAdvice implements ResponseBodyAdvice<Object> {
     @Override

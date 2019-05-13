@@ -24,6 +24,13 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+/**
+ * 所有的请求都会先经过Filter，所以我们继承官方的BasicHttpAuthenticationFilter，并且重写鉴权的方法。
+ * 代码的执行流程preHandle->isAccessAllowed->isLoginAttempt->executeLogin
+ * @author FHN
+ * @date 2019/5/4 14:27
+ * @version 1.0
+ */
 public class JwtAuthFilter extends AuthenticatingFilter {
 	private final Logger log = LoggerFactory.getLogger(JwtAuthFilter.class);
 	

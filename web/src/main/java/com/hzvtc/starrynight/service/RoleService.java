@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Set;
 
 /**
  * @Description: RoleService
@@ -18,22 +19,39 @@ import javax.transaction.Transactional;
 public interface RoleService{
 
     /**
-     * 新增一个角色
+     * 新增或修改一个角色
      * @param role .
      * @return role
      */
-    public Role saveOrUpdate(Role role);
+    Role saveOrUpdate(Role role);
 
     /**
      * 根据id删除一个角色
      * @param id .
      */
-    public void deleteById(Long id);
+    void deleteById(Long id);
+
     /**
      * 根据id查找一个角色
      * @param id .
+     * @return com.hzvtc.starrynight.entity.Role
      */
-    public Role findById(Long id);
+    Role findById(Long id);
+
+
+    /**
+     * 根据Name查找一个角色
+     * @param name .
+     * @return com.hzvtc.starrynight.entity.Role
+     */
+    Role findByRoleName(String name);
+
+    /**
+     * 根据角色id查找对应的所有用户
+     * @param id .
+     * @return java.util.Set<com.hzvtc.starrynight.entity.Role>
+     */
+    Set<Role> findRolesByPId(Long id);
 
     /**
      * 关键字查询包括分页

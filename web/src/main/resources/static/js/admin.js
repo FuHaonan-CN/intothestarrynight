@@ -59,6 +59,7 @@ function formatDate(v) {
     }
     return dateObj.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
 }
+
 //js获取地址栏参数的值, name为参数名
 function getParameter(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");

@@ -20,6 +20,9 @@ public class PostInfo extends BaseEntity {
     @Column(nullable = false)
     private Long userId;
 
+    /** 发帖人姓名 */
+    private String userName;
+
     /** 帖子标题 */
     @Column(nullable = false)
     private String postTitle;
@@ -42,6 +45,9 @@ public class PostInfo extends BaseEntity {
 
     /** 审核人id */
     private Long reviewerId;
+
+    /** 审核人姓名 */
+    private String reviewerName;
 
     /** 审核状态 */
     @Column(nullable = false, columnDefinition="tinyint default 0")

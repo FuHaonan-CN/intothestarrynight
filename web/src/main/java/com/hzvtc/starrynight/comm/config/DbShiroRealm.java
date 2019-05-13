@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.util.Set;
 
 
 public class DbShiroRealm extends AuthorizingRealm {
@@ -28,6 +28,7 @@ public class DbShiroRealm extends AuthorizingRealm {
         this.userService = userService;
         this.setCredentialsMatcher(new HashedCredentialsMatcher(Sha256Hash.ALGORITHM_NAME));
     }
+
     /**
      * 大坑！，必须重写此方法，不然Shiro会报错
      */
@@ -36,6 +37,9 @@ public class DbShiroRealm extends AuthorizingRealm {
         return token instanceof UsernamePasswordToken;
     }
 
+    /**
+     * 只有当需要检测用户权限的时候才会调用此方法，例如checkRole,checkPermission之类的
+     */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         UsernamePasswordToken userpasswordToken = (UsernamePasswordToken) token;
@@ -48,31 +52,35 @@ public class DbShiroRealm extends AuthorizingRealm {
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 user, //用户
                 user.getUserPassWord(), //密码
-                ByteSource.Util.bytes(user.getCredentialsSalt()),//salt=username+salt
+                ByteSource.Util.bytes(user.creatCredentialsSalt()),//salt=username+salt
                 getName()  //realm name
         );
         return authenticationInfo;
 //		return new SimpleAuthenticationInfo(user, user.getUserPassWord(), ByteSource.Util.bytes(user.getCredentialsSalt()), "dbRealm");
     }
 
-
+    /**
+     * 默认使用此方法进行用户名正确与否验证，错误抛出异常即可。
+     */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         System.out.println("权限配置-->DbShiroRealm.doGetAuthorizationInfo()");
         String username = JwtUtils.getUsername(principals.toString());
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         User user = userService.findByPhoneNumOrUserName(username, username);
-        addRole(user,simpleAuthorizationInfo);
+        addRole(user, simpleAuthorizationInfo);
         return simpleAuthorizationInfo;
     }
+
     /**
      * 添加角色
+     *
      * @param user
      * @param simpleAuthorizationInfo
      */
     private void addRole(User user, SimpleAuthorizationInfo simpleAuthorizationInfo) {
-        List<Role> roles = user.getRoleList();
-        if(roles!=null&&roles.size()>0){
+        Set<Role> roles = user.getRoles();
+        if (roles != null && roles.size() > 0) {
             for (Role role : roles) {
                 simpleAuthorizationInfo.addRole(role.getRoleName());
             }

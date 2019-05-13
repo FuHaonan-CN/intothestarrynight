@@ -2,16 +2,16 @@ package com.hzvtc.starrynight.controller;
 
 import com.hzvtc.starrynight.comm.Const;
 import com.hzvtc.starrynight.entity.User;
-import com.hzvtc.starrynight.response.EmExceptionMsg;
+import com.hzvtc.starrynight.error.EmExceptionMsg;
 import com.hzvtc.starrynight.response.Response;
 import com.hzvtc.starrynight.utils.Des3EncryptionUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -62,7 +62,7 @@ public class BaseController {
     
     protected String getUserIp() {
         String value = getRequest().getHeader("X-Real-IP");
-        if (StringUtils.isNotBlank(value) && !"unknown".equalsIgnoreCase(value)) {
+        if (StringUtils.isEmpty(value) && !"unknown".equalsIgnoreCase(value)) {
             return value;
         } else {
             return getRequest().getRemoteAddr();
@@ -77,7 +77,7 @@ public class BaseController {
             String random = new SecureRandomNumberGenerator().nextBytes().toHex();
             user.setSalt(random);
             //真正的盐
-            ByteSource salt = ByteSource.Util.bytes(user.getCredentialsSalt());
+            ByteSource salt = ByteSource.Util.bytes(user.creatCredentialsSalt());
             return new Sha256Hash(credentials, salt).toHex();
 
     	    /*//加密方式
@@ -114,6 +114,29 @@ public class BaseController {
             logger.error("cookie签名异常：",e);
         }
         return null;
+    }
+
+    /**
+     * 判断对象是否不存在
+     * @param object .
+     * @return boolean
+     */
+    protected boolean isEmpty(Object object){
+        boolean flag = false;
+        if (StringUtils.isEmpty(object)) {
+            flag = true;
+        }
+        return flag;
+    }
+
+    /**
+     * 判断对象是否存在
+     *
+     * @param object .
+     * @return boolean
+     */
+    protected boolean isNotEmpty(Object object) {
+        return !isEmpty(object);
     }
 
 }

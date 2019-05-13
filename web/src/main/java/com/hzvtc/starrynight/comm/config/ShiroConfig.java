@@ -33,6 +33,7 @@ import java.util.Map;
 public class ShiroConfig {
     /**
      * 注册shiro的Filter，拦截请求
+     * 5
      */
     @Bean
     public FilterRegistrationBean<Filter> filterRegistrationBean(SecurityManager securityManager,UserService userService) throws Exception{
@@ -48,6 +49,7 @@ public class ShiroConfig {
 
     /**
      * 初始化Authenticator
+     * 3
      */
     @Bean
     public Authenticator authenticator(UserService userService) {
@@ -62,6 +64,7 @@ public class ShiroConfig {
     /**
      * 禁用session, 不保存用户登录状态。保证每次请求都重新认证。
      * 需要注意的是，如果用户代码里调用Subject.getSession()还是可以用session，如果要完全禁用，要配合下面的noSessionCreation的Filter来实现
+     * 2
      */
     @Bean
     protected SessionStorageEvaluator sessionStorageEvaluator(){
@@ -72,6 +75,7 @@ public class ShiroConfig {
 
     /**
      * 用于用户名密码登录时认证的realm
+     * 1
      *
      * @param userService .
      * @return Realm .
@@ -94,6 +98,7 @@ public class ShiroConfig {
 
     /**
      * 设置过滤器，将自定义的Filter加入
+     * 4
      *
      * @param securityManager .
      * @param userService .
@@ -103,7 +108,7 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager, UserService userService) {
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
 
-        //外部自定义filter拦截器
+        //外部自定义filter拦截器 jwt认证和权限认证
         Map<String, Filter> filterMap = factoryBean.getFilters();
         filterMap.put("authcToken", createAuthFilter(userService));
         filterMap.put("anyRole", createRolesFilter());
@@ -123,30 +128,25 @@ public class ShiroConfig {
     @Bean
     protected ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
-        chainDefinition.addPathDefinition("/index/**", "anon");
-        chainDefinition.addPathDefinition("/css/**", "anon");
-        chainDefinition.addPathDefinition("/fonts/**", "anon");
-        chainDefinition.addPathDefinition("/img/**", "anon");
-        chainDefinition.addPathDefinition("/js/**", "anon");
-        chainDefinition.addPathDefinition("/res/**", "anon");
-        chainDefinition.addPathDefinition("/starry/**", "anon");
-        chainDefinition.addPathDefinition("/role/**", "anon");
-//        chainDefinition.addPathDefinition("/resources/**", "anon");
+//        chainDefinition.addPathDefinition("/**", "anon");
+//        chainDefinition.addPathDefinition("/api/", "anon");
 
-        chainDefinition.addPathDefinition("/login", "noSessionCreation,anon");
-        chainDefinition.addPathDefinition("/register", "noSessionCreation,anon");
+        chainDefinition.addPathDefinition("/api/user/**", "anon");
+
+        chainDefinition.addPathDefinition("/api/user/login", "noSessionCreation,anon");
+        chainDefinition.addPathDefinition("/api/user/register", "noSessionCreation,anon");
         //login不做认证，noSessionCreation的作用是用户在操作session时会抛异常
         //做用户认证，permissive参数的作用是当token无效时也允许请求访问，不会返回鉴权未通过的错误
-        chainDefinition.addPathDefinition("/logout", "noSessionCreation,authcToken[permissive]");
+        chainDefinition.addPathDefinition("/api/logout", "noSessionCreation,authcToken[permissive]");
         //允许已登录的用户访问
-        chainDefinition.addPathDefinition("/user/**", "noSessionCreation,authcToken");
+//        chainDefinition.addPathDefinition("/user/**", "noSessionCreation,authcToken");
         //只允许admin或manager角色的用户访问
-        chainDefinition.addPathDefinition("/admin/**", "anon");
+        chainDefinition.addPathDefinition("/api/admin/**", "anon");
 //        chainDefinition.addPathDefinition("/admin/**", "noSessionCreation,authc,anyRole[admin,manager]");
 //        chainDefinition.addPathDefinition("/article/list", "noSessionCreation,authcToken");
 //        chainDefinition.addPathDefinition("/article/*", "noSessionCreation,authcToken[permissive]");
         // 默认进行用户鉴权
-        chainDefinition.addPathDefinition("/**", "noSessionCreation,authc");
+        chainDefinition.addPathDefinition("/api/**", "noSessionCreation,authc");
 //        chainDefinition.addPathDefinition("/**", "authc");
         return chainDefinition;
     }

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * @Description: UserServiceImpl
@@ -18,7 +19,7 @@ import java.util.Optional;
  * @Version: 1.0
  */
 @Service
-public class RoleServiceImpl implements RoleService {
+public class RoleServiceImpl extends BaseServiceImpl implements RoleService {
     private final RoleRepo roleRepo;
 
     @Autowired
@@ -32,9 +33,15 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public Role saveOrUpdate(Role role) {
-//        Role role1 = roleRepo.save(role);
-//        System.out.println("role1 = " + role1);
-        return roleRepo.save(role);
+        if (isEmpty(role.getId())){
+            return roleRepo.save(role);
+        } else {
+            Role role1 = findById(role.getId());
+            role1.setRoleName(role.getRoleName());
+            role1.setRoleDesc(role.getRoleDesc());
+            role1.setUsers(role.getUsers());
+            return roleRepo.save(role1);
+        }
     }
 
     /**
@@ -54,6 +61,17 @@ public class RoleServiceImpl implements RoleService {
     public Role findById(Long id) {
         Optional<Role> role = roleRepo.findById(id);
         return role.orElse(null);
+    }
+
+    @Override
+    public Role findByRoleName(String name) {
+        return roleRepo.findByRoleName(name);
+    }
+
+
+    @Override
+    public Set<Role> findRolesByPId(Long id) {
+        return null;
     }
 
     @Override

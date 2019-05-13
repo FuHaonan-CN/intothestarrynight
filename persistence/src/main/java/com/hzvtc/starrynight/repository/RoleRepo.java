@@ -20,16 +20,32 @@ public interface RoleRepo extends JpaRepository<Role, Long> {
 
     /**
      * 逻辑删除
-     *
      * @param id .
      * @return  int
      */
     @Modifying
     @Query("update Role r set r.isDel = '1' where r.id = ?1")
-    int deleteById2(long id);
+    int deleteByIdFalse(long id);
 
+    /**
+     * 真实删除
+     * @param id .
+     */
     void deleteById(long id);
 
+    /**
+     * 根据name查找
+     * @param name .
+     */
+    Role findByRoleName(String name);
+
+    /**
+     * 关键字查询列表包括分页
+     *
+     * @param key .
+     * @param pageRequest .
+     * @return org.springframework.data.domain.Page<com.hzvtc.starrynight.entity.Role>
+     */
     Page<Role> findAllByRoleNameLike(String key,Pageable pageRequest);
 
 }

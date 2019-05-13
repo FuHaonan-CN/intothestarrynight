@@ -1,5 +1,10 @@
 package com.hzvtc.starrynight.response;
 
+import com.hzvtc.starrynight.error.EmExceptionMsg;
+
+/**
+ * @author FHN
+ */
 public class ResponseData extends Response{
     private Object data;
 

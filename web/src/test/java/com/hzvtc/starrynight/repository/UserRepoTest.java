@@ -2,13 +2,18 @@ package com.hzvtc.starrynight.repository;
 
 import com.hzvtc.starrynight.entity.User;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 /**
  * TODO .
@@ -22,6 +27,14 @@ public class UserRepoTest {
 
     @Autowired
     private UserRepo userRepo;
+    /* 普通redis引用 */
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    private RedisTemplate redisTemplate;
+    /* 通过redis工具类使用 */
+//    @Autowired
+//    private RedisUtil redisUtil;
 
     @Before
     public void setUp() throws Exception {
@@ -33,6 +46,9 @@ public class UserRepoTest {
         System.out.println("测试结束");
     }
 
+    /**
+     * 测试saveOrEdit
+     */
     @Test
     public void saveOrEdit() throws Exception {
         /* add */
@@ -53,16 +69,22 @@ public class UserRepoTest {
 //        System.out.println("save = " + save.toString());
     }
 
+    /**
+     * 测试fingById
+     */
     @Test
     public void fingById() throws Exception {
+        Optional<User> user = userRepo.findById(1L);
 
-        User save = userRepo.findById(1);
-
+        User save = user.orElse(null);
         System.out.println("id = " + save.getId());
         System.out.println("IsDel = " + save.getIsDel());
         System.out.println("save = " + save.toString());
     }
 
+    /**
+     * 测试deleteById
+     */
     @Test
     @Transactional
     public void deleteById() throws Exception {
@@ -74,7 +96,7 @@ public class UserRepoTest {
 //        System.out.println("id = " + save.getId());
 //        System.out.println("save = " + save.toString());
 
-        int b = userRepo.deleteById2(1);
+        int b = userRepo.deleteByIdFalse(1);
         System.out.println("b = " + b);
 
 
@@ -82,5 +104,41 @@ public class UserRepoTest {
         // userRepo.deleteById(11);
     }
 
+    @Test
+    public void test() throws Exception {
+//        redisUtil.set("bbb", "bbb");
+//        System.out.println("redisUtil.get(\"bbb\") = " + redisUtil.get("bbb"));
+//        Assert.assertEquals("bbb", redisUtil.get("bbb"));
+
+//        stringRedisTemplate.opsForValue().set("aaa", "111");
+//        System.out.println(stringRedisTemplate.opsForValue().get("aaa"));
+//        Assert.assertEquals("111", stringRedisTemplate.opsForValue().get("aaa"));
+    }
+    @Test
+    public void redisTest() throws Exception {
+//        redisUtil.set("aaa", "111");
+//        Assert.assertEquals("111", redisUtil.get("aaa"));
+
+        stringRedisTemplate.opsForValue().set("aaa", "111");
+        System.out.println(stringRedisTemplate.opsForValue().get("aaa"));
+        Assert.assertEquals("111", stringRedisTemplate.opsForValue().get("aaa"));
+    }
+
+    @Test
+    public void testObj() throws Exception {
+//        User user=new User();
+//        ValueOperations<String, User> operations=redisTemplate.opsForValue();
+//        operations.set("com.neox", user);
+//        operations.set("com.neo.f", user,1, TimeUnit.SECONDS);
+//        Thread.sleep(1000);
+//        //redisTemplate.delete("com.neo.f");
+//        boolean exists=redisTemplate.hasKey("com.neo.f");
+//        if(exists){
+//            System.out.println("exists is true");
+//        }else{
+//            System.out.println("exists is false");
+//        }
+        // Assert.assertEquals("aa", operations.get("com.neo.f").getUserName());
+    }
 
 }

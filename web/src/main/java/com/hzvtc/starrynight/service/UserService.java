@@ -2,6 +2,10 @@ package com.hzvtc.starrynight.service;
 
 import com.hzvtc.starrynight.entity.User;
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.Set;
 
 /**
  * @Description: UserServiceImpl
@@ -9,6 +13,8 @@ import org.springframework.data.domain.Page;
  * @Date: 2018/12/23 21:51
  * @Version: 1.0
  */
+@Service
+@Transactional
 public interface UserService {
 
     /**
@@ -16,20 +22,37 @@ public interface UserService {
      * @param user .
      * @return User
      */
-    public User save(User user);
-
+    User save(User user);
 
     /**
      * 根据id删除一个用户
-     * @Param: name
+     *
+     * @param id .
+     * @return void
      */
-    public void deleteById(Long id);
+    void deleteById(Long id);
 
-    public User loginCheck(User user);
+    /**
+     * 根据id删除一个用户 逻辑删除
+     *
+     * @param id .
+     * @return int
+     */
+    int deleteByIdFalse(Long id);
 
-    User findByUserName(String username);
+    User loginCheck(User user);
 
-    User findByPhoneNumOrUserName(String phonrNum, String userName);
+    User findByUserName(String userName);
+
+    User findByPhoneNum(String phoneNum);
+
+//    boolean checkRegister(String phoneNum, String userName) throws Exception;
+
+    User findById(Long userId);
+
+    Set<User> findUsersByRId(Long roleId);
+
+    User findByPhoneNumOrUserName(String phoneNum, String userName);
 
     /**
      * 关键字查询包括分页
